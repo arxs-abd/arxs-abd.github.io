@@ -1,0 +1,40 @@
+.container {
+    width: 400px;
+    display: grid;
+    margin: auto;
+
+}
+.container h1 {
+    text-align: center;
+}
+
+.container .box {
+    text-align: center;
+    font-size: 50px;
+}
+
+button#plus, button#minus, button#reset {
+    height: 60px;
+    width: 60px;
+    font-size: 30px;
+}
+
+.other-box {
+    display: flex;
+    justify-items: auto;
+}
+
+button#counterChangeNumber, input#counterInput {
+    margin-top: 20px;
+    height: 60px;
+}
+
+button#counterChangeNumber {
+    width: 90px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+input#counterInput {
+    font-size: 30px;
+}

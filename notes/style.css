@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 40px 5px 250px 40vh;
+    gap: 10px;
+    row-gap: 10px;
+    grid-template-areas: 
+        "list create change delete"
+        "list rail rail rail"
+        "list result result result"
+        "list result result result";
+}
+
+.container button#createNotes {
+    grid-area: create;
+    height: 50px;
+    row-gap: 20px;
+}
+
+.container button#changeNotes {
+    grid-area: change;
+    height: 50px;
+    row-gap: 20px;
+}
+
+.container button#deleteNotes {
+    grid-area: delete;
+    height: 50px;
+    row-gap: 20px;
+}
+
+.container-items {
+    grid-area: list;
+    border: solid 2px black;
+    overflow-y: scroll;
+}
+
+.container-result {
+    grid-area: result;
+    border: 2px solid black;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.container-result h1 {
+    grid-area: title;
+}
+
+.container-result span {
+    margin-top: 40px;
+    font-size: 25px;
+}
+
+.container-result textarea {
+    resize: none;
+    margin-top: 20px;
+    font-size: 20px;
+    min-width: 100%;
+    min-height: 80%;
+}
+
+.items {
+    padding: 5px;
+}
+
+.items:hover {
+    cursor: pointer;
+    background-color: beige;
+}
+
+.selected {
+    background-color: beige;
+}
