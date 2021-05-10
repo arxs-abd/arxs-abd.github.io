@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 20px;
+    /* border: 1px black solid; */
+    gap: 10px;
+    display: grid;
+    width: minmax(400px, 1fr);
+    grid-template-areas: 
+        "title title title"
+        "search search button-search"
+        "result result result";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 10vh 7vh;
+}
+
+.container h1 {
+    text-align: center;
+    grid-area: title;
+    text-transform: uppercase;
+}
+
+.container input {
+    grid-area: search;
+    font-size: 1.5em;
+}
+
+.container button {
+    grid-area: button-search;
+    font-size: 1.5em;
+}
+
+.container-card {
+    grid-area: result;
+    display: grid;
+    gap: 10px;
+    /* border: 1px yellow solid; */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.card {
+    display: grid;
+    padding: 10px;
+    gap: 10px;
+    grid-template-areas: 
+        "image image"
+        "title title"
+        "release release"
+        "details favorite";
+    border: 2px solid black;
+}
+
+.card-image {
+    grid-area: image;
+    /* width: 200px; */
+    text-align: center;
+}
+
+.card-image img {
+    width: 150px;
+}
+
+.card span {
+    text-align: center;
+}
+
+.card span#title {
+    grid-area: title;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card span#release {
+    grid-area: release;
+}
+
+.card button {
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.card button.details {
+    grid-area: details;
+}
+
+.card button.favorite {
+    grid-area: favorite;
+}
+
+.like {
+    background-color: black;
+    color: white;
+}
