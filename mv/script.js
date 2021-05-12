@@ -20,13 +20,13 @@ favoriteListButton.addEventListener('click', function() {
 
 searchInput.addEventListener('keyup', function(e) {
     if (e.keyCode == 13) searchMovie()
+    // searchMovie()
 })
 
 searchButton.addEventListener('click', searchMovie)
 
 function searchMovie() {
     const search = searchInput.value
-    // console.log(search)
     const myApi = `https://api.themoviedb.org/3/search/movie?api_key=${APIKEY}&query=${search}`
     fetch(myApi)
         .then(response => response.json())
@@ -70,7 +70,7 @@ function getMovie(movie, inFavorite = false) {
         favoriteMovieButton.setAttribute('data-id', mov.id)
         favoriteMovieButton.classList.add('favorite')
         if (containsLike(mov.id)) favoriteMovieButton.classList.add('like')
-        favoriteMovieButton.innerText = 'Favorite'
+        favoriteMovieButton.innerText = containsLike(mov.id) ? 'Unfavorite' : 'Favorite'
         cardDiv.append(favoriteMovieButton)
 
         containerResult.append(cardDiv)
@@ -128,6 +128,7 @@ function getMovie(movie, inFavorite = false) {
                 }
                 favoriteMovie.push(newMovieList)
                 localStorage.setItem('fav-movie', JSON.stringify(favoriteMovie))
+                this.innerText = 'Unfavorite'
             } else {
                 let newFavoriteMovie = []
                 favoriteMovie.forEach(function(fav, i) {
@@ -135,6 +136,7 @@ function getMovie(movie, inFavorite = false) {
                 })
                 favoriteMovie = newFavoriteMovie
                 localStorage.setItem('fav-movie', JSON.stringify(favoriteMovie))
+                this.innerText = 'Favorite'
                 // console.log("Tidak Suka")
                 if (inFavorite) {
                     cardDiv.remove()
