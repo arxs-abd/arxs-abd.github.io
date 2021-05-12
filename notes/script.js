@@ -159,7 +159,7 @@ function renderItems() {
         titleH3.innerText = items.title
         newItems.append(titleH3)
         const spanContent = document.createElement('span')
-        spanContent.innerText = (items.content.length > 100) ?  items.content.substring(0, 100) + '...' : items.content
+        spanContent.innerText = (items.content.length > 50) ?  items.content.substring(0, 50) + '...' : items.content
         newItems.append(spanContent)
         containerItems.append(newItems)
     })
