@@ -13,6 +13,8 @@
     grid-template-areas: 
         "title title title"
         "search search button-search"
+        "favorite favorite favorite"
+        "details details details"
         "result result result";
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 10vh 7vh;
@@ -29,8 +31,17 @@
     font-size: 1.5em;
 }
 
-.container button {
+.container input:placeholder-shown {
+    text-align: center;
+}
+
+.container button#searchButton {
     grid-area: button-search;
+    font-size: 1.5em;
+}
+
+.container button#favoriteList {
+    grid-area: favorite;
     font-size: 1.5em;
 }
 
@@ -95,4 +106,51 @@
 .like {
     background-color: black;
     color: white;
+}
+
+.container-details {
+    grid-area: details;
+    display: grid;
+    border: 2px solid black;
+    padding: 5px;
+    grid-template-areas: 
+        "img title"
+        "img release"
+        "img overview"
+        "close close";
+}
+
+.none {
+    display: none;
+}
+
+.container-details .details-img {
+    grid-area: img;
+    gap: 20px;
+    text-align: center;
+}
+
+.container-details img {
+    min-width: 20vw;
+    max-width: 20%;
+}
+
+.container-details span#title {
+    grid-area: title;
+    font-weight: bold;
+}
+
+.container-details span#release {
+    grid-area: release;
+    font-style: italic;
+}
+
+.container-details span#overview {
+    grid-area: overview;
+}
+
+.container-details button#close {
+    grid-area: close;
+    margin-top: 10px;
+    font-size: 1em;
 }
