@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 id="title">Timer App</h1>
+        <div class="time">
+            <span id="hour">00</span>
+            <span id="delim">:</span>
+            <span id="minute">00</span>
+            <span id="delim">:</span>
+            <span id="second">00</span>
+        </div>
+
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="set">Set Time</button>
+
+        <progress value="0"></progress>
+
+        <div class="container-set none">
+            <input type="number" id="setHour" value="0">
+            <span id="shour">Hours</span>
+            <input type="number" id="setMinute" value="0">
+            <span id="sminute">Minute</span>
+            <input type="number" id="setSecond" value="0">
+            <span id="ssecond">Second</span>
+            <button id="setTimer">Set</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

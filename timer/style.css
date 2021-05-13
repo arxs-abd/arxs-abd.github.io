@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 40px;
+    display: grid;
+    width: minmax(400px, 1fr);
+    padding: 15px;
+    gap: 10px;
+    border: 1px solid black;
+    grid-template-areas:
+        "title title" 
+        "time time"
+        "progres progres"
+        "start stop"
+        "set set"
+        "setTime setTime";
+}
+
+.container progress {
+    grid-area: progres;
+    margin: auto;
+    width: 80vw;
+    height: 10vh;
+    /* border: 1px black solid; */
+}
+
+.container #title {
+    grid-area: title;
+    text-align: center;
+}
+
+.container .time {
+    grid-area: time;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.container .time span {
+    font-size: 7em;
+}
+
+.container button {
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.container #start {
+    grid-area: start;
+}
+.container #stop {
+    grid-area: stop;
+}
+
+.container #set {
+    grid-area: set;
+}
+
+.container-set {
+    margin-top: 30px;
+    grid-area: setTime;
+    display: grid;
+    gap: 10px;
+    /* border: 1px black solid; */
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas: 
+        "hour minute second setTime"
+        "shours sminute ssecond setTime";
+}
+
+
+.container-set input {
+    text-align: center;
+    margin: auto;
+    font-size: 2em;
+    width: 90px;
+}
+
+.container-set input#setHour {
+    grid-area: hour;
+}
+.container-set input#setMinute {
+    grid-area: minute;
+}
+.container-set input#setSecond {
+    grid-area: second;
+}
+
+.container-set button {
+    grid-area: setTime;
+}
+
+.container-set span {
+    text-align: center;
+}
+
+.container-set span#shour {
+    grid-area: shours;
+}
+.container-set span#sminute {
+    grid-area: sminute;
+}
+.container-set span#ssecond {
+    grid-area: ssecond;
+}
+
+.none {
+    display: none;
+}
