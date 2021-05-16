@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 30px;
+    border: 1px solid black;
+    padding: 30px;
+    display: grid;
+    gap: 20px;
+    width: minmax(400px, 1fr);
+    grid-template-areas:
+        "title title" 
+        "cur-first o-cur-first"
+        "cur-sec o-cur-sec"
+        "submit submit";
+}
+
+.container h1 {
+    grid-area: title;
+    margin: auto;
+}
+
+.container input {
+    font-size: 1.5em;
+}
+
+.container #currency-first {
+    grid-area: cur-first;
+}
+
+.container #currency-second {
+    grid-area: cur-sec;
+}
+
+.container #select-currency-first {
+    grid-area: o-cur-first;
+}
+
+.container #select-currency-second {
+    grid-area: o-cur-sec;
+}
+
+.container button {
+    grid-area: submit;
+    font-size: 1.5em;
+}
