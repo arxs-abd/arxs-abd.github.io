@@ -4,6 +4,7 @@ const containerSetTime = document.querySelector('.container-set')
 const set = document.querySelector('#setTimer')
 const startTimer = document.querySelector('#start')
 const stopTimer = document.querySelector('#stop')
+const resetTimer = document.querySelector('#reset')
 const progresBar = document.querySelector('progress')
 
 // Shown Timer
@@ -40,7 +41,6 @@ set.addEventListener('click', function() {
 
 startTimer.addEventListener('click', function(){
     progresBar.max = (hour * 60 * 60) + (minute * 60) + parseInt(second)
-    // console.log(progresBar.max)
     timer = setInterval(function() {
         if (second > 0) {
             second -= 1
@@ -69,6 +69,15 @@ startTimer.addEventListener('click', function(){
             clearInterval(timer)
         }
     }, 1000)
+})
+
+resetTimer.addEventListener('click', function() {
+    showHour.innerHTML = '00'
+    showMinute.innerHTML = '00'
+    showSecond.innerHTML = '00'
+    clearInterval(timer)
+    progresBar.value = 0
+
 })
 
 stopTimer.addEventListener('click', function() {

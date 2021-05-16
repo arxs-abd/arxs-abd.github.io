@@ -5,6 +5,7 @@
 }
 
 .container {
+    /* margin: auto; */
     margin: 40px;
     display: grid;
     width: minmax(400px, 1fr);
@@ -12,19 +13,19 @@
     gap: 10px;
     border: 1px solid black;
     grid-template-areas:
-        "title title" 
-        "time time"
-        "progres progres"
-        "start stop"
-        "set set"
-        "setTime setTime";
+        "title title title" 
+        "time time time"
+        "progres progres progres"
+        "start reset stop"
+        "set set set"
+        "setTime setTime setTime";
 }
 
 .container progress {
     grid-area: progres;
     margin: auto;
     width: 80vw;
-    height: 10vh;
+    height: 5vh;
     /* border: 1px black solid; */
 }
 
@@ -40,7 +41,7 @@
 }
 
 .container .time span {
-    font-size: 7em;
+    font-size: 15vw;
 }
 
 .container button {
@@ -53,6 +54,10 @@
 }
 .container #stop {
     grid-area: stop;
+}
+
+.container #reset {
+    grid-area: reset;
 }
 
 .container #set {
