@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* body {
+    display: grid;
+} */
+
+.container {
+    display: grid;
+    border: 1px solid black;
+    margin: 30px;
+    gap: 20px;
+    padding: 30px;
+    width: minmax(400px, 1fr);
+    grid-template-areas: 
+        "title title title"
+        "city icon temp"
+        "desc icon temp";
+}
+
+.container img {
+    grid-area: icon;
+}
+
+.container h1 {
+    grid-area: title;
+    margin: auto;
+}
+
+.container #city {
+    grid-area: city;
+    font-size: 2em;
+    margin: auto;
+}
+
+.container #temp {
+    grid-area: temp;
+    font-size: 4em;
+    margin: auto;
+}
+
+.container #desc {
+    grid-area: desc;
+    font-size: 1.8em;
+    margin: auto;
+}
