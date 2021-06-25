@@ -32,18 +32,18 @@
 
 .container #city {
     grid-area: city;
-    font-size: 2em;
+    font-size: 3vw;
     margin: auto;
 }
 
 .container #temp {
     grid-area: temp;
-    font-size: 4em;
+    font-size: 5vw;
     margin: auto;
 }
 
 .container #desc {
     grid-area: desc;
-    font-size: 1.8em;
+    font-size: 2vw;
     margin: auto;
 }

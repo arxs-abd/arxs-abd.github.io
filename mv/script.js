@@ -31,6 +31,7 @@ function searchMovie() {
     fetch(myApi)
         .then(response => response.json())
         .then(function(data) {
+            console.log(data);
             let movie = data.results
             containerResult.innerHTML = ''
             getMovie(movie)
@@ -82,6 +83,7 @@ function getMovie(movie, inFavorite = false) {
             fetch(apiByID)
                 .then(response => response.json())
                 .then(function(mov) {
+                    console.log(mov)
                     if (containerDetails.classList.contains('none')) containerDetails.classList.remove('none')
                     const detailImage = document.createElement('div')
                     detailImage.classList.add('details-img')
@@ -137,7 +139,6 @@ function getMovie(movie, inFavorite = false) {
                 favoriteMovie = newFavoriteMovie
                 localStorage.setItem('fav-movie', JSON.stringify(favoriteMovie))
                 this.innerText = 'Favorite'
-                // console.log("Tidak Suka")
                 if (inFavorite) {
                     cardDiv.remove()
                 }
