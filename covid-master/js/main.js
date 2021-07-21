@@ -353,7 +353,7 @@ fetch('https://covid19.mathdro.id/api')
 	.then(response => response.json())
 	.then(data => {
 		const lastUpdate = new Date(data.lastUpdate)
-		lastUpdateP.innerHTML += lastUpdate.toDateString()
+		lastUpdateP.innerHTML +=`${lastUpdate.toDateString()} ${lastUpdate.getHours()}:${lastUpdate.getMinutes()}`
 		activeCases.innerHTML = formatNumber(data.confirmed.value)
 		deathCases.innerHTML = formatNumber(data.deaths.value)
 		recoveryCases.innerHTML = formatNumber(data.recovered.value)
@@ -365,8 +365,11 @@ const form = document.forms['send-to-spreadsheet']
 const sendButton = document.querySelector('#send')
 const loadingSpinner = document.querySelector('#loading')
 const successAlert = document.querySelector('#success')
+
 const user = document.querySelector('#name')
-console.log(successAlert)
+const email = document.querySelector('#email')
+const feedback = document.querySelector('#feedback')
+
 
 
 let afterSend = (localStorage.getItem('user') !== null ? localStorage.getItem('user') : '')
@@ -379,8 +382,37 @@ if (afterSend !== '') {
   </button>`
 }
 
+user.addEventListener('keyup', function() {
+	checkInputError(this)
+})
+email.addEventListener('keyup', function() {
+	
+	if (validateEmail(this.value)) {
+		this.classList.add('is-valid')
+		this.classList.remove('is-invalid')
+	} else {
+		this.classList.remove('is-valid')
+		this.classList.add('is-invalid')
+
+	}
+})
+feedback.addEventListener('keyup', function() {
+	checkInputError(this)
+})
+
 form.addEventListener('submit', e => {
 	e.preventDefault()
+
+	if (user.value == '') {
+		return;
+	}
+	if (email.value == '') {
+		return
+	}
+	if (feedback.value == '') {
+		return
+	}
+	
 	loadingSpinner.classList.toggle('d-none')
 	fetch(scriptURL, { method: 'POST', body: new FormData(form)})
 		.then(response => {
@@ -399,6 +431,24 @@ form.addEventListener('submit', e => {
 // Number Format Function
 function formatNumber(num) {
 	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
+// Check Input error
+function checkInputError(input) {
+	if (input.value != '') {
+		input.classList.add('is-valid')
+		input.classList.remove('is-invalid')
+	} else {
+		input.classList.remove('is-valid')
+		input.classList.add('is-invalid')
+
+	}
+}
+
+// Email Validation
+function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }
 
 // MY SCRIPT

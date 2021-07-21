@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Covid &mdash; Website Template by Colorlib</title>
+  <title>Covid-19 App</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -432,7 +432,7 @@
             <h2 class="footer-heading mb-4">Berikan Feedback Anda</h2>
 
             <div id="success" class="alert alert-success alert-dismissible fade show d-none" role="alert">
-              
+
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -444,22 +444,32 @@
                   <div class="form-group">
                     <label for="exampleInputPassword1">Nama Lengkap</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Masukkan Nama Anda">
+                    <div class="invalid-feedback">
+                      Nama Lengkap Tidak Boleh Kosong
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Alamat Email</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                    <input type="email" name="email" class="form-control" id="email"
                       placeholder="Masukkan Alamat Email Anda">
+                    <div class="invalid-feedback">
+                      Email Tidak Valid
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="exampleFormControlTextarea1">Saran Anda</label>
-                    <textarea class="form-control" name="feedback" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    <textarea class="form-control" name="feedback" id="feedback" rows="5"></textarea>
+                    <div class="invalid-feedback">
+                      Saran Tidak Boleh Kosong
+                    </div>
                   </div>
                 </div>
               </div>
               <button id="send" type="submit" class="btn btn-primary">
-                <span id="loading" class= "spinner-border spinner-border-sm mr-1 d-none" role="status" aria-hidden="true"></span>
+                <span id="loading" class="spinner-border spinner-border-sm mr-1 d-none" role="status"
+                  aria-hidden="true"></span>
                 Kirim
               </button>
             </form>
