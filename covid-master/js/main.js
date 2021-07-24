@@ -403,13 +403,12 @@ feedback.addEventListener('keyup', function() {
 form.addEventListener('submit', e => {
 	e.preventDefault()
 
-	if (user.value == '') {
-		return;
-	}
-	if (email.value == '') {
-		return
-	}
-	if (feedback.value == '') {
+	if (user.value == '') return
+	if (email.value == '') return
+	if (feedback.value == '') return
+
+	if (afterSend !== '') {
+		alert('Anda Telah Mengisi Form Ini, Terima Kasih')
 		return
 	}
 	
