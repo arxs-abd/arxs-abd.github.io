@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin: auto;
+    width: 400px;
+    height: 100vh;
+    /* border: black 1px solid; */
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.box {
+    height: 50%;
+    display: grid;
+}
+
+.box h2 {
+    color: white;
+    margin: auto;
+}
+
+
+
+
+#green {
+    background-color: green;
+}
+
+#red {
+    background-color: red;
+}
