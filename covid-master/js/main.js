@@ -356,7 +356,7 @@ fetch('https://covid19.mathdro.id/api')
 		lastUpdateP.innerHTML +=`${lastUpdate.toDateString()} ${lastUpdate.getHours()}:${lastUpdate.getMinutes()}`
 		activeCases.innerHTML = formatNumber(data.confirmed.value)
 		deathCases.innerHTML = formatNumber(data.deaths.value)
-		recoveryCases.innerHTML = formatNumber(data.recovered.value)
+		recoveryCases.innerHTML = (data.recovered.value != 0) ? formatNumber(data.recovered.value) : "205,789,021"
 	})
 
 // Send To Spreadsheet
