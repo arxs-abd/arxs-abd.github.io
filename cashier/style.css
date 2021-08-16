@@ -39,9 +39,13 @@ h1 {
     width: 22%;
     max-height: 25%;
     align-items: stretch;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
     padding: 5px;
+}
+
+.item-card .add {
+    justify-content: center;
 }
 
 .item-card:hover {
@@ -90,7 +94,6 @@ h1 {
 
 .check-total {
     display: flex;
-
 }
 
 .x-conter {

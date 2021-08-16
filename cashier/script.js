@@ -16,13 +16,17 @@ addItems.addEventListener('click', function() {
     const h2 = document.createElement('h2')
     h2.innerHTML = prompt('Enter Name Product')
     itemCard.appendChild(h2)
+
+    const buttonRemove = document.createElement('button')
+    buttonRemove.innerText = 'Remove'
+    itemCard.appendChild(buttonRemove)
     
     itemCard.dataset.price = prompt('Enter Price Product')
     
     const span = document.createElement('span')
     span.innerHTML = `Rp. ${formatNumber(itemCard.dataset.price)}`
     itemCard.appendChild(span)
-
+    
     const item = {
         item : h2.innerText,
         price : itemCard.dataset.price
@@ -36,6 +40,10 @@ addItems.addEventListener('click', function() {
     })
 
     containerItems.insertBefore(itemCard, containerItems.childNodes[0])
+
+    buttonRemove.addEventListener('click', function() {
+        this.parentElement.remove()
+    })
     
 })
 
@@ -108,6 +116,17 @@ function itemListener(itemC) {
     removeFromCheckout.addEventListener('click', function() {
         removeFromCheckout.parentElement.parentElement.remove()
 
+        if (containerCheckout.children.length == 1) {
+            const div = document.createElement('div')
+            div.classList.add('checkout-items', 'first')
+
+            const span = document.createElement('span')
+            span.innerText = 'No Items'
+
+            div.appendChild(span)
+            containerCheckout.insertBefore(div, containerCheckout.children[0])
+        }
+
         totalPrice -= parseInt(h2AddItems.innerText * price)
         allPriceText.innerHTML = `Rp. ${totalPrice}`
     })
@@ -147,12 +166,20 @@ function renderItems() {
             const span = document.createElement('span')
             span.innerHTML = `Rp. ${formatNumber(itemCard.dataset.price)}`
             itemCard.appendChild(span)
+            
+            const buttonRemove = document.createElement('button')
+            buttonRemove.innerText = 'Remove'
+            itemCard.appendChild(buttonRemove)
 
             itemCard.addEventListener('click', function() {
                 itemListener(this)
             })
 
             containerItems.insertBefore(itemCard, containerItems.childNodes[0])
+
+            buttonRemove.addEventListener('click', function() {
+                this.parentElement.remove()
+            })
             
         })
 
