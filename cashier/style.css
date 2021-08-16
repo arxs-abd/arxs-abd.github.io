@@ -87,3 +87,18 @@ h1 {
     justify-content: space-between;
     align-items: center;
 }
+
+.check-total {
+    display: flex;
+
+}
+
+.x-conter {
+    display: flex;
+    flex-direction: column;
+}
+
+.delete-checkout {
+    width: 30px;
+    margin-left: 10px;
+}
