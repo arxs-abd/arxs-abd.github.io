@@ -22,6 +22,10 @@ let totalTime = 0
 // Timer
 let timer = null
 
+const d = new Date()
+var options = { weekday: 'long'};
+console.log(new Intl.DateTimeFormat('en-US', options).format(d));
+
 
 setTime.addEventListener('click', function() {
     containerSetTime.classList.toggle('none')

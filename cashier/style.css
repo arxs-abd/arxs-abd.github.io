@@ -39,7 +39,7 @@ h1 {
     width: 22%;
     max-height: 25%;
     align-items: stretch;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: column;
     padding: 5px;
 }
@@ -94,6 +94,14 @@ h1 {
 
 .check-total {
     display: flex;
+}
+
+.checkout-sub, .checkout-tax {
+    display: flex;
+    padding: 5px;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
 }
 
 .x-conter {

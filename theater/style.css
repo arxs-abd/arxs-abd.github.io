@@ -1,0 +1,77 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin-top: 20px;
+    width: 90%;
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
+    padding: 45px;
+}
+
+.list-movie, .seat-movie {
+    width: 45%;
+    min-height: 400px;
+    display: flex;
+}
+
+
+.seat-movie {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.list-movie {
+    flex-direction: column;
+}
+
+
+button.seat {
+    font-size: medium;
+    width: 90px;
+    height: 90px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.booked {
+    background-color: black;
+    color: white;
+}
+
+.border {
+    border: solid black 1px;
+}
+
+.items {
+    padding: 10px;
+}
+
+.items:hover {
+    cursor: pointer;
+    background-color: gainsboro;
+}
+
+.items h1 {
+    font-weight: normal;
+}
+
+.selected {
+    background-color: gainsboro;
+}
+
+.seat-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.no-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

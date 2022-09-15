@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+.container {
+    width: 95%;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Nav */
+nav {
+    display: flex;
+    padding: 0 1vw;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: aqua; */
+}
+
+.container-button button {
+    font-size: 20px;
+    padding: 2px;
+}
+
+#title {
+    padding: 10px;
+    width: fit-content;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+/* End Nav */
+
+
+.border {
+    border: solid black 1px;
+}
+
+
+/* Container Items */
+
+.container-items {
+    align-self: flex-start;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.item-card {
+    text-align: center;
+    margin: 5px;
+    display: flex;
+    width: 90%;
+    max-height: 25%;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+}
+
+.add {
+    margin: 5px;
+    display: flex;
+    width: 90%;
+    max-height: 25%;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    /* background-color: red; */
+    padding: 10px;
+}
+
+.input-group input {
+    width: 50%;
+}
+
+.input-group button {
+    height: 30px;
+    width: 48%;
+}
+
+.card-text {
+    font-size: large;
+    font-weight: bold;
+}
+
+.item-card progress {
+    width: 100%;
+}
+
+.progress {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+.progress-stats {
+    height: 20px;
+    width: 0%;
+    background-color: green;
+}
+
+.warning {
+    background-color: orange;
+}
+
+.danger {
+    background-color: red;
+}
+
+.item-card .add {
+    justify-content: center;
+}
+
+.item-card:hover {
+    background-color: rgb(39, 37, 37);
+    color: white;
+    cursor: pointer;
+}
+
+.item-card:hover .progress {
+    border: 1px solid white;
+}
+
+.container-total {
+    display: flex;
+    flex-direction: column;
+    padding: 1vw;
+    gap: 1vh;
+}
+
+.top-total {
+    display: flex;
+    justify-content: space-between;
+}
