@@ -59,8 +59,20 @@ html {
     justify-content: center;
     align-items: center;
     font-size: 1.7rem;
-    background-color: #00ADB5;
+    /* background-color: #00ADB5; */
+    /* background-color: #48b500; med*/
+    /* background-color: #acb500; */
     /* background-color: #222831; */
+}
+
+.box[data-mode="easy"] {
+    background-color: #00ADB5;
+}
+.box[data-mode="medium"] {
+    background-color: #48b500;
+}
+.box[data-mode="hard"] {
+    background-color: #acb500;
 }
 
 .box:hover {
@@ -94,7 +106,58 @@ button {
     animation: reveal-animation .5s;
 } */
 
-@keyframes reveal-animation {
+@keyframes reveal-easy-medium {
+    from {
+        background-color: #00ADB5;
+    }
+    to {
+        background-color: #48b500;
+    }
+}
+
+@keyframes reveal-easy-hard {
+    from {
+        background-color: #00ADB5;
+    }
+    to {
+        background-color: #acb500;
+    }
+}
+
+@keyframes reveal-medium-easy {
+    from {
+        background-color: #48b500;
+    }
+    to {
+        background-color: #00ADB5;
+    }
+}
+@keyframes reveal-medium-hard {
+    from {
+        background-color: #48b500;
+    }
+    to {
+        background-color: #acb500;
+    }
+}
+@keyframes reveal-hard-easy {
+    from {
+        background-color: #acb500;
+    }
+    to {
+        background-color: #00ADB5;
+    }
+}
+@keyframes reveal-hard-medium {
+    from {
+        background-color: #acb500;
+    }
+    to {
+        background-color: #48b500;
+    }
+}
+
+@keyframes reveal-animation-easy {
     from {
         background-color: #00ADB5;
     }
@@ -102,12 +165,44 @@ button {
         background-color: white;
     }
 }
+@keyframes reveal-animation-medium {
+    from {
+        background-color: #48b500;
+    }
+    to {
+        background-color: white;
+    }
+}
+@keyframes reveal-animation-hard {
+    from {
+        background-color: #acb500;
+    }
+    to {
+        background-color: white;
+    }
+}
 
-@keyframes reveal-animation-back {
+@keyframes reveal-animation-medium-back {
+    from {
+        background-color: white;
+    }
+    to {
+        background-color: #48b500;
+    }
+}
+@keyframes reveal-animation-easy-back {
     from {
         background-color: white;
     }
     to {
         background-color: #00ADB5;
+    }
+}
+@keyframes reveal-animation-hard-back {
+    from {
+        background-color: white;
+    }
+    to {
+        background-color: #acb500;
     }
 }

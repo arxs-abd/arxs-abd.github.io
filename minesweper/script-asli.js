@@ -5,6 +5,7 @@ const flagText = document.querySelector('#flag')
 const bombSound = new Audio('wrong_sound.mp3')
 const winSound = new Audio('win_sound.mp3')
 
+
 resetButton.addEventListener('click', function(e) {
     for (let i = 0; i< board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
@@ -22,6 +23,7 @@ resetButton.addEventListener('click', function(e) {
 
 let score = 0
 let highScore = 0
+let color = easy
 
 const col = 15
 const row = 13
