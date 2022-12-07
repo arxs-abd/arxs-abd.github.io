@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #222831;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    /* border: white 1px solid; */
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 30px;
+    align-items: stretch;
+}
+
+.container-board {
+    /* margin: auto; */
+    width: fit-content;
+    /* height: fit-content; */
+    border: solid white 2px;
+    padding: 5px;
+    display: flex;
+    gap: 3px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-score {
+    /* margin: auto; */
+    width: fit-content;
+    border: solid white 2px;
+    padding: 20px;
+    display: flex;
+    gap: 3px;
+    flex-direction: column;
+    color: white;
+    justify-content: space-evenly;
+    font-family: 'Fira Code';
+}
+
+.row {
+    display: flex;
+    gap: 3px;
+}
+
+.box {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1.5px white;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.7rem;
+    background-color: #00ADB5;
+    /* background-color: #222831; */
+}
+
+.box:hover {
+    opacity: .8;
+}
+
+.box:hover {
+    cursor: pointer;
+}
+
+button {
+    padding: 10px;
+    color: white;
+    background-color: #00ADB5;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.reset button {
+    width: 100%;
+}
+
+.difficulty button:hover {
+    opacity: .8;
+}
+
+/* .reveal {
+    animation: reveal-animation .5s;
+} */
+
+@keyframes reveal-animation {
+    from {
+        background-color: #00ADB5;
+    }
+    to {
+        background-color: white;
+    }
+}
+
+@keyframes reveal-animation-back {
+    from {
+        background-color: white;
+    }
+    to {
+        background-color: #00ADB5;
+    }
+}
