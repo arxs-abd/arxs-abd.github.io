@@ -22,12 +22,11 @@ resetButton.addEventListener('click', function(e) {
 
 let score = 0
 let highScore = 0
-let first = true
 
 const col = 15
 const row = 13
 
-const mine = 80
+const mine = 3
 
 // Creating Board Game
 const board = []
@@ -45,6 +44,28 @@ for (let i = 0; i < row; i++) {
     }
     board.push(rowBoard)
 }
+// Creating Mine
+const mineNumber = []
+while (mineNumber.length < mine) {
+    const posX = getRandom(0, row - 1)
+    const posY = getRandom(0, col - 1)
+
+    if (board[posX][posY].data === '') {
+        board[posX][posY].data = 0
+        mineNumber.push('*')
+    }
+}
+
+// Generating Number
+for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+
+        if (board[i][j].data !== 0) {
+            board[i][j].data = generateNumberBoard(i, j)
+        }
+
+    }
+}
 
 // Flag
 flagText.innerText = mine
@@ -59,35 +80,10 @@ for (let i = 0; i < row; i++) {
         box.dataset.x = i
         box.dataset.y = j
 
+        // if (board[i][j] === 0) box.innerText = '*'
+        // else box.innerText = board[i][j]
+
         box.addEventListener('click', function(e) {
-            if (first) {
-                // Creating Mine
-                const mineNumber = []
-                while (mineNumber.length < mine) {
-                    const posX = getRandom(0, row - 1)
-                    const posY = getRandom(0, col - 1)
-
-                    // if (posX !== i && posY !== j) {
-                    if ((posX < i - 1 || posX > i + 1) || (posY < j - 1 || posY > j + 1)) {
-                        if (board[posX][posY].data === '') {
-                            board[posX][posY].data = 0
-                            mineNumber.push('*')
-                        }
-                    }
-                }
-
-                for (let i = 0; i < row; i++) {
-                    for (let j = 0; j < col; j++) {
-
-                        if (board[i][j].data !== 0) {
-                            board[i][j].data = generateNumberBoard(i, j)
-                        }
-
-                    }
-                }
-
-                first = !first
-            }
             if (board[i][j].open || board[i][j].flag) return
 
             board[i][j].flag = false
