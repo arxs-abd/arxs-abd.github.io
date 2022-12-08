@@ -4,6 +4,12 @@
     box-sizing: border-box;
 }
 
+:root {
+    --easy : #00ADB5;
+    --medium : #48b500;
+    --hard : #acb500;
+}
+
 html {
     background-color: #222831;
 }
@@ -23,7 +29,7 @@ html {
     /* margin: auto; */
     width: fit-content;
     /* height: fit-content; */
-    border: solid white 2px;
+    /* border: solid white 2px; */
     padding: 5px;
     display: flex;
     gap: 3px;
@@ -34,7 +40,7 @@ html {
 .container-score {
     /* margin: auto; */
     width: fit-content;
-    border: solid white 2px;
+    /* border: solid white 2px; */
     padding: 20px;
     display: flex;
     gap: 3px;
@@ -60,8 +66,8 @@ html {
     align-items: center;
     font-size: 1.7rem;
     /* background-color: #00ADB5; */
-    /* background-color: #48b500; med*/
-    /* background-color: #acb500; */
+    /* background-color: var(--medium); med*/
+    /* background-color: var(--hard); */
     /* background-color: #222831; */
 }
 
@@ -69,10 +75,10 @@ html {
     background-color: #00ADB5;
 }
 .box[data-mode="medium"] {
-    background-color: #48b500;
+    background-color: var(--medium);
 }
 .box[data-mode="hard"] {
-    background-color: #acb500;
+    background-color: var(--hard);
 }
 
 .box:hover {
@@ -108,58 +114,58 @@ button {
 
 @keyframes reveal-easy-medium {
     from {
-        background-color: #00ADB5;
+        background-color: var(--easy);
     }
     to {
-        background-color: #48b500;
+        background-color: var(--medium);
     }
 }
 
 @keyframes reveal-easy-hard {
     from {
-        background-color: #00ADB5;
+        background-color: var(--easy);
     }
     to {
-        background-color: #acb500;
+        background-color: var(--hard);
     }
 }
 
 @keyframes reveal-medium-easy {
     from {
-        background-color: #48b500;
+        background-color: var(--medium);
     }
     to {
-        background-color: #00ADB5;
+        background-color: var(--easy);
     }
 }
 @keyframes reveal-medium-hard {
     from {
-        background-color: #48b500;
+        background-color: var(--medium);
     }
     to {
-        background-color: #acb500;
+        background-color: var(--hard);
     }
 }
 @keyframes reveal-hard-easy {
     from {
-        background-color: #acb500;
+        background-color: var(--hard);
     }
     to {
-        background-color: #00ADB5;
+        background-color: var(--easy);
     }
 }
 @keyframes reveal-hard-medium {
     from {
-        background-color: #acb500;
+        background-color: var(--hard);
     }
     to {
-        background-color: #48b500;
+        background-color: var(--medium);
     }
 }
 
 @keyframes reveal-animation-easy {
     from {
-        background-color: #00ADB5;
+        background-color: var(--easy);
     }
     to {
         background-color: white;
@@ -167,7 +173,7 @@ button {
 }
 @keyframes reveal-animation-medium {
     from {
-        background-color: #48b500;
+        background-color: var(--medium);
     }
     to {
         background-color: white;
@@ -175,7 +181,7 @@ button {
 }
 @keyframes reveal-animation-hard {
     from {
-        background-color: #acb500;
+        background-color: var(--hard);
     }
     to {
         background-color: white;
@@ -187,7 +193,7 @@ button {
         background-color: white;
     }
     to {
-        background-color: #48b500;
+        background-color: var(--medium);
     }
 }
 @keyframes reveal-animation-easy-back {
@@ -195,7 +201,7 @@ button {
         background-color: white;
     }
     to {
-        background-color: #00ADB5;
+        background-color: var(--easy);
     }
 }
 @keyframes reveal-animation-hard-back {
@@ -203,6 +209,6 @@ button {
         background-color: white;
     }
     to {
-        background-color: #acb500;
+        background-color: var(--hard);
     }
 }

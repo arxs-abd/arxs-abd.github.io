@@ -4,6 +4,7 @@ const flagText = document.querySelector('#flag')
 const easyButton = document.querySelector('#easy')
 const mediumButton = document.querySelector('#medium')
 const hardButton = document.querySelector('#hard')
+const scoreText = document.querySelector('#score')
 
 const bombSound = new Audio('wrong_sound.mp3')
 const winSound = new Audio('win_sound.mp3')
@@ -19,7 +20,9 @@ let gameMode = 'easy'
 let score = 0
 let highScore = 0
 let first = true
-// let color = easy
+
+let time = null
+let stop = false
 
 const col = 15
 const row = 13
@@ -78,7 +81,7 @@ for (let i = 0; i < row; i++) {
 
         box.addEventListener('contextmenu', function(e) {
             e.preventDefault()
-            // if (Number(flagText.innerText) - 1 < 0) return
+            if (board[i][j].open) return
             if (board[i][j].flag) {
                 box.style.backgroundColor = color[gameMode]
                 board[i][j].flag = false
@@ -158,6 +161,7 @@ hardButton.addEventListener('click', function(e) {
 })
 
 function reset(old, mode) {
+    stop = true
     for (let i = 0; i< board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
             const box = board[i][j].box
@@ -172,6 +176,8 @@ function reset(old, mode) {
         }
     }
     flagText.innerText = mine
+    scoreText.innerText = 0
+    score = 0
     first = true
 
     for (let i = 0; i < row; i++) {
@@ -209,6 +215,8 @@ function reset(old, mode) {
 
 function firstClick(i, j) {
     if (first) {
+        stop = false
+        startTime()
         // Creating Mine
         const mineNumber = []
         while (mineNumber.length < mine) {
@@ -238,6 +246,7 @@ function firstClick(i, j) {
 }
 
 function reveal() {
+    stop = true
     for (let i = 0; i< board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
             if (board[i][j].data === 0) {
@@ -293,6 +302,18 @@ function checkWinner() {
                 }
             }
         }
+        stop = true
         return console.log('Winner')
     }
+}
+
+function startTime() {
+    time = setInterval(function() {
+        if (stop) {
+            stop = false
+            return clearInterval(time)
+        }
+        score += 1
+        scoreText.innerText = score
+    }, 1000)
 }
