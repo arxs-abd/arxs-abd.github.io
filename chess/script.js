@@ -1,5 +1,8 @@
 const containerBoard = document.querySelector('.container-board')
+const html = document.querySelector('html')
 
+// Note
+// Baru bisa pindahkan Pionnya, masih banyak lagi
 const army = {
     rook : '♜',
     knight : '♞',
@@ -16,7 +19,7 @@ const position = [
 ]
 
 const game = []
-let gameTurn = 0
+let gameTurn = 1
 
 let oldMove = {}
 let nextMove = []
@@ -60,19 +63,23 @@ for (let i = 0; i < 8; i++) {
             const y = Number(box.dataset.y)
 
             if (checkNextMove(x, y)) {
-                console.log('nextMove')
+                // console.log('nextMove')
                 removeSelected()
                 move(x, y)
 
                 nextMove = []
+                gameTurn = (gameTurn === 1) ? 0 : 1
+                html.style.animation = (gameTurn === 1 ? 'black-white' : 'white-black') + ' 500ms'
+                html.style.backgroundColor = gameTurn === 1 ? 'white' : '#222831'
             } else {
                 removeSelected()
     
                 if (!this.innerText) return
+
+                if (game[x][y].player !== gameTurn) return
     
                 box.classList.add('selected')
                 oldMove = {x, y}
-                console.log({x, y})
                 checkMove(x, y)
             }
         })
@@ -85,7 +92,7 @@ for (let i = 0; i < 8; i++) {
     containerBoard.appendChild(row)
 }
 
-console.log('White Turn')
+// console.log('White Turn')
 
 function removeSelected() {
     for (let i = 0; i < 8; i++) {
@@ -101,7 +108,7 @@ function removeSelected() {
 
 function checkMove(x, y) {
     const data = game[x][y]
-    console.log(data)
+    // console.log(data)
 
     // Hitam Player 0
     // Putih Player 1
@@ -110,35 +117,66 @@ function checkMove(x, y) {
 
         // For Player 1
         if (data.player) {
+            // Pawn 2 Steps
             if (x === 6) {
 
-                game[x - 1][y].box.dataset.dot = 1
-                game[x - 2][y].box.dataset.dot = 1
+                // Check if a bord in front
+                if (!game[x - 2][y].bord) {
+                    game[x - 2][y].box.dataset.dot = 1
+                    nextMove.push({
+                        x : x - 2,
+                        y : y,
+                    })
+                }
+                if (!game[x - 1][y].bord) {
+                    game[x - 1][y].box.dataset.dot = 1
+                    nextMove.push({
+                        x : x - 1,
+                        y : y,
+                    })
+                }
+            
+            // Pawn 1 Steps
+            } else {
+                if (!game[x - 1][y].bord) {
+                    game[x - 1][y].box.dataset.dot = 1
+                    nextMove.push({
+                        x : x - 1,
+                        y : y,
+                    })
+                }
 
-                nextMove.push({
-                    x : x - 1,
-                    y : y,
-                }, {
-                    x : x - 2,
-                    y : y,
-                })
-                
-            } 
+            }
           
         // For Player 0 
         } else {
+            // Pawn 2 Steps
             if (x === 1) {
 
-                game[x + 1][y].box.dataset.dot = 1
-                game[x + 2][y].box.dataset.dot = 1
-
-                nextMove.push({
-                    x : x + 1,
-                    y : y,
-                }, {
-                    x : x + 2,
-                    y : y,
-                })
+                // Check if a bord in front
+                if (!game[x + 2][y].bord) {
+                    game[x + 2][y].box.dataset.dot = 1
+                    nextMove.push({
+                        x : x + 2,
+                        y : y,
+                    })
+                }
+                if (!game[x + 1][y].bord) {
+                    game[x + 1][y].box.dataset.dot = 1
+                    nextMove.push({
+                        x : x + 1,
+                        y : y,
+                    })
+                }
+            // Pawn 1 Steps
+            } else {
+                if (!game[x + 1][y].bord) {
+                    game[x + 1][y].box.dataset.dot = 1
+                    nextMove.push({
+                        x : x + 1,
+                        y : y,
+                    })
+                }
             }
         }
 
@@ -164,7 +202,7 @@ function move(x, y) {
     const oldPlayer = game[oldX][oldY].player
     
     // Create New
-    game[x][y].bord = oldBoard
+    game[x][y].bord = oldBord
     game[x][y].player = oldPlayer
     newBoard.innerText = army[oldBord]
     newBoard.dataset.player = oldPlayer

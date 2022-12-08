@@ -5,7 +5,8 @@
 }
 
 html {
-    background-color: #222831;
+    background-color: white;
+    /* background-color: #222831; */
 }
 
 .container {
@@ -65,6 +66,25 @@ html {
 .box[data-dot="1"]::after {
     content: '●';
     color: green;
-    z-index: 5;
+    position: absolute;
+    z-index: 2;
     font-size: 2.5rem;
+}
+
+@keyframes black-white {
+    from {
+        background-color: #222831;
+    }
+    to {
+        background-color: white;
+    }
+}
+
+@keyframes white-black {
+    from {
+        background-color: white;
+    }
+    to {
+        background-color: #222831;
+    }
 }
