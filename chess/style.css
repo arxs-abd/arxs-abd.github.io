@@ -5,8 +5,8 @@
 }
 
 html {
-    background-color: white;
-    /* background-color: #222831; */
+    background-color: #FFFDD2;
+    user-select: none;
 }
 
 .container {
@@ -60,7 +60,7 @@ html {
 
 .box[data-player="1"] {
     /* color: rgb(249, 229, 200); */
-    color: white;
+    color: #FFFDD2;
 }
 
 .box[data-dot="1"]::after {
@@ -68,7 +68,16 @@ html {
     color: green;
     position: absolute;
     z-index: 2;
-    font-size: 2.5rem;
+    font-size: 2rem;
+    opacity: .5;
+}
+
+.box[data-dot="2"]::before {
+    content: '●';
+    color: red;
+    position: absolute;
+    font-size: 2rem;
+    opacity: .5;
 }
 
 @keyframes black-white {
@@ -76,13 +85,13 @@ html {
         background-color: #222831;
     }
     to {
-        background-color: white;
+        background-color: #FFFDD2;
     }
 }
 
 @keyframes white-black {
     from {
-        background-color: white;
+        background-color: #FFFDD2;
     }
     to {
         background-color: #222831;
