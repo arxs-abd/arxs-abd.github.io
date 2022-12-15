@@ -7,16 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catur</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <!-- <script src="script.js" defer></script> -->
+    <script src="ai.js" defer></script>
 </head>
 
 <body>
     <div class="container">
+        <div class="score">
+            <div class="score-box" id="black"></div>
+            <div class="score-box" id="white"></div>
+        </div>
         <div class="container-board">
         </div>
         <!-- <div class="box selected" data-board="0" data-dot="1"></div> -->
     </div>
     <!-- <span>♔</span> -->
+
+    <div id="snackbar"></div>
 </body>
 
 </html>

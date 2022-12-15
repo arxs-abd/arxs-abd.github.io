@@ -5,7 +5,7 @@
 }
 
 html {
-    background-color: #FFFDD2;
+    background-color: white;
     user-select: none;
 }
 
@@ -15,11 +15,37 @@ html {
     display: flex;
     justify-content: center;
     padding: 30px;
+    align-items: center;
+    gap : 20px;
+}
+
+.score {
+    width: 2.2em;
+    /* border: 2px solid #b88b4a; */
+    height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.score-box {
+    height: 50%;
+    width: 2em;
+    transition: height .4s ease-in;
+    /* display: grid; */
+}
+
+.score-box#black {
+    background-color: #151515;
+}
+.score-box#white {
+    background-color: #FFFDD2;
 }
 
 .container-board {
-    width: fit-content;
-    padding: 20px;
+    /* width: fit-content; */
+    /* padding: 20px; */
     display: flex;
     flex-direction: column;
 }
@@ -80,18 +106,74 @@ html {
     opacity: .5;
 }
 
+#snackbar {
+    visibility: hidden; 
+    min-width: 250px; 
+    margin-left: -125px;
+    text-align: center; 
+    border-radius: 2px; 
+    padding: 16px; 
+    position: fixed; 
+    z-index: 1; 
+    left: 50%; 
+    bottom: 30px;
+    border-radius: 15px;
+    font-family: 'Fira Code';
+    font-size: 1.2rem;
+    /* background-color: #222831;
+    color: #FFFDD2; */
+  }
+
+  .black {
+    background-color: #222831;
+    color: #FFFDD2;
+  }
+
+  .white {
+    background-color: #FFFDD2;
+    color: #222831;
+  }
+
+  #snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+
 @keyframes black-white {
     from {
         background-color: #222831;
     }
     to {
-        background-color: #FFFDD2;
+        background-color: white;
+        /* background-color: #FFFDD2; */
     }
 }
 
 @keyframes white-black {
     from {
-        background-color: #FFFDD2;
+        background-color: white;
+        /* background-color: #FFFDD2; */
     }
     to {
         background-color: #222831;

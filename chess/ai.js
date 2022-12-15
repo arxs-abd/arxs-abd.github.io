@@ -1,6 +1,8 @@
 const containerBoard = document.querySelector('.container-board')
 const html = document.querySelector('html')
 const snackbar = document.querySelector('#snackbar')
+const scoreBoxBlack = document.querySelector('.score-box#black')
+const scoreBoxWhite = document.querySelector('.score-box#white')
 
 // Note
 // Blum Bisa CheckMate
@@ -40,7 +42,7 @@ let nextMove = []
 let nextMoveCheck = []
 
 // AI
-const ai = true
+const ai = false
 
 
 let customBoard = [
@@ -107,7 +109,6 @@ for (let i = 0; i < 8; i++) {
 
         box.addEventListener('click', function(e) {
             e.preventDefault()
-
             
             const x = Number(box.dataset.x)
             const y = Number(box.dataset.y)
@@ -115,23 +116,20 @@ for (let i = 0; i < 8; i++) {
             if (checkNextMove(x, y)) {
                 removeSelected()
                 move(x, y)
-                
-                // console.log(checkMate(x, y))
                 checkMate(x, y)
-                // if (checkMate(x, y)) {
-                //     const color = gameTurn === 1 ? 'white' : 'black'
-                //     snackbar.className = 'show'
-                //     snackbar.classList.add(color)
-                //     setTimeout(function(){ 
-                //         snackbar.className = snackbar.className.replace('show', '')
-                //         if (snackbar.classList.contains(color)) snackbar.classList.remove(color)
-                //     }, 3000)
-                // }
                 console.log(countScore(gameTurn))
                 gameTurn = (gameTurn === 1) ? 0 : 1
                 html.style.animation = (gameTurn === 1 ? 'black-white' : 'white-black') + ' 1000ms'
                 html.style.backgroundColor = gameTurn === 1 ? '#FFFDD2' : '#222831'
                 nextMove = []
+
+                // Ai Turn
+                if (ai) {
+                    setTimeout(() => {
+                        aiTurn()
+                    }, 1000);
+                }
+
             } else {
                 removeSelected()
                 console.log(game[x][y])
@@ -152,6 +150,93 @@ for (let i = 0; i < 8; i++) {
     }
     game.push(rowGame)
     containerBoard.appendChild(row)
+}
+
+function updateBox() {
+
+    const white = countPieces(1)
+    const black = countPieces(0)
+
+    console.log({white, black})
+    const total = white + black
+    const whitePercentage = Math.round((white / total) * 100)
+
+    scoreBoxBlack.style.height = `${100 - whitePercentage}%`
+    scoreBoxWhite.style.height = `${whitePercentage}%`
+}
+
+function countPieces(color) {
+    let score = 0
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (game[i][j].player === color) score++
+        }
+    }
+
+    return score
+}
+
+function aiTurn() {
+    const aiPieces = []
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (game[i][j].player === 0) {
+                aiPieces.push(game[i][j])
+            }
+        }
+    }
+    if (aiPieces.length === 0) {
+        console.log('You Win')
+        return 
+    }
+    let done = true
+
+
+    while (done) {
+        const number = getRandom(0, aiPieces.length - 1)
+        const pieces = aiPieces[number]
+        console.log(pieces)
+        const x = pieces.x
+        const y = pieces.y
+
+        oldMove = {x, y}
+        if (pieces.bord === 'pawn') {
+            pawnMove(pieces, x, y)
+        } 
+        else if (pieces.bord === 'knight') {
+            knightMove(x, y)
+        }
+        else if (pieces.bord === 'bishop') {
+            bishopMove(x, y)
+        }
+        else if (pieces.bord === 'rook') {
+            rookMove(x, y)
+        }
+        else if (pieces.bord === 'king') {
+            kingMove(x, y)
+        }
+        else if (pieces.bord === 'queen'){ 
+            rookMove(x, y) 
+            bishopMove(x, y)
+        }
+
+        if (nextMove.length !== 0) {
+            const movePoint = getRandom(0, nextMove.length - 1)
+            const next = nextMove[movePoint]
+            move(next.x, next.y)
+            done = false
+        }
+    }
+
+    removeSelected()
+    gameTurn = (gameTurn === 1) ? 0 : 1
+    html.style.animation = (gameTurn === 1 ? 'black-white' : 'white-black') + ' 1000ms'
+    html.style.backgroundColor = gameTurn === 1 ? '#FFFDD2' : '#222831'
+    nextMove = []
+}
+
+function getRandom(min, max) {
+    return Math.round(Math.random() * (max - min) + min)
 }
 
 function removeSelected() {
@@ -213,6 +298,8 @@ function move(x, y) {
     game[oldX][oldY].player = null
     oldBoard.innerText = ''
     oldBoard.dataset.player = ''
+
+    updateBox()
 
 }
 
