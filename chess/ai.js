@@ -34,7 +34,7 @@ const position = [
     [army.pawn, army.pawn, army.pawn, army.pawn, army.pawn, army.pawn, army.pawn, army.pawn,]
 ]
 
-const game = []
+let game = []
 let gameTurn = 1
 
 let oldMove = {}
@@ -42,18 +42,32 @@ let nextMove = []
 let nextMoveCheck = []
 
 // AI
+// const ai = true
 const ai = false
+let aiNext = false
+const DEPTH = 3
 
+
+// let customBoard = [
+//     [{}, {b : 'king', p : 0}, {}, {}, {}, {}, {}, {}],
+//     [{}, {}, {}, {}, {}, {}, {}, {}],
+//     [{}, {}, {}, {}, {}, {}, {}, {}],
+//     [{}, {}, {b : 'rook', p : 1}, {}, {}, {}, {}, {}],
+//     [{}, {}, {}, {}, {}, {}, {}, {}],
+//     [{}, {}, {}, {}, {}, {}, {}, {}],
+//     [{}, {}, {}, {}, {}, {}, {}, {}],
+//     [{}, {}, {}, {}, {}, {}, {}, {}],
+// ]
 
 let customBoard = [
-    [{}, {b : 'king', p : 0}, {}, {}, {}, {}, {}, {}],
-    [{}, {}, {}, {}, {}, {}, {}, {}],
-    [{}, {}, {}, {}, {}, {}, {}, {}],
-    [{}, {}, {b : 'rook', p : 1}, {}, {}, {}, {}, {}],
-    [{}, {}, {}, {}, {}, {}, {}, {}],
-    [{}, {}, {}, {}, {}, {}, {}, {}],
-    [{}, {}, {}, {}, {}, {}, {}, {}],
-    [{}, {}, {}, {}, {}, {}, {}, {}],
+    ['', '', 'r', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', 'Q', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', ''],
 ]
 
 const custom = false
@@ -97,12 +111,20 @@ for (let i = 0; i < 8; i++) {
         } else {
             // Custom Board
 
-            if (customBoard[i][j].b) {
-                box.innerText = army[customBoard[i][j].b]
-                data.bord = customBoard[i][j].b
-                box.dataset.player = customBoard[i][j].p
-                data.player = customBoard[i][j].p
+            if (customBoard[i][j] !== '') {
+                const [bord, player] = getCustomBoardData(customBoard[i][j])
+                // console.log({player, bord})
+                box.innerText = army[bord]
+                data.bord = bord
+                box.dataset.player = player
+                data.player = player
             }
+            // if (customBoard[i][j].b) {
+            //     box.innerText = army[customBoard[i][j].b]
+            //     data.bord = customBoard[i][j].b
+            //     box.dataset.player = customBoard[i][j].p
+            //     data.player = customBoard[i][j].p
+            // }
 
 
         }
@@ -117,18 +139,22 @@ for (let i = 0; i < 8; i++) {
                 removeSelected()
                 move(x, y)
                 checkMate(x, y)
-                console.log(countScore(gameTurn))
+                // console.log(countScore(gameTurn), countScore(gameTurn + 1 % 2))
                 gameTurn = (gameTurn === 1) ? 0 : 1
                 html.style.animation = (gameTurn === 1 ? 'black-white' : 'white-black') + ' 1000ms'
-                html.style.backgroundColor = gameTurn === 1 ? '#FFFDD2' : '#222831'
+                html.style.backgroundColor = gameTurn === 1 ? 'white' : '#222831'
                 nextMove = []
 
+                
                 // Ai Turn
-                if (ai) {
-                    setTimeout(() => {
-                        aiTurn()
-                    }, 1000);
-                }
+                // if (aiTurn) {
+                    if (ai) {
+                        setTimeout(() => {
+                            aiTurn()
+                        }, 1000);
+                        // aiTurnNext = !aiTurnNext
+                    }
+                // }
 
             } else {
                 removeSelected()
@@ -152,12 +178,29 @@ for (let i = 0; i < 8; i++) {
     containerBoard.appendChild(row)
 }
 
+function getCustomBoardData(data) {
+    let bord = ''
+
+    // ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'],
+
+    if (data.toLowerCase() === 'p') bord = 'pawn'
+    else if (data.toLowerCase() === 'r') bord = 'rook'
+    else if (data.toLowerCase() === 'k') bord = 'knight'
+    else if (data.toLowerCase() === 'b') bord = 'bishop'
+    else if (data.toLowerCase() === 'q') bord = 'queen'
+    else if (data.toLowerCase() === 'ki') bord = 'king'
+
+    let player = data.toLowerCase() === data ? 0 : 1
+
+    return [bord, player]
+}
+
 function updateBox() {
 
     const white = countPieces(1)
     const black = countPieces(0)
 
-    console.log({white, black})
+    // console.log({white, black})
     const total = white + black
     const whitePercentage = Math.round((white / total) * 100)
 
@@ -177,67 +220,176 @@ function countPieces(color) {
 }
 
 function aiTurn() {
-    const aiPieces = []
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-            if (game[i][j].player === 0) {
-                aiPieces.push(game[i][j])
-            }
-        }
-    }
-    if (aiPieces.length === 0) {
-        console.log('You Win')
-        return 
-    }
-    let done = true
+    aiNext = true
+    // Ai Random
+    // const aiPieces = []
+    // for (let i = 0; i < 8; i++) {
+    //     for (let j = 0; j < 8; j++) {
+    //         if (game[i][j].player === 0) {
+    //             aiPieces.push(game[i][j])
+    //         }
+    //     }
+    // }
+    // if (aiPieces.length === 0) {
+    //     console.log('You Win')
+    //     return 
+    // }
+    // let done = true
 
+    // while (done) {
+    //     const number = getRandom(0, aiPieces.length - 1)
+    //     const pieces = aiPieces[number]
+    //     console.log(pieces)
+    //     const x = pieces.x
+    //     const y = pieces.y
 
-    while (done) {
-        const number = getRandom(0, aiPieces.length - 1)
-        const pieces = aiPieces[number]
-        console.log(pieces)
-        const x = pieces.x
-        const y = pieces.y
+    //     oldMove = {x, y}
+    //     if (pieces.bord === 'pawn') {
+    //         pawnMove(pieces, x, y)
+    //     } 
+    //     else if (pieces.bord === 'knight') {
+    //         knightMove(x, y)
+    //     }
+    //     else if (pieces.bord === 'bishop') {
+    //         bishopMove(x, y)
+    //     }
+    //     else if (pieces.bord === 'rook') {
+    //         rookMove(x, y)
+    //     }
+    //     else if (pieces.bord === 'king') {
+    //         kingMove(x, y)
+    //     }
+    //     else if (pieces.bord === 'queen'){ 
+    //         rookMove(x, y) 
+    //         bishopMove(x, y)
+    //     }
 
+    //     if (nextMove.length !== 0) {
+    //         const movePoint = getRandom(0, nextMove.length - 1)
+    //         const next = nextMove[movePoint]
+    //         move(next.x, next.y)
+    //         done = false
+    //     }
+    // }
+
+    // Ai Alpha Beta Pruning
+    let lowScore = Infinity
+    const aiPieces = getPieces(game, 0)
+    // console.log(...aiPieces)
+    let bestMove = {}
+    let movePieces = {}
+    // console.log([...game])
+    for (let i = 0; i < aiPieces.length; i++) {
+        const pieces = {...aiPieces[i]}
+        const {x, y} = pieces
+        moveBord(pieces, x, y)
         oldMove = {x, y}
-        if (pieces.bord === 'pawn') {
-            pawnMove(pieces, x, y)
-        } 
-        else if (pieces.bord === 'knight') {
-            knightMove(x, y)
+        const oldBoard = game.slice()
+        for (let j = 0; j < nextMove.length; j++) {
+            console.log(pieces, nextMove[j])
+            const oldPieces = game[nextMove[j].x][nextMove[j].y]
+            const newBoard = moveComputer(game, x, y, nextMove[j].x, nextMove[j].y)
+            // console.log([...newBoard])
+            // return
+            const score = countScoreAB(newBoard, 1)
+            if (score < lowScore) {
+                lowScore = score
+                bestMove.x = nextMove[j].x
+                bestMove.y = nextMove[j].y
+                movePieces = pieces
+                console.log({movePieces, bestMove})
+            }
+            // // game = oldBoard
+            // // Undo
+            // // console.log(pieces)
+            // const temp = {...newBoard[x][y]}
+            game[x][y] = oldBoard[x][y]
+            game[nextMove[j].x][nextMove[j].y] = oldBoard[nextMove[j].x][nextMove[j].y]
+            // return
         }
-        else if (pieces.bord === 'bishop') {
-            bishopMove(x, y)
-        }
-        else if (pieces.bord === 'rook') {
-            rookMove(x, y)
-        }
-        else if (pieces.bord === 'king') {
-            kingMove(x, y)
-        }
-        else if (pieces.bord === 'queen'){ 
-            rookMove(x, y) 
-            bishopMove(x, y)
-        }
-
-        if (nextMove.length !== 0) {
-            const movePoint = getRandom(0, nextMove.length - 1)
-            const next = nextMove[movePoint]
-            move(next.x, next.y)
-            done = false
-        }
+        nextMove = []
     }
+    console.log({bestMove, movePieces})
+    move(bestMove.x, bestMove.y, movePieces)
 
     removeSelected()
+    renderBordAgain()
     gameTurn = (gameTurn === 1) ? 0 : 1
     html.style.animation = (gameTurn === 1 ? 'black-white' : 'white-black') + ' 1000ms'
     html.style.backgroundColor = gameTurn === 1 ? '#FFFDD2' : '#222831'
     nextMove = []
+    aiNext = false
+}
+
+function renderBordAgain() {
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            const {box, bord, player} = game[i][j]
+            box.innerText = ''
+            box.dataset.player = ''
+            if (game[i][j].bord) {
+                box.innerText = army[bord]
+                box.dataset.player = player
+            }
+        }
+    }
+}
+
+function moveBord(pieces, x, y) {
+    if (pieces.bord === 'pawn') {
+        pawnMove(pieces, x, y)
+    } 
+    else if (pieces.bord === 'knight') {
+        knightMove(x, y)
+    }
+    else if (pieces.bord === 'bishop') {
+        bishopMove(x, y)
+    }
+    else if (pieces.bord === 'rook') {
+        rookMove(x, y)
+    }
+    else if (pieces.bord === 'king') {
+        kingMove(x, y)
+    }
+    else if (pieces.bord === 'queen'){ 
+        rookMove(x, y) 
+        bishopMove(x, y)
+    }
+}
+
+function aplhaBetaPruning(board, depth, alpha, beta, isMaximizing) {
+    const color = isMaximizing ? 1 : 0
+    if (depth == 0 ) {
+        return countScoreAB(board, color)
+    }
+    const pieces = getPieces(board, color)
+    if (isMaximizing) {
+        let bestScore = -Infinity
+        for (let i = 0; i < pieces.length; i++) {
+
+            alpha = Math.max(alpha, minimax(child, depth - 1, alpha, beta, false))
+            if (alpha >= beta) {
+               break
+            }
+        }
+        return alpha
+    } else {
+        let bestScore = Infinity
+        for (let i = 0; i < pieces.length; i++) {
+            beta = Math.min(beta, minimax(child, depth - 1, alpha, beta, true))
+            if (alpha >= beta) {
+               break
+            }
+        }
+        return beta
+    }
 }
 
 function getRandom(min, max) {
     return Math.round(Math.random() * (max - min) + min)
 }
+
+
 
 function removeSelected() {
     for (let i = 0; i < 8; i++) {
@@ -277,16 +429,37 @@ function checkNextMove(x, y) {
 
 }
 
-function move(x, y) {
-    const oldX = oldMove.x
-    const oldY = oldMove.y
+function moveComputer(board, oldX, oldY, x, y) {
+    // const oldX = oldMove.x
+    // const oldY = oldMove.y
+    // console.log({oldX, oldY})
+
+    const oldBord = board[oldX][oldY].bord
+    const oldPlayer = board[oldX][oldY].player
+    
+    // Create New
+    board[x][y].bord = oldBord
+    board[x][y].player = oldPlayer
+
+    // Remove Old
+    board[oldX][oldY].bord = null
+    board[oldX][oldY].player = null
+    return board
+}
+
+function move(x, y, movePieces) {
+    const oldX = movePieces?.x ?? oldMove.x
+    const oldY = movePieces?.y ??oldMove.y
 
     const oldBoard = game[oldX][oldY].box
     const newBoard = game[x][y].box
-
-    const oldBord = game[oldX][oldY].bord
-    const oldPlayer = game[oldX][oldY].player
     
+    // const oldBord = game[oldX][oldY].bord
+    // const oldPlayer = game[oldX][oldY].player
+    const oldBord = movePieces?.bord ?? game[oldX][oldY].bord
+    const oldPlayer = movePieces?.player ?? game[oldX][oldY].player
+    
+    console.log({oldX, oldY})
     // Create New
     game[x][y].bord = oldBord
     game[x][y].player = oldPlayer
@@ -311,14 +484,14 @@ function pawnMove(data, x, y) {
 
             // Check if a bord in front
             if (!game[x - 2][y].bord) {
-                game[x - 2][y].box.dataset.dot = 1
+                if (!aiNext) game[x - 2][y].box.dataset.dot = 1
                 nextMove.push({
                     x : x - 2,
                     y : y,
                 })
             }
             if (!game[x - 1][y].bord) {
-                game[x - 1][y].box.dataset.dot = 1
+                if (!aiNext) game[x - 1][y].box.dataset.dot = 1
                 nextMove.push({
                     x : x - 1,
                     y : y,
@@ -328,7 +501,7 @@ function pawnMove(data, x, y) {
         // Pawn 1 Steps
         } else {
             if (!game[x - 1][y].bord) {
-                game[x - 1][y].box.dataset.dot = 1
+                if (!aiNext) game[x - 1][y].box.dataset.dot = 1
                 nextMove.push({
                     x : x - 1,
                     y : y,
@@ -412,14 +585,14 @@ function knightMove(x, y) {
         const j = move[1]
         if (i >= 0 && i < 8 && j >= 0 && j < 8) {
             if (!game[i][j].bord) {
-                game[i][j].box.dataset.dot = 1
+                if (!aiNext) game[i][j].box.dataset.dot = 1
                 nextMove.push({
                     x : i,
                     y : j,
                  })
             } else {
                 if (game[i][j].player !== game[x][y].player && game[i][j].player !== null) {
-                    game[i][j].box.dataset.dot = 2
+                    if (!aiNext) game[i][j].box.dataset.dot = 2
                     nextMove.push({
                         x : i,
                         y : j,
@@ -440,13 +613,13 @@ function bishopMove(x, y) {
     for (let i = 1; i < 8; i++) {
         if (x + i >= 0 && x + i < 8 && y + i >= 0 && y + i < 8) {
             if (!game[x + i][y + i].bord && !plusPlus) {
-                game[x + i][y + i].box.dataset.dot = 1
+                if (!aiNext) game[x + i][y + i].box.dataset.dot = 1
                 nextMove.push({
                     x : x + i,
                     y : y + i,
                 })
             } else if (game[x + i][y + i].player !== game[x][y].player && !plusPlus) {
-                game[x + i][y + i].box.dataset.dot = 2
+                if (!aiNext) game[x + i][y + i].box.dataset.dot = 2
                 nextMove.push({
                     x : x + i,
                     y : y + i,
@@ -458,13 +631,13 @@ function bishopMove(x, y) {
         }
         if (x + i >= 0 && x + i < 8 && y - i >= 0 && y - i < 8) {
             if (!game[x + i][y - i].bord && !plusMinus) {
-                game[x + i][y - i].box.dataset.dot = 1
+                if (!aiNext) game[x + i][y - i].box.dataset.dot = 1
                 nextMove.push({
                     x : x + i,
                     y : y - i,
                 })
             } else if (game[x + i][y - i].player !== game[x][y].player && !plusMinus) {
-                game[x + i][y - i].box.dataset.dot = 2
+                if (!aiNext) game[x + i][y - i].box.dataset.dot = 2
                 nextMove.push({
                     x : x + i,
                     y : y - i,
@@ -476,13 +649,13 @@ function bishopMove(x, y) {
         }
         if (x - i >= 0 && x - i < 8 && y + i >= 0 && y + i < 8) {
             if (!game[x - i][y + i].bord && !minusPlus) {
-                game[x - i][y + i].box.dataset.dot = 1
+                if (!aiNext) game[x - i][y + i].box.dataset.dot = 1
                 nextMove.push({
                     x : x - i,
                     y : y + i,
                 })
             } else if (game[x - i][y + i].player !== game[x][y].player && !minusPlus) {
-                game[x - i][y + i].box.dataset.dot = 2
+                if (!aiNext) game[x - i][y + i].box.dataset.dot = 2
                 nextMove.push({
                     x : x - i,
                     y : y + i,
@@ -494,13 +667,13 @@ function bishopMove(x, y) {
         }
         if (x - i >= 0 && x - i < 8 && y - i >= 0 && y - i < 8) {
             if (!game[x - i][y - i].bord && !minusMinus) {
-                game[x - i][y - i].box.dataset.dot = 1
+                if (!aiNext) game[x - i][y - i].box.dataset.dot = 1
                 nextMove.push({
                     x : x - i,
                     y : y - i,
                 })
             } else if (game[x - i][y - i].player !== game[x][y].player && !minusMinus) {
-                game[x - i][y - i].box.dataset.dot = 2
+                if (!aiNext) game[x - i][y - i].box.dataset.dot = 2
                 nextMove.push({
                     x : x - i,
                     y : y - i,
@@ -522,13 +695,13 @@ function rookMove(x, y) {
     for (let i = 1; i < 8; i++) {
         if (x + i < 8) {
             if (!game[x + i][y].bord && !axisXPlus) {
-                game[x + i][y].box.dataset.dot = 1
+                if (!aiNext) game[x + i][y].box.dataset.dot = 1
                 nextMove.push({
                     x : x + i,
                     y : y,
                 })
             } else if (game[x + i][y].player !== game[x][y].player && !axisXPlus) {
-                game[x + i][y].box.dataset.dot = 2
+                if (!aiNext) game[x + i][y].box.dataset.dot = 2
                 nextMove.push({
                     x : x + i,
                     y : y,
@@ -541,13 +714,13 @@ function rookMove(x, y) {
         }
         if (x - i >= 0) {
             if (!game[x - i][y].bord && !axisXMin) {
-                game[x - i][y].box.dataset.dot = 1
+                if (!aiNext) game[x - i][y].box.dataset.dot = 1
                 nextMove.push({
                     x : x - i,
                     y : y,
                 })
             } else if (game[x - i][y].player !== game[x][y].player && !axisXMin) {
-                game[x - i][y].box.dataset.dot = 2
+                if (!aiNext) game[x - i][y].box.dataset.dot = 2
                 nextMove.push({
                     x : x - i,
                     y : y,
@@ -559,13 +732,13 @@ function rookMove(x, y) {
         }
         if (y + i < 8) {
             if (!game[x][y + i].bord && !axisYPlus) {
-                game[x][y + i].box.dataset.dot = 1
+                if (!aiNext) game[x][y + i].box.dataset.dot = 1
                 nextMove.push({
                     x : x,
                     y : y + i,
                 })
             } else if (game[x][y + i].player !== game[x][y].player && !axisYPlus) {
-                game[x][y + i].box.dataset.dot = 2
+                if (!aiNext) game[x][y + i].box.dataset.dot = 2
                 nextMove.push({
                     x : x,
                     y : y + i,
@@ -578,13 +751,13 @@ function rookMove(x, y) {
         }
         if (y - i >= 0) {
             if (!game[x][y - i].bord && !axisYMin) {
-                game[x][y - i].box.dataset.dot = 1
+                if (!aiNext) game[x][y - i].box.dataset.dot = 1
                 nextMove.push({
                     x : x,
                     y : y - i,
                 })
             } else if (game[x][y - i].player !== game[x][y].player && !axisYMin) {
-                game[x][y - i].box.dataset.dot = 2
+                if (!aiNext) game[x][y - i].box.dataset.dot = 2
                 nextMove.push({
                     x : x,
                     y : y - i,
@@ -604,13 +777,13 @@ function kingMove(x, y) {
             const yNow = y + j
             if (xNow >= 0 && xNow < 8 && yNow >= 0 && yNow < 8) {
                 if (!game[xNow][yNow].bord) {
-                    game[xNow][yNow].box.dataset.dot = 1
+                    if (!aiNext) game[xNow][yNow].box.dataset.dot = 1
                     nextMove.push({
                         x : xNow,
                         y : yNow,
                     })
                 } else if (game[xNow][yNow].player !== game[x][y].player) {
-                    game[xNow][yNow].box.dataset.dot = 2
+                    if (!aiNext) game[xNow][yNow].box.dataset.dot = 2
                     nextMove.push({
                         x : xNow,
                         y : yNow,
@@ -623,7 +796,7 @@ function kingMove(x, y) {
 }
 
 function setKill(x, y) {
-    game[x][y].box.dataset.dot = 2
+    if (!aiNext) game[x][y].box.dataset.dot = 2
     nextMove.push({
         x,
         y,
@@ -663,7 +836,7 @@ function checkMate(x, y) {
         }
     }
 
-    console.log({nextMoveCheck})
+    // console.log({nextMoveCheck})
     
     for (let i = 0; i < nextMoveCheck.length; i++) {
         // if (nextMoveCheck[i].x === posKingX && nextMoveCheck[i].y === posKingY) return 
@@ -940,4 +1113,25 @@ function countScore(color) {
     }
 
     return score
+}
+
+function countScoreAB(board, color) {
+    let score = 0
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (board[i][j].player === color) score += scoreArmy[game[i][j].bord]
+        }
+    }
+
+    return score
+}
+
+function getPieces(board, color) {
+    const pieces = []
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (board[i][j].player === color) pieces.push(board[i][j])
+        }
+    }
+    return pieces
 }
