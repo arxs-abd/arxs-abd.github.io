@@ -61,10 +61,10 @@ for (let i = 0; i < row; i++) {
 //     })
 // })
 
-// start = grid[getRandom(0, row - 1)][getRandom(0, col - 1)]
-// end = grid[getRandom(0, row - 1)][getRandom(0, col - 1)]
-start = grid[0][0]
-end = grid[row - 1][col - 1]
+start = grid[getRandom(0, row - 1)][getRandom(0, col - 1)]
+end = grid[getRandom(0, row - 1)][getRandom(0, col - 1)]
+// start = grid[0][0]
+// end = grid[row - 1][col - 1]
 
 start.box.innerText = 'S'
 start.box.style.color = 'blue'
