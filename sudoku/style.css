@@ -9,9 +9,21 @@ html {
     user-select: none;
 }
 
+body {
+    display: flex;
+}
+
 .container {
-    width: 100vw;
-    height: 100vh;
+    width: max-content;
+    height: max-content;
+    /* display: flex;
+    justify-content: center; */
+    padding: 30px;
+}
+
+.container-result {
+    width: max-content;
+    height: max-content;
     /* display: flex;
     justify-content: center; */
     padding: 30px;
@@ -19,6 +31,25 @@ html {
 
 .row {
     display: flex;
+}
+
+.box {
+    /* width: 5px;
+    height: 5px; */
+    width: 40px;
+    height: 40px;
+    border: solid 1px #222831;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* font-size: 3.3rem; */
+    background-color: white;
+    /* color: white; */
+    color: black;
+    font-size: 30px;
+    transition: all .8 ease-in;
+    /* cursor: pointer; */
 }
 
 input[type="text"] {
