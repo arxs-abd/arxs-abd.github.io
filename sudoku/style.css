@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: darkgray;
+    user-select: none;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    /* display: flex;
+    justify-content: center; */
+    padding: 30px;
+}
+
+.row {
+    display: flex;
+}
+
+input[type="text"] {
+    width: 40px;
+    height: 40px;
+    font-size: 2rem;
+    margin: 1px;
+}
