@@ -37,6 +37,7 @@ for (let i = 0; i < row; i++) {
             g : 0,
             h : 0,
             isVisited : false,
+            isVisitedForTracking : false,
             isWall : true,
             previous : undefined,
             previousForBack : undefined,
@@ -49,12 +50,14 @@ for (let i = 0; i < row; i++) {
 
 document.addEventListener('keypress', function(e) {
     // console.log(e.key)
-    if (e.key === 'Enter') generateMazeWithBacktracking()
+    if (e.key === 'Enter') generateMazeWithBacktracking(true)
     else if (e.key === '\\') generateMazeWithPrime()
-    else if (e.key === ' ') solveMaze()
+    else if (e.key === '/') solveMazeWithAStar()
+    else if (e.key === ' ') solveWithBacktracking()
+    // else if (e.key === '/') solveWithBacktracking()
 })
 
-async function generateMazeWithBacktracking() {
+async function generateMazeWithBacktracking(noDelay) {
     console.time('Backtracking')
     let x = 0
     let y = 0
@@ -73,7 +76,7 @@ async function generateMazeWithBacktracking() {
     while (countVisited() !== maxVisited) {
         if (neighbors.length === 0) {
             oldCell.box.style.backgroundColor = 'blue'
-            await sleep(delay)
+            if (noDelay) await sleep(delay)
             oldCell.box.style.backgroundColor = ''
             oldCell = oldCell.previousForBack
         } else {
@@ -86,7 +89,7 @@ async function generateMazeWithBacktracking() {
             oldCell.isWall = false
             grid[xx][yy].isWall = false
             randNeighbor.isWall = false
-            await sleep(delay)
+            if (noDelay) await sleep(delay)
             oldCell.isVisited = true
             grid[xx][yy].isVisited = true
             randNeighbor.isVisited = true
@@ -150,7 +153,7 @@ async function generateMazeWithPrime() {
     console.log('selesai Membuat Maze')
 }
 
-async function solveMaze() {
+async function solveMazeWithAStar() {
     console.time('Solve')
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
@@ -238,11 +241,100 @@ async function solveMaze() {
 
 }
 
+// generateMazeWithBacktracking(false)
+async function solveWithBacktracking() {
+    // console.log('Jalan')
+    let x = 0
+    let y = 0
+    
+    const delay = 50
+
+    grid[x][y].isVisitedForTracking = false
+    grid[x][y].box.style.backgroundColor = 'yellow'
+
+    let neighbors = getNeighborVisitedTracking(grid[x][y], false)
+    console.log(neighbors)
+    // return
+    let oldCell = grid[x][y]
+    let finish = grid[row - 1][col - 1]
+    let path = []
+
+    path.push(oldCell)
+
+    // let count = 100
+    let maxVisited = (Math.ceil(col / 2)) * (Math.ceil(row / 2))
+
+    while (countVisitedTracking() !== maxVisited) {
+        let index = path.length - 1
+        if (path[index] === finish) {
+            printPath(path)
+            path[index].box.style.backgroundColor = 'yellow'
+            return console.log('Finish')
+        }
+
+        if (neighbors.length === 0) {
+            path[index].box.style.backgroundColor = 'blue'
+            await sleep(delay)
+            path[index].box.style.backgroundColor = ''
+            path.pop()
+        } else {
+            path[index].box.style.backgroundColor = 'blue'
+            let randNeighbor = neighbors[getRandom(0, neighbors.length - 1)]
+    
+            const xx = (randNeighbor.i + path[index].i) / 2
+            const yy = (randNeighbor.j + path[index].j) / 2
+
+            await sleep(delay)
+
+            path[index].isVisitedForTracking = true
+            grid[xx][yy].isVisitedForTracking = true
+            randNeighbor.isVisitedForTracking = true
+    
+            path[index].box.style.backgroundColor = ''
+            grid[xx][yy].box.style.backgroundColor = ''
+            randNeighbor.box.style.backgroundColor = ''
+            
+            path.push(randNeighbor)
+        }
+        // await sleep(10)
+        printPath(path)
+        neighbors = getNeighborVisitedTracking(path[path.length - 1], false)
+        // if (count === 10) break
+        // else count++
+    }
+}
+
+function printPath(path) {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[i].length; j++) {
+            if (grid[i][j].box.style.backgroundColor === 'yellow') grid[i][j].box.style.backgroundColor = ''
+        }
+    }
+
+    for (let i = 0; i < path.length - 1; i++) {
+        const newX = (path[i].i + path[i + 1].i) / 2
+        const newY = (path[i].j + path[i + 1].j) / 2
+        path[i].box.style.backgroundColor = 'yellow'
+        grid[newX][newY].box.style.backgroundColor = 'yellow'
+    }
+}
+
 function countVisited() {
     let result = 0
     for (let i = 0; i < grid.length; i += 2) {
         for (let j = 0; j < grid[i].length; j += 2) {
             if (grid[i][j].isVisited) result++
+        }
+    }
+
+    return result
+}
+
+function countVisitedTracking() {
+    let result = 0
+    for (let i = 0; i < grid.length; i += 2) {
+        for (let j = 0; j < grid[i].length; j += 2) {
+            if (grid[i][j].isVisitedForTracking) result++
         }
     }
 
@@ -280,6 +372,27 @@ function getNeighborVisited(cell, isVisited) {
         const newY = possible[i][1]
         if (newX >= 0 && newX < row && newY >= 0 && newY < col && grid[newX][newY].isVisited === isVisited) {
             result.push(grid[newX][newY])
+        }
+    }
+    return result
+}
+
+function getNeighborVisitedTracking(cell, isVisited) {
+    const result = []
+    const x = cell.i
+    const y = cell.j
+    const possible = [[x - 2, y], [x, y - 2], [x + 2, y], [x, y + 2]]
+    // const possible = [[x - 1, y], [x, y - 1], [x + 1, y], [x, y + 1]]
+
+
+    for (let i = 0; i < possible.length; i++) {
+        const newX = possible[i][0]
+        const newY = possible[i][1]
+        if (newX >= 0 && newX < row && newY >= 0 && newY < col && !grid[newX][newX].isWall && grid[newX][newY].isVisitedForTracking === isVisited) {
+            const dividerX = (x + newX) / 2
+            const dividerY = (y + newY) / 2
+
+            if (!grid[dividerX][dividerY].isWall) result.push(grid[newX][newY])
         }
     }
     return result
