@@ -4,6 +4,7 @@ const solveButton = document.querySelector('#solve')
 let grid = []
 let result = []
 const max = 9
+const template = false
 
 const temp = [
     [3, 1, 6, 5, 0, 8, 4, 0, 0],
@@ -41,7 +42,7 @@ for (let i = 0; i < max; i++) {
     for (let j = 0; j < max; j++) {
         const input = document.createElement('input')
         input.type = 'text'
-        input.value = temp[i][j] || '' 
+        if (template) input.value = temp[i][j] || '' 
         input.dataset.i = i
         input.dataset.j = j
         rowBox.appendChild(input)
