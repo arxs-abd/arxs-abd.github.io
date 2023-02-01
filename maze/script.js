@@ -244,6 +244,7 @@ async function solveMazeWithAStar() {
 // generateMazeWithBacktracking(false)
 async function solveWithBacktracking() {
     // console.log('Jalan')
+    console.time('Solve')
     let x = 0
     let y = 0
     
@@ -253,7 +254,6 @@ async function solveWithBacktracking() {
     grid[x][y].box.style.backgroundColor = 'yellow'
 
     let neighbors = getNeighborVisitedTracking(grid[x][y], false)
-    console.log(neighbors)
     // return
     let oldCell = grid[x][y]
     let finish = grid[row - 1][col - 1]
@@ -269,6 +269,7 @@ async function solveWithBacktracking() {
         if (path[index] === finish) {
             printPath(path)
             path[index].box.style.backgroundColor = 'yellow'
+            console.timeEnd('Solve')
             return console.log('Finish')
         }
 
