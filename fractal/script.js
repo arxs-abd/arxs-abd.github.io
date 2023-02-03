@@ -2,14 +2,13 @@ const canvas = document.querySelector('canvas')
 
 const ctx = canvas.getContext('2d')
 
-// canvas.style.marginLeft = '30px'
 canvas.height = window.innerHeight
 canvas.width = window.innerWidth
 canvas.style.backgroundColor = 'black'
 
 const rasio = 30
 const angle = 90
-const depth = 10
+const depth = 7
 
 function drawLine(xFrom, yFrom, xTo, yTo) {
     ctx.moveTo(xFrom, yFrom)
