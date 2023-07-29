@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script defer src="index.js"></script>
+    <title>Graf</title>
+</head>
+
+<body>
+    <div class="container mt-3">
+        <h1 class="text-center">Mean Labeling P<sub>m, n</sub></h1>
+        <div class="row g-3 align-items-center mt-3">
+            <div class="col-auto">
+                <label for="m" class="col-form-label">Nilai M</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="m" class="form-control" aria-describedby="nilaim">
+            </div>
+            <div class="col-auto">
+                <span id="nilaim" class="form-text">
+                    M adalah Jumlah Sisi.
+                </span>
+            </div>
+        </div>
+        <div class="row g-3 align-items-center mt-3">
+            <div class="col-auto">
+                <label for="x" class="col-form-label">Nilai X</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="x" class="form-control" aria-describedby="nilaim">
+            </div>
+            <div class="col-auto">
+                <span id="nilaim" class="form-text">
+                    X adalah Titik.
+                </span>
+            </div>
+        </div>
+        <div class="row g-3 align-items-center mt-3">
+            <div class="col-auto">
+                <label for="x" class="col-form-label">Nilai Y</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="y" class="form-control" aria-describedby="nilaim">
+            </div>
+            <div class="col-auto">
+                <span id="nilaim" class="form-text">
+                    Y adalah Titik.
+                </span>
+            </div>
+        </div>
+        <div class="row g-3 align-items-center mt-3">
+            <div class="col-auto">
+                <button class="btn btn-success" id="hitung">Hitung</button>
+            </div>
+        </div>
+        <div class="row g-3 align-items-center mt-3">
+            <h1 id="result">Hasil :</h1>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
