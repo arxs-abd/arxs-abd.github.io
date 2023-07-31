@@ -17,6 +17,8 @@ function countResult() {
   const x = Number(xE.value);
   const y = Number(yE.value);
 
+  if (!m || !x || !y) return;
+
   const k = modulo(x - y, m) + 1;
   const kk = Math.floor((m - 1) / 2);
 

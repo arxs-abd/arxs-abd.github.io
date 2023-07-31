@@ -6,19 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        #result,
+        #title,
+        label {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
     <script defer src="index.js"></script>
     <title>Graf</title>
 </head>
 
 <body>
     <div class="container mt-3">
-        <h1 class="text-center">Mean Labeling P<sub>m, n</sub></h1>
+        <h1 id="title" class="text-center">Mean Labeling P<sub>m, n</sub></h1>
         <div class="row g-3 align-items-center mt-3">
             <div class="col-auto">
                 <label for="m" class="col-form-label">Nilai M</label>
             </div>
             <div class="col-auto">
-                <input type="number" id="m" class="form-control" aria-describedby="nilaim">
+                <input type="number" id="m" class="form-control" aria-describedby="nilaim" min="3">
+                <div id="invalid-m" class="invalid-feedback">
+                    Nilai M Minimal Bernilai 2.
+                </div>
             </div>
             <div class="col-auto">
                 <span id="nilaim" class="form-text">
