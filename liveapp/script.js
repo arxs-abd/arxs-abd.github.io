@@ -7,6 +7,10 @@ const {
 } = LivekitClient
 const url = 'wss://chat-app-oluzbac4.livekit.cloud';
 
+const remoteVideo = document.querySelector('#remoteVideo')
+
+let x = true
+
 const room = new LivekitClient.Room({
     audioCaptureDefaults: {
         autoGainControl: true,
@@ -65,6 +69,8 @@ async function connectRoom(roomId) {
     const {token} = await fetchJSON('/getToken')
     await room.connect(url, token)
 
+    console.log('Connecting . . .')
+
     await room.localParticipant.enableCameraAndMicrophone()
     room
     .on(RoomEvent.TrackSubscribed, handleTrackSubscribed)
@@ -77,16 +83,17 @@ async function connectRoom(roomId) {
 }
 
 function handleTrackPublished(publication, participant) {
-    participant.setSubscribed(true)
-    publication.setSubscribed(true)
+    // console.log({participant, publication})
+    // participant.setSubscribed(true)
+    // publication.setSubscribed(true)
+    if (x) connectRoom()
+    x = false
 }
 
 function handleTrackSubscribed(RemoteTrack, RemoteTrackPublication, RemoteParticipant) {
-    // if (track.kind === Track.Kind.Video || track.kind === Track.Kind.Audio) {
-        // attach it to a new HTMLVideoElement or HTMLAudioElement
-        const elementRemote = RemoteTrack.attach();
-        document.querySelector('#remoteVideo').appendChild(elementRemote);
-        // const elementLocal = RemoteParticipant.attach();
+        const elementRemote = RemoteTrack.attach()
+        remoteVideo.innerHTML = ''
+        remoteVideo.append(elementRemote)
     // }
 }
 
@@ -97,6 +104,7 @@ function handleTrackUnsubscribed(
 ) {
 // remove tracks from all attached elements
     RemoteTrack.detach();
+    console.log('disconnecting . . .')
 }
 
 function handleLocalTrackUnpublished(LocalTrackPublication, LocalParticipant) {
