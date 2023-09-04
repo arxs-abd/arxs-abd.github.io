@@ -18,40 +18,40 @@ const room = new LivekitClient.Room({
         deviceId: '',
         facingMode: 'user',
         resolution: {
-        width: 1280,
-        height: 720,
-        frameRate: 30,
+            width: 640,
+            height: 360,
+            frameRate: 30,
         },
     },
     publishDefaults: {
         videoEncoding: {
-        maxBitrate: 1_500_000,
-        maxFramerate: 30,
+            maxBitrate: 1_500_000,
+            maxFramerate: 30,
         },
         screenShareEncoding: {
-        maxBitrate: 1_500_000,
-        maxFramerate: 30,
+            maxBitrate: 1_500_000,
+            maxFramerate: 30,
         },
         audioBitrate: 20_000,
         dtx: true,
         // only needed if overriding defaults
         videoSimulcastLayers: [
-        {
-            width: 640,
-            height: 360,
-            encoding: {
-            maxBitrate: 500_000,
-            maxFramerate: 20,
+            // {
+            //     width: 640,
+            //     height: 360,
+            //     encoding: {
+            //     maxBitrate: 500_000,
+            //     maxFramerate: 20,
+            //     }
+            // },
+            {
+                width: 320,
+                height: 180,
+                encoding: {
+                maxBitrate: 150_000,
+                maxFramerate: 15,
+                }
             }
-        },
-        {
-            width: 320,
-            height: 180,
-            encoding: {
-            maxBitrate: 150_000,
-            maxFramerate: 15,
-            }
-        }
         ]
     },
 })
@@ -77,6 +77,7 @@ async function connectRoom(roomId) {
 }
 
 function handleTrackPublished(publication, participant) {
+    participant.setSubscribed(true)
     publication.setSubscribed(true)
 }
 
