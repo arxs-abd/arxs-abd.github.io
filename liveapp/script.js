@@ -85,7 +85,7 @@ function handleTrackSubscribed(RemoteTrack, RemoteTrackPublication, RemotePartic
         status.innerText = 'Tersambung'
 }
 
-function handleTrackUnsubscribed(
+async function handleTrackUnsubscribed(
     RemoteTrack,
     RemoteTrackPublication,
     RemoteParticipant,
@@ -94,6 +94,8 @@ function handleTrackUnsubscribed(
     RemoteTrack.detach();
     console.log('disconnecting . . .')
     status.innerText = 'Terputus'
+    await room.localParticipant.setMicrophoneEnabled(false)
+    await room.localParticipant.setCameraEnabled(false)
 }
 
 function handleLocalTrackUnpublished(LocalTrackPublication, LocalParticipant) {
