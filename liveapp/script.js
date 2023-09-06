@@ -41,6 +41,14 @@ const room = new LivekitClient.Room({
     },
 })
 
+room
+    .on(RoomEvent.TrackSubscribed, handleTrackSubscribed)
+    .on(RoomEvent.TrackUnsubscribed, handleTrackUnsubscribed)
+    .on(RoomEvent.ActiveSpeakersChanged, handleActiveSpeakerChange)
+    .on(RoomEvent.Disconnected, handleDisconnect)
+    .on(RoomEvent.LocalTrackUnpublished, handleLocalTrackUnpublished)
+    .on(RoomEvent.TrackPublished, handleTrackPublished)
+
 document.querySelector('#connect').addEventListener('click', function() {
     status.innerText = 'Memanggil'
     connectRoom()
@@ -59,23 +67,15 @@ async function connectRoom(roomId) {
     await room.localParticipant.setMicrophoneEnabled(true)
     await room.localParticipant.setCameraEnabled(false)
 
-    room
-    .on(RoomEvent.TrackSubscribed, handleTrackSubscribed)
-    .on(RoomEvent.TrackUnsubscribed, handleTrackUnsubscribed)
-    .on(RoomEvent.ActiveSpeakersChanged, handleActiveSpeakerChange)
-    .on(RoomEvent.Disconnected, handleDisconnect)
-    .on(RoomEvent.LocalTrackUnpublished, handleLocalTrackUnpublished)
-    .on(RoomEvent.TrackPublished, handleTrackPublished)
-
 }
 
 function handleTrackPublished(publication, participant) {
     // console.log({participant, publication})
     // participant.setSubscribed(true)
-    // publication.setSubscribed(true)
-    if (x) connectRoom()
-    x = false
-    status.innerText = 'Tersambung'
+    publication.setSubscribed(true)
+    // if (x) connectRoom()
+    // x = false
+    status.innerText = 'Tersambung1'
 }
 
 function handleTrackSubscribed(RemoteTrack, RemoteTrackPublication, RemoteParticipant) {
@@ -94,8 +94,7 @@ async function handleTrackUnsubscribed(
     RemoteTrack.detach();
     console.log('disconnecting . . .')
     status.innerText = 'Terputus'
-    await room.localParticipant.setMicrophoneEnabled(false)
-    await room.localParticipant.setCameraEnabled(false)
+    await room.disconnect()
 }
 
 function handleLocalTrackUnpublished(LocalTrackPublication, LocalParticipant) {
