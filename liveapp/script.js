@@ -63,6 +63,9 @@ const room = new LivekitClient.Room({
 document.querySelector('#connect').addEventListener('click', function() {
     connectRoom()
 })
+document.querySelector('#disconnect').addEventListener('click', function() {
+    connectRoom()
+})
 
 
 async function connectRoom(roomId) {
@@ -71,7 +74,8 @@ async function connectRoom(roomId) {
 
     console.log('Connecting . . .')
 
-    await room.localParticipant.enableCameraAndMicrophone()
+    await room.localParticipant.setMicrophoneEnabled(true)
+
     room
     .on(RoomEvent.TrackSubscribed, handleTrackSubscribed)
     .on(RoomEvent.TrackUnsubscribed, handleTrackUnsubscribed)
@@ -94,7 +98,6 @@ function handleTrackSubscribed(RemoteTrack, RemoteTrackPublication, RemotePartic
         const elementRemote = RemoteTrack.attach()
         remoteVideo.innerHTML = ''
         remoteVideo.append(elementRemote)
-    // }
 }
 
 function handleTrackUnsubscribed(
@@ -118,6 +121,7 @@ function handleActiveSpeakerChange(Participant) {
 
 function handleDisconnect() {
      console.log('disconnected from room');
+     console.log('Panggilan telah selesai');
 }
 
 async function fetchJSON(url, options = {}) {
