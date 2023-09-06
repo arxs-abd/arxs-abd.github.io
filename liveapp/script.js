@@ -8,7 +8,7 @@ const {
 const url = 'wss://chat-app-oluzbac4.livekit.cloud';
 
 const remoteVideo = document.querySelector('#remoteVideo')
-
+const status = document.querySelector('#status')
 let x = true
 
 const room = new LivekitClient.Room({
@@ -38,33 +38,15 @@ const room = new LivekitClient.Room({
         },
         audioBitrate: 20_000,
         dtx: true,
-        // only needed if overriding defaults
-        videoSimulcastLayers: [
-            // {
-            //     width: 640,
-            //     height: 360,
-            //     encoding: {
-            //     maxBitrate: 500_000,
-            //     maxFramerate: 20,
-            //     }
-            // },
-            {
-                width: 320,
-                height: 180,
-                encoding: {
-                maxBitrate: 150_000,
-                maxFramerate: 15,
-                }
-            }
-        ]
     },
 })
 
 document.querySelector('#connect').addEventListener('click', function() {
+    status.innerText = 'Memanggil'
     connectRoom()
 })
-document.querySelector('#disconnect').addEventListener('click', function() {
-    connectRoom()
+document.querySelector('#disconnect').addEventListener('click', async function() {
+    await room.disconnect()
 })
 
 
@@ -75,6 +57,7 @@ async function connectRoom(roomId) {
     console.log('Connecting . . .')
 
     await room.localParticipant.setMicrophoneEnabled(true)
+    await room.localParticipant.setCameraEnabled(false)
 
     room
     .on(RoomEvent.TrackSubscribed, handleTrackSubscribed)
@@ -92,12 +75,14 @@ function handleTrackPublished(publication, participant) {
     // publication.setSubscribed(true)
     if (x) connectRoom()
     x = false
+    status.innerText = 'Tersambung'
 }
 
 function handleTrackSubscribed(RemoteTrack, RemoteTrackPublication, RemoteParticipant) {
         const elementRemote = RemoteTrack.attach()
         remoteVideo.innerHTML = ''
         remoteVideo.append(elementRemote)
+        status.innerText = 'Tersambung'
 }
 
 function handleTrackUnsubscribed(
@@ -108,20 +93,23 @@ function handleTrackUnsubscribed(
 // remove tracks from all attached elements
     RemoteTrack.detach();
     console.log('disconnecting . . .')
+    status.innerText = 'Terputus'
 }
 
 function handleLocalTrackUnpublished(LocalTrackPublication, LocalParticipant) {
 // when local tracks are ended, update UI to remove them from rendering
-    LocalTrackPublication.detach();
+    // LocalTrackPublication.detach();
 }
 
 function handleActiveSpeakerChange(Participant) {
     // show UI indicators when participant is speaking
 }
 
-function handleDisconnect() {
-     console.log('disconnected from room');
-     console.log('Panggilan telah selesai');
+async function handleDisconnect() {
+    console.log('disconnected from room');
+    console.log('Panggilan telah selesai');
+    await room.localParticipant.setMicrophoneEnabled(false)
+    await room.localParticipant.setCameraEnabled(false)
 }
 
 async function fetchJSON(url, options = {}) {
