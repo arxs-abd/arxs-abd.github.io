@@ -53,7 +53,7 @@ let IsMobile = false;
 let onlineUsers = {};
 
 // // IsMobile
-// checkMobile()
+checkMobile()
 // window.addEventListener('resize', function(e) {
 //     checkMobile()
 // })
@@ -246,10 +246,10 @@ sendMessageButton.addEventListener('click', async function (e) {
   createChatByUser(data);
 });
 
-// backButton.addEventListener('click', function (e) {
-//   containerChat.classList.add('hidden');
-//   containerUser.classList.remove('hidden');
-// });
+backButton.addEventListener('click', function (e) {
+  containerChat.classList.add('hidden');
+  containerUser.classList.remove('hidden');
+});
 
 function createChatByUser(msg) {
   const time = new Date(msg.created_at);
@@ -329,7 +329,10 @@ function createContact(contact) {
     removeChat();
 
     if (!div.classList.contains('selected')) div.classList.add('selected');
-
+    if (IsMobile) if(!containerUser.classList.contains('hidden')) {
+      containerUser.classList.add('hidden')
+      if (containerUser.classList.contains('hidden')) containerChat.classList.remove('hidden')
+    }
     listenChannel();
     chatUser.innerText = contact.sender.username;
     userToCall.innerText = contact.sender.username;
