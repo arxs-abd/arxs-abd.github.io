@@ -74,7 +74,7 @@ function formatTime(seconds) {
       return `${formattedMinutes}:${formattedSeconds}`
 }
 
-function showMessage(message) {
+function showMessage(...message) {
     let dev = getEnv(window.location.href)
-    if (dev) console.log(message)
+    if (dev) console.log(...message)
 }

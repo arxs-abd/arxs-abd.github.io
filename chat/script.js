@@ -40,8 +40,8 @@ let socket_id;
 
 // Data
 let data = getFromLocalStorage('user-data', {});
-let message = getFromLocalStorage('message-data');
-let contact = getFromLocalStorage('contact-data');
+let MESSAGE = getFromLocalStorage('message-data');
+// let contact = getFromLocalStorage('contact-data');
 let focus = true;
 // let pusher
 let channel
@@ -161,6 +161,7 @@ function listenChannel() {
   if (chatRoomBfr !== '') channel.unbind(chatRoomBfr);
   channel.bind(chatRoom, (data) => {
     createChatByOtherUser(data);
+    showMessage(data.conversation_id)
     // if (document.visibilityState === 'hidden') return sendNotification(data)
     if (!focus) sendNotification(data);
     // window.onblur = function(e) {
@@ -252,6 +253,10 @@ backButton.addEventListener('click', function (e) {
 });
 
 function createChatByUser(msg) {
+  const lastChat = document.querySelector('#lc-' + chatRoom)
+  // lastChat.innerText = msg.message.slice(0, 30)
+  lastChat.innerText = msg.message.length > 15 ? msg.message.slice(0, 15) + '...' : msg.message
+
   const time = new Date(msg.created_at);
 
   const div = document.createElement('div');
@@ -274,6 +279,8 @@ function createChatByUser(msg) {
 }
 
 function createChatByOtherUser(msg) {
+  const lastChat = document.querySelector('#lc-' + msg.conversation_id)
+  lastChat.innerText = msg.message.length > 15 ? msg.message.slice(0, 15) + '...' : msg.message
   const time = new Date(msg.created_at);
 
   const div = document.createElement('div');
@@ -296,6 +303,7 @@ function createChatByOtherUser(msg) {
 }
 
 function createContact(contact) {
+  
   const div = document.createElement('div');
   div.classList.add('item-card');
 
@@ -304,7 +312,9 @@ function createContact(contact) {
   lastChat.classList.add('last-chat');
 
   username.innerText = contact.sender.username;
-  lastChat.innerText = 'Ini Chat Terakhir';
+  const lastChatText = MESSAGE[contact.id_chat]
+  lastChat.innerText = lastChatText.chat.at(-1).message.length > 15 ? lastChatText.chat.at(-1).message.slice(0, 15) + '...' : lastChatText.chat.at(-1).message
+  lastChat.setAttribute('id', 'lc-' + contact.id_chat)
 
   div.appendChild(username);
   div.appendChild(lastChat);
@@ -386,13 +396,30 @@ async function getAllConversation() {
   const result = await fetchJSON('/api/conversation', options);
 
   const contact = result.data;
-
   removeContact();
-
+  
   for (const user of contact) {
+    // showMessage(user.id_chat)
+    MESSAGE[user.id_chat] = await getMessage(user.id_chat)
     createContact(user);
     listenCall(user.id_chat)
   }
+}
+
+async function getMessage(id) {
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + data.accessToken,
+    },
+  };
+  const conversation = await fetchJSON(
+    '/api/conversation/message/' + id,
+    options
+  )
+
+  return conversation
 }
 
 function removeChat() {
@@ -620,22 +647,22 @@ async function handleTrackUnsubscribed(
     await room.disconnect()
   }
   
-  function handleLocalTrackUnpublished(LocalTrackPublication, LocalParticipant) {
-    // when local tracks are ended, update UI to remove them from rendering
-    // LocalTrackPublication.detach();
-  }
+function handleLocalTrackUnpublished(LocalTrackPublication, LocalParticipant) {
+  // when local tracks are ended, update UI to remove them from rendering
+  // LocalTrackPublication.detach();
+}
   
-  function handleActiveSpeakerChange(Participant) {
-    // show UI indicators when participant is speaking
-  }
-  
-  async function handleDisconnect() {
-    showMessage('disconnected from room');
-    showMessage('Panggilan telah selesai');
-    if (!callModal.classList.contains('hidden')) callModal.classList.add('hidden')
-    clearTimeout(callTimer)
-    await room.localParticipant.setMicrophoneEnabled(false)
-    await room.localParticipant.setCameraEnabled(false)
+function handleActiveSpeakerChange(Participant) {
+  // show UI indicators when participant is speaking
+}
+
+async function handleDisconnect() {
+  showMessage('disconnected from room');
+  showMessage('Panggilan telah selesai');
+  if (!callModal.classList.contains('hidden')) callModal.classList.add('hidden')
+  clearTimeout(callTimer)
+  await room.localParticipant.setMicrophoneEnabled(false)
+  await room.localParticipant.setCameraEnabled(false)
 }
 
 function startCountdown() {
