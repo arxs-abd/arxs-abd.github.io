@@ -144,8 +144,8 @@ body {
   justify-content: space-between;
   font-family: 'Inter', sans-serif;
   padding: 5px;
-  column-gap: 10px;
-  height: 12%;
+  /* column-gap: 5px; */
+  height: 8%;
   background-color: var(--color1);
 }
 
