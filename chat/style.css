@@ -47,7 +47,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Optional */
+  height: 100vh; /* Optional */
   margin: 0;
   /* overflow: hidden; */
 }
@@ -144,8 +144,7 @@ body {
   justify-content: space-between;
   font-family: 'Inter', sans-serif;
   padding: 5px;
-  /* column-gap: 5px; */
-  height: 8%;
+  height: 12%;
   background-color: var(--color1);
 }
 
@@ -535,9 +534,16 @@ button {
 }
 
 @media (max-width : 700px) {
+  body {
+    height: 100%;
+  }
   .container {
     height: 100vh;
     width: 100vw;
     padding: 0;
+  }
+
+  .chat-contact {
+    height: 10%;
   }
 }
