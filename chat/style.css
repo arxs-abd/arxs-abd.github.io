@@ -38,6 +38,10 @@ button, input[type="text"], input[type="password"] {
 	outline: inherit;
 }
 
+button {
+  user-select: none;
+}
+
 h1 {
   text-align: center;
   margin-bottom: 30px;
