@@ -49,6 +49,7 @@ body {
   align-items: center;
   height: 100vh; /* Optional */
   margin: 0;
+  overflow: hidden;
 }
 
 .container {
