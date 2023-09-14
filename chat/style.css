@@ -47,7 +47,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Optional */
+  height: 100%; /* Optional */
   margin: 0;
   /* overflow: hidden; */
 }
