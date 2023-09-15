@@ -103,9 +103,10 @@ let notifPermission = getNotifPermission();
 if (data.username) {
   login.innerText = data.username;
   container.classList.remove('hidden');
-  containerLogin.classList.add('hidden');
   initPusher();
   getAllConversation()
+} else {
+  containerLogin.classList.remove('hidden')
 }
 
 findUser.addEventListener('click', async function (e) {
@@ -360,7 +361,7 @@ function createContact(contact) {
     for (const chat of message) {
       const date = new Date(chat.created_at);
       const day = date.getDate();
-      const month = date.getMonth();
+      const month = date.getMonth() + 1;
       const year = date.getFullYear();
       const newDate = new Date(`${year}-${month}-${day}`);
 
@@ -505,14 +506,11 @@ function createTimeDiv(time) {
   const before = new Date(time);
   const span = document.createElement('span');
   span.classList.add('date-chat');
-  span.dataset.time = before.getTime();
-  const minDay = before.getDate() - today.getDate();
-  if (minDay > 0 || minDay < -7)
-    span.innerText = formatterTimeDivisionDate.format(before);
-  else if (minDay <= -3 && minDay >= -7)
-    span.innerText = formatterTimeDivisionDay.format(before);
-  else if (minDay <= 0 && minDay >= -2)
-    span.innerText = f.format(minDay, 'days');
+  span.dataset.time = before.getTime()
+  const minDay = countDay(before)
+  if (minDay >= 0 && minDay <= 2) span.innerText = f.format(minDay * -1, 'days')
+  else if (minDay > 2 && minDay <= 7) span.innerText = formatterTimeDivisionDay.format(before)
+  else span.innerText = formatterTimeDivisionDate.format(before)
   chatOutput.appendChild(span);
 }
 

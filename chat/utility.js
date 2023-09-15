@@ -78,3 +78,11 @@ function showMessage(...message) {
     let dev = getEnv(window.location.href)
     if (dev) console.log(...message)
 }
+
+function countDay(time) {
+    const now = new Date()
+    
+    const min = now - time
+    return Math.floor(min / (1000 * 60 * 60 * 24))
+    
+}
