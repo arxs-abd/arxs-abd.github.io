@@ -48,10 +48,11 @@ async function getNotifPermission() {
 }
 
 async function getMicPermission() {
-    await navigator.mediaDevices.getUserMedia({video : false, audio : true})
+    return await navigator.mediaDevices.getUserMedia({video : false, audio : true})
 }
 
 function sendNotification(msg) {
+    console.log('jalan')
     let title = 'New Message'
     let body = 'Pesan dari Teman anda yaitu : ' + msg.message;
     let notification = new Notification(title, { body });
@@ -88,6 +89,6 @@ function countDay(time) {
 }
 
 function getMessageChat(text) {
-    const MAX_LENGTH = 15
-    return text.length > 15 ? text.slice(0, 15) + '...' : text
+    const MAX_LENGTH = 1000
+    return text.length > MAX_LENGTH ? text.slice(0, MAX_LENGTH) + '...' : text
 }

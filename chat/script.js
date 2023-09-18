@@ -24,7 +24,7 @@ const acceptCallModal = document.querySelector('#accept-call');
 const rejectCallModal = document.querySelector('#reject-call');
 const callContainer = document.querySelector('#call-container');
 const answerContainer = document.querySelector('#answer-container');
-const callStatus = document.querySelector('#call-status');
+const callStatus = document.querySelector('#call-status')
 
 // Environment
 // const mobileWidth = 560
@@ -97,14 +97,14 @@ room
     .on(RoomEvent.LocalTrackUnpublished, handleLocalTrackUnpublished)
     .on(RoomEvent.TrackPublished, handleTrackPublished)
 
-let notifPermission = getNotifPermission();
-// let micPermission = getMicPermission()
+let notifPermission = getNotifPermission()
+// let micPermission = navigator.mediaDevices && navigator.mediaDevices.getUserMedia
 
 // Check Is Login
 if (data.username) {
-  login.innerText = data.username;
-  container.classList.remove('hidden');
-  initPusher();
+  login.innerText = data.username
+  container.classList.remove('hidden')
+  initPusher()
   getAllConversation()
 } else {
   containerLogin.classList.remove('hidden')
@@ -166,13 +166,13 @@ function listenChat(id) {
     if (chatRoom === data.conversation_id) createChatByOtherUser(data)
     else {
       const lastChat = document.querySelector('#lc-' + data.conversation_id)
-      lastChat.innerText = getMessageChat(data.message)
+      lastChat.innerText = data.message
       const parent = lastChat.parentElement
 
       if (!parent.classList.contains('selected') || !parent.classList.contains('new-chat')) parent.classList.add('new-chat')
+      sendNotification(data);
     }
     // if (document.visibilityState === 'hidden') return sendNotification(data)
-    if (!focus) sendNotification(data);
     // window.onblur = function(e) {
     //     return sendNotification(data)
     // }
@@ -264,7 +264,7 @@ backButton.addEventListener('click', function (e) {
 function createChatByUser(msg) {
   const lastChat = document.querySelector('#lc-' + chatRoom)
   // lastChat.innerText = msg.message.slice(0, 30)
-  lastChat.innerText = getMessageChat(msg.message)
+  lastChat.innerText = msg.message
 
   const time = new Date(msg.created_at);
 
@@ -289,7 +289,7 @@ function createChatByUser(msg) {
 
 function createChatByOtherUser(msg) {
   const lastChat = document.querySelector('#lc-' + msg.conversation_id)
-  lastChat.innerText = getMessageChat(msg.message)
+  lastChat.innerText = msg.message
   const time = new Date(msg.created_at);
 
   const div = document.createElement('div');
@@ -322,7 +322,7 @@ function createContact(contact) {
 
   username.innerText = contact.sender.username;
   const lastChatText = MESSAGE[contact.id_chat]
-  lastChat.innerText = getMessageChat(lastChatText.chat.at(-1).message)
+  lastChat.innerText = lastChatText.chat.at(-1).message
   lastChat.setAttribute('id', 'lc-' + contact.id_chat)
 
   div.appendChild(username);
@@ -353,7 +353,7 @@ function createContact(contact) {
       containerUser.classList.add('hidden')
       if (containerUser.classList.contains('hidden')) containerChat.classList.remove('hidden')
     }
-    listenChat();
+    // listenChat();
     chatUser.innerText = contact.sender.username;
     userToCall.innerText = contact.sender.username;
     chatUser.dataset.id = contact.sender.id;

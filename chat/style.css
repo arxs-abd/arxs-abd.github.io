@@ -14,6 +14,12 @@
   --color1 : #524e4e; /*bg button*/
   --color2 : #383838; /*bg contact*/
   --color3 : #171917; /* bg chat*/
+  --dark: #34495E;
+  --light: #ffffff;
+  --success: #0ABF30;
+  --error: #E24D4C;
+  --warning: #E9BD0C;
+  --info: #3498DB;
 }
 
 * {
@@ -57,7 +63,7 @@ body {
 }
 
 .container {
-  width: 90%;
+  width: 80%;
   display: flex;
   margin: auto;
   justify-content: space-between;
@@ -255,7 +261,7 @@ body {
 }
 
 input[name="input-chat"] {
-  height: 80%;
+  height: 40px;
   width: 75%;
 }
 
@@ -348,6 +354,9 @@ button {
 .last-chat {
   font-size: 15px;
   font-weight: 200;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #text {
@@ -542,6 +551,12 @@ button {
 }
 
 @media (max-width : 700px) {
+  .container {
+    width: 95%;
+  }
+}
+
+@media (max-width : 580px) {
   body {
     height: 100vh;
   }
@@ -551,7 +566,25 @@ button {
     padding: 0;
   }
 
+  .container-user {
+    width: 34%;
+    padding: 0;
+  }
+
+  .user, .find-user {
+    margin: 0;
+    margin-bottom: 5px;
+  }
+
   .chat-contact {
     height: 10%;
+  }
+
+  .status {
+    text-align: center;
+  }
+
+  input[name="input-chat"] {
+    height: 35px;
   }
 }
