@@ -41,7 +41,8 @@ let socket_id;
 // Data
 let data = getFromLocalStorage('user-data', {});
 let MESSAGE = getFromLocalStorage('message-data');
-// let contact = getFromLocalStorage('contact-data');
+let CONTACT = getFromLocalStorage('contact-data');
+
 let focus = true;
 // let pusher
 let channel
@@ -158,11 +159,18 @@ login.addEventListener('mouseout', function () {
   login.innerText = data.username;
 });
 
-function listenChannel() {
-  if (chatRoomBfr !== '') channel.unbind(chatRoomBfr);
-  channel.bind(chatRoom, (data) => {
-    createChatByOtherUser(data);
-    showMessage(data.conversation_id)
+function listenChat(id) {
+  // if (chatRoomBfr !== '') channel.unbind(chatRoomBfr);
+  channel.bind(id, (data) => {
+    // showMessage(chatRoom)
+    if (chatRoom === data.conversation_id) createChatByOtherUser(data)
+    else {
+      const lastChat = document.querySelector('#lc-' + data.conversation_id)
+      lastChat.innerText = getMessageChat(data.message)
+      const parent = lastChat.parentElement
+
+      if (!parent.classList.contains('selected') || !parent.classList.contains('new-chat')) parent.classList.add('new-chat')
+    }
     // if (document.visibilityState === 'hidden') return sendNotification(data)
     if (!focus) sendNotification(data);
     // window.onblur = function(e) {
@@ -256,7 +264,7 @@ backButton.addEventListener('click', function (e) {
 function createChatByUser(msg) {
   const lastChat = document.querySelector('#lc-' + chatRoom)
   // lastChat.innerText = msg.message.slice(0, 30)
-  lastChat.innerText = msg.message.length > 15 ? msg.message.slice(0, 15) + '...' : msg.message
+  lastChat.innerText = getMessageChat(msg.message)
 
   const time = new Date(msg.created_at);
 
@@ -281,7 +289,7 @@ function createChatByUser(msg) {
 
 function createChatByOtherUser(msg) {
   const lastChat = document.querySelector('#lc-' + msg.conversation_id)
-  lastChat.innerText = msg.message.length > 15 ? msg.message.slice(0, 15) + '...' : msg.message
+  lastChat.innerText = getMessageChat(msg.message)
   const time = new Date(msg.created_at);
 
   const div = document.createElement('div');
@@ -314,13 +322,14 @@ function createContact(contact) {
 
   username.innerText = contact.sender.username;
   const lastChatText = MESSAGE[contact.id_chat]
-  lastChat.innerText = lastChatText.chat.at(-1).message.length > 15 ? lastChatText.chat.at(-1).message.slice(0, 15) + '...' : lastChatText.chat.at(-1).message
+  lastChat.innerText = getMessageChat(lastChatText.chat.at(-1).message)
   lastChat.setAttribute('id', 'lc-' + contact.id_chat)
 
   div.appendChild(username);
   div.appendChild(lastChat);
 
   div.addEventListener('click', async function (e) {
+    if (this.classList.contains('new-chat')) this.classList.remove('new-chat')
     const options = {
       method: 'GET',
       headers: {
@@ -344,7 +353,7 @@ function createContact(contact) {
       containerUser.classList.add('hidden')
       if (containerUser.classList.contains('hidden')) containerChat.classList.remove('hidden')
     }
-    listenChannel();
+    listenChat();
     chatUser.innerText = contact.sender.username;
     userToCall.innerText = contact.sender.username;
     chatUser.dataset.id = contact.sender.id;
@@ -404,6 +413,7 @@ async function getAllConversation() {
     MESSAGE[user.id_chat] = await getMessage(user.id_chat)
     createContact(user);
     listenCall(user.id_chat)
+    listenChat(user.id_chat)
   }
 }
 

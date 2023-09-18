@@ -374,6 +374,10 @@ button {
   background-color: var(--bgcolor);
   color: white;
 }
+.new-chat {
+  background-color: rgb(6, 78, 0);
+  color: white;
+}
 
 .hidden {
   display: none !important;

@@ -86,3 +86,8 @@ function countDay(time) {
     return Math.floor(min / (1000 * 60 * 60 * 24))
     
 }
+
+function getMessageChat(text) {
+    const MAX_LENGTH = 15
+    return text.length > 15 ? text.slice(0, 15) + '...' : text
+}
