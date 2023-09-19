@@ -170,7 +170,7 @@ function listenChat(id) {
       const parent = lastChat.parentElement
 
       if (!parent.classList.contains('selected') || !parent.classList.contains('new-chat')) parent.classList.add('new-chat')
-      sendNotification(data);
+      // sendNotification(data);
     }
     // if (document.visibilityState === 'hidden') return sendNotification(data)
     // window.onblur = function(e) {
@@ -264,7 +264,7 @@ backButton.addEventListener('click', function (e) {
 function createChatByUser(msg) {
   const lastChat = document.querySelector('#lc-' + chatRoom)
   // lastChat.innerText = msg.message.slice(0, 30)
-  lastChat.innerText = msg.message
+  lastChat.innerText = 'You: ' + msg.message
 
   const time = new Date(msg.created_at);
 
@@ -321,8 +321,8 @@ function createContact(contact) {
   lastChat.classList.add('last-chat');
 
   username.innerText = contact.sender.username;
-  const lastChatText = MESSAGE[contact.id_chat]
-  lastChat.innerText = lastChatText.chat.at(-1).message
+  const allChat = MESSAGE[contact.id_chat].chat
+  lastChat.innerText = (allChat.at(-1).sender_id !== data.id ? 'You: ' : '') + allChat.at(-1).message
   lastChat.setAttribute('id', 'lc-' + contact.id_chat)
 
   div.appendChild(username);
