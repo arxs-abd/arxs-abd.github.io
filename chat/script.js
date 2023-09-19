@@ -147,6 +147,8 @@ loginButton.addEventListener('click', async function (e) {
 
 login.addEventListener('click', function () {
   localStorage.removeItem('user-data');
+  localStorage.removeItem('message-data');
+  localStorage.removeItem('contact-data');
 
   container.classList.add('hidden');
   containerLogin.classList.remove('hidden');
@@ -170,6 +172,11 @@ function listenChat(id) {
       const parent = lastChat.parentElement
 
       if (!parent.classList.contains('selected') || !parent.classList.contains('new-chat')) parent.classList.add('new-chat')
+
+      const allContact = document.querySelectorAll('.item-card')
+      const contact = document.querySelector('#lc-' + data.conversation_id).parentElement
+      // console.log(chatRoom)
+      containerUser.insertBefore(contact, allContact[0])
       // sendNotification(data);
     }
     // if (document.visibilityState === 'hidden') return sendNotification(data)
@@ -250,6 +257,12 @@ sendMessageButton.addEventListener('click', async function (e) {
     created_at: new Date().toISOString(),
     message,
   };
+
+  // Setan
+  const allContact = document.querySelectorAll('.item-card')
+  const contact = document.querySelector('#lc-' + chatRoom).parentElement
+  containerUser.insertBefore(contact, allContact[0])
+
   const allDate = document.querySelectorAll('.date-chat');
   const lastDate = allDate.item(allDate.length - 1)?.innerText || 'Hari Ini';
   if (lastDate !== 'Hari Ini') createTimeDiv(new Date());
@@ -322,7 +335,7 @@ function createContact(contact) {
 
   username.innerText = contact.sender.username;
   const allChat = MESSAGE[contact.id_chat].chat
-  lastChat.innerText = (allChat.at(-1).sender_id !== data.id ? 'You: ' : '') + allChat.at(-1).message
+  lastChat.innerText = (allChat.at(-1).sender_id === data.id ? 'You: ' : '') + allChat.at(-1).message
   lastChat.setAttribute('id', 'lc-' + contact.id_chat)
 
   div.appendChild(username);
