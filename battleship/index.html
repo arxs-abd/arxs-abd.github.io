@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="script.js"></script>
+    <title>Battleship</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+</head>
+<body>
+    <h1 style="text-align: center;">Battleship Game</h1>
+    <h6 id="room-id">   </h6>
+    <div class="container">
+        <div class="container-player">
+            <div class="container-board">
+                <div class="player">
+                    <h1>Player</h1>
+                    <div class="board" id="board-player"></div>
+                </div>
+                <div class="opponent">
+                    <h1>Opponent</h1>
+                    <div class="board" id="board-other"></div>
+                </div>
+            </div>
+            <div class="create-ship">
+                <button class="c-ship" type="button" id="carrier" style="background-color: #222831;">Carrier</button>
+                <button class="c-ship" type="button" id="battleship" style="background-color: #40ff00;">Battleship</button>
+                <button class="c-ship" type="button" id="crusier" style="background-color: #7300ff;">Crusier</button>
+                <button class="c-ship" type="button" id="submarine" style="background-color: #939104;">Submarine</button>
+                <button class="c-ship" type="button" id="destroyer" style="background-color: #ff1717;">Destroyer</button>
+            </div>
+        </div>
+        <div class="console">
+            <h1>Console</h1>
+            <div class="input">
+                <span>Player Name : </span>
+                <input spellcheck="false" type="text" id="player-name" value="aris">
+            </div>
+            <div class="input">
+                <span>Room : </span>
+                <input type="text" id="player-room" spellcheck="false">
+            </div>
+            <div class="input">
+                <button type="button" id="create-room">Create Room</button>
+                <button type="button" id="join">Join</button>
+                <button type="button" id="ready">Ready</button>
+            </div>
+        </div>
+    </div>
+    <div id="snackbar"></div>
+</body>
+</html>

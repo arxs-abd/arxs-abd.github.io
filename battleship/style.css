@@ -1,0 +1,197 @@
+:root {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #050505;
+    color: white; 
+}
+
+.container {
+    /* width: 100%; */
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* padding: 10px; */
+    align-items: center;
+    gap : 30px;
+    margin-top: -100px;
+}
+
+.container-player {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* justify-content: center; */
+}
+
+.row {
+    display: flex;
+}
+
+#room-id {
+    margin-top: -20px;
+    text-align: center;
+    font-size: medium;
+}
+
+.box {
+    width: 40px;
+    height: 40px;
+    border: solid 1px #e6e6e6;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.3rem;
+    background-color: rgb(1, 151, 151);
+    cursor: pointer;
+}
+
+.box[data-player="false"]:hover:not(.strike) {
+    background-color: #40ff00;
+}
+
+.box.strike {
+    /* border: red 2px solid; */
+    background-color: #ff1717;
+}
+
+.box.fail {
+    background-color: cornsilk;
+}
+
+.container-board {
+    display: flex;
+    gap: 30px;
+}
+
+.player, .opponent {
+    text-align: center;
+}
+
+.create-ship {
+    margin-top: 10px;
+    gap: 5px;
+    text-align: center;
+}
+
+.click {
+    opacity: .9;
+}
+
+.create-ship button {
+    color: white;
+    background-color: cyan;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    /* display: block; */
+    margin: 0 auto;
+}
+
+.disabled {
+    opacity: .4;
+}
+
+.input {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input button {
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+    background: #222831;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.input button:hover {
+    opacity: .9;
+}
+
+.input input {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #222831;
+    outline: none;
+    border: none;
+    font-size: medium;
+    padding: 5px;
+    color: white;
+}
+input:focus {
+    outline: none;
+}
+
+.c-ship:hover {
+    opacity: .9;
+}
+
+.ship[data-ship="carrier"] {
+    background-color: #222831;
+    /* border: 1px solid #222831; */
+}
+.ship[data-ship="battleship"] {
+    background-color: #40ff00;
+    /* border: 1px solid #40ff00; */
+}
+.ship[data-ship="crusier"] {
+    background-color: #7300ff;
+    /* border: 1px solid #7300ff; */
+}
+.ship[data-ship="submarine"] {
+    background-color: #939104;
+    /* border: 1px solid #939104; */
+}
+.ship[data-ship="destroyer"] {
+    background-color: #ff1717;
+    /* border: 1px solid #ff1717; */
+}
+
+/* Toast */
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #222831;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+  }
+
+
+  #snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  /* Animations to fade the snackbar in and out */
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
