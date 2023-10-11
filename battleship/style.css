@@ -1,6 +1,6 @@
 :root {
     font-family: 'Courier New', Courier, monospace;
-    background-color: #050505;
+    background-color: #202124;
     color: white; 
 }
 
@@ -125,6 +125,12 @@
 }
 input:focus {
     outline: none;
+}
+
+#opponent-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .c-ship:hover {

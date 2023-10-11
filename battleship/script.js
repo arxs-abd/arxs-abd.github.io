@@ -3,6 +3,7 @@
 const boardPlayer = document.querySelector('#board-player')
 const boardOther = document.querySelector('#board-other')
 const roomId = document.querySelector('#room-id')
+const oppponentText = document.querySelector('#opponent-text')
 
 // CONSOLE
 // CONSOLE BUTTON
@@ -74,6 +75,13 @@ for (const cs of button) {
     })
 }
 
+playerUsername.addEventListener('keypress', function(e) {
+    if (playerUsername.value.length < 5) return
+    playerUsername.value = playerUsername.value.slice(0, 4)
+    showToast('Maksimal Karakter Adalah 5')
+    
+})
+
 createRoom.addEventListener('click', async function() {
     if (playerUsername.value.length === 0) return showToast('Username Wajib Diisi')
     const username = playerUsername.value
@@ -88,10 +96,12 @@ createRoom.addEventListener('click', async function() {
     playerRoom.value = response.roomId
     showToast(response.msg)
 
-    playerRoom.select()
-    document.execCommand('copy')
+    await navigator.clipboard.writeText(response.roomId)
+    await navigator.clipboard.readText()
+    // playerRoom.select()
+    // document.execCommand('copy')
 
-    initPusher()
+    initPusher(username, PLAYER_ID)
 })
 
 joinRoom.addEventListener('click', async function() {
@@ -107,11 +117,18 @@ joinRoom.addEventListener('click', async function() {
     PLAY = true
 
     roomId.textContent = `[${ROOM_ID}]`
+    oppponentText.textContent = 'Opponent : ' + response.oppUsername
     showToast(response.msg)
-    initPusher()
+    initPusher(username, PLAYER_ID)
 })
 
 ready.addEventListener('click', async function() {
+    const allShip = document.querySelectorAll('[ship]')
+
+    if (allShip.length < 17) {
+        return showToast('Susun Semua Kapal Terlebih Dahulu')
+    }
+
     const payload = {
         method : 'POST',
         headers: {
@@ -119,7 +136,9 @@ ready.addEventListener('click', async function() {
         },
         body : JSON.stringify({
             roomId : ROOM_ID,
-            id : PLAYER_ID
+            id : PLAYER_ID,
+            channel_name : ROOM_ID,
+            socket_id
         })
     }
 
@@ -149,6 +168,7 @@ function channelListener() {
         if (data.id == PLAYER_ID) return
         
         PLAY = true
+        oppponentText.textContent = 'Opponent : ' + data.username
         showToast(data.msg)
     })
 
@@ -176,11 +196,16 @@ function channelListener() {
 
         const options = {
             method : 'POST',
+            headers: {
+                'x-socket-id': socket_id,
+            },
             body : JSON.stringify({
                 id : data.id,
                 position : data.attack,
                 result,
-                roomId : ROOM_ID
+                roomId : ROOM_ID,
+                socket_id,
+                channel_name : ROOM_ID
             })
         }
         IS_TURN = !IS_TURN
@@ -204,15 +229,50 @@ function channelListener() {
 }
 
 // UTILITY
-function initPusher() {
+function initPusher(username, id) {
+    // console.log(username, id)
     pusher = new Pusher('914eb719506342bd7d28', {
-        cluster: 'ap1',
+        cluster : 'ap1',
+        authEndpoint: BASEURL + '/auth',
+        auth : {
+            params : {
+                user_id: id,
+                username: username,
+            },
+        },
+        // authEndpoint: BASEURL + '/pusher/auth',
+        // auth: {
+        //     params: {
+        //         user_id: id,
+        //         username: username,
+        //     },
+        // },
     })
     pusher.connection.bind('connected', async () => {
         socket_id = pusher.connection.socket_id
     });
     
-    channel = pusher.subscribe('battleship-room-' + ROOM_ID)
+    channel = pusher.subscribe('presence-battleship-room-' + ROOM_ID)
+    // channel.trigger()
+    channel.bind('pusher:subscription_error', async () => {
+        console.log('Gagal Subscribe')
+        
+    })
+    channel.bind('pusher:member_added', () => {
+        console.log(Object.keys(channel.members.members))
+    })
+    channel.bind('pusher:member_removed', async () => {
+        showToast('Lawan Meninggalkan Room, Silahkan Buat Room Baru')
+
+        await fetchJSON('/left-room', {
+            method : 'POST',
+            body : JSON.stringify({
+                roomId : ROOM_ID
+            })
+        })
+
+        playerRoom.value = ''
+    })
   
     // channel.bind('pusher:subscription_succeeded', () => {
     //   onlineUsers = channel.members.members
@@ -278,10 +338,15 @@ function createBoard() {
 
                         const options = {
                             method : 'POST',
+                            headers: {
+                                'x-socket-id': socket_id,
+                            },
                             body : JSON.stringify({
                                 roomId : ROOM_ID,
                                 id : PLAYER_ID,
-                                attack : position
+                                attack : position,
+                                socket_id,
+                                channel_name : ROOM_ID
                             })
                         }
                         const response = await fetchJSON('/move', options)
@@ -410,6 +475,7 @@ async function fetchJSON(url, options = {}) {
 }
 
 function isProduction() {
+    // return true
     const url = window.location.href
     return url.split('//')[0] === 'https:'
 }
