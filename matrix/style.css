@@ -1,0 +1,276 @@
+:root {
+    --player-1-color: red;
+    --player-2-color: blue;
+    --player-3-color: rgb(157, 157, 3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input {
+    outline: none;
+}
+
+/* SCENE AWAL */
+
+.scene-awal {
+    width : 100dvw;
+    height : 100dvh;
+    background: grey;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.name-box {
+    margin-top: 500px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.name-box input {
+    width: 400px;
+    padding: 20px;
+    font-size: 1.5rem;
+    /* margin: 30px 0; */
+    border: 5px solid #ccc;
+}
+
+input#player-1-input {
+    border-color: var(--player-1-color);
+}
+
+input#player-2-input {
+    border-color: var(--player-2-color);
+}
+
+input#player-3-input{
+    border-color: var(--player-3-color);
+}
+
+button#start {
+    padding: 20px;
+    width: 300px;
+    font-size: 1.3rem;
+}
+/* SCENE AWAL */
+
+/* SCENE MAIN */
+
+.scene-main {
+    width : 100dvw;
+    height : 100dvh;
+    background: grey;
+    display: flex;
+    color: white;
+    flex-direction: column;
+}
+
+.score-box {
+    width: 100%;
+    padding: 40px;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    margin-top: -20px;
+    /* margin-bottom: 20px; */
+}
+
+.name-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.score-changer {
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+    font-size: 1rem;
+}
+
+.plus, .minus {
+    padding: 5px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.container-player {
+    width: auto;
+    height: auto;
+    display: flex;
+    background-color: white;
+    border: 2px solid black;
+}
+
+
+.score {
+    padding: 20px;
+    border-right: 2px solid black;
+}
+
+.name {
+    padding: 20px;
+}
+
+.container-player.player-1 {
+    background-color: var(--player-1-color);
+    border-color: white;
+}
+
+.container-player.player-1 .score {
+    border-color: white;
+}
+
+.container-player.player-2 {
+    background-color: var(--player-2-color);
+    border-color: white;
+}
+
+.container-player.player-2 .score {
+    border-color: white;
+}
+
+.container-player.player-3 {
+    background-color: var(--player-3-color);
+    border-color: white;
+}
+
+.container-player.player-3 .score {
+    border-color: white;
+}
+
+/* SCENE MAIN */
+
+/* SCENE SOAL */
+
+.scene-soal {
+    /* position: sticky; */
+    width : 100dvw;
+    height : 100dvh;
+    background: grey;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.matrix {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.matrix .row {
+    display: flex;
+    gap: 10px;
+}
+
+.box {
+    width: 110px;
+    height: 110px;
+    padding: 10px;
+    background-color: black;
+    border-radius: 10px;
+    color : white;
+    display: flex;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.box[data-player="0"] {
+    background-color: white;
+    color: black;
+}
+.box[data-player="1"] {
+    background-color: var(--player-1-color);
+}
+
+.box[data-player="2"] {
+    background-color: var(--player-2-color);
+}
+
+.box[data-player="3"] {
+    background-color: var(--player-3-color);
+}
+
+.box:hover {
+    opacity: .8;
+}
+
+/* SCENE SOAL */
+
+/* SCENE SOAL DETAIL */
+
+.scene-soal-detail {
+    width : 100%;
+    height : 100%;
+    padding: 0 40px;
+    background: grey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.soal-panel {
+    width: 1120px;
+    height: 630px;
+    /* background-image: url('/soal/A1.PNG'); */
+    background-size: contain;
+    background-position: center;
+}
+
+.detail-panel {
+    height: 630px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: yellow; */
+    padding: 20px
+}
+
+.score-soal {
+    font-size: 2.5rem;
+}
+
+.lokasi-soal {
+    font-size: 5rem;
+}
+
+.close {
+    font-size: 1.5rem;
+    width : 100%;
+    padding: 10px 30px;
+    text-align: center;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* SCENE SOAL DETAIL */
+
+
+/* UTILITY */
+
+.hidden {
+    display: none;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+/* UTILITY */

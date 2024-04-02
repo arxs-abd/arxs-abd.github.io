@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+    <title>GAME</title>
+</head>
+<body>
+    <div class="scene-awal">
+        <div class="name-box">
+            <input type="text" id="player-1-input" value="">
+            <input type="text" id="player-2-input" value="">
+            <input type="text" id="player-3-input" value="">
+        </div>
+        <button id="start">Mulai</button>
+    </div>
+
+    <div class="scene-main hidden">
+        <div class="score-box">
+            <div class="name-score">
+                <div class="container-player player-1">
+                    <span class="score" id="player-1-score">000</span>
+                    <span class="name" id="player-1-name">SMAN 1 PANGKAJENE</span>
+                </div>
+                <div class="score-changer hide">
+                    <button class="plus" id="player-1-plus" data-player="1" data-type="plus">Benar</button>
+                    <button class="minus" id="player-1-minus" data-player="1" data-type="minus">Salah</button>
+                </div>
+            </div>
+            <div class="name-score">
+                <div class="container-player player-2">
+                    <span class="score" id="player-2-score">000</span>
+                    <span class="name" id="player-2-name">SMAN 2 PANGKAJENE</span>
+                </div>
+                <div class="score-changer hide">
+                    <button class="plus" id="player-2-plus" data-player="2" data-type="plus">Benar</button>
+                    <button class="minus" id="player-2-minus" data-player="2" data-type="minus">Salah</button>
+                </div>
+            </div>
+            <div class="name-score">
+                <div class="container-player player-3">
+                    <span class="score" id="player-3-score">000</span>
+                    <span class="name" id="player-3-name">SMAN 3 PANGKAJENE</span>
+                </div>
+                <div class="score-changer hide">
+                    <button class="plus" id="player-3-plus" data-player="3" data-type="plus">Benar</button>
+                    <button class="minus" id="player-3-minus" data-player="3" data-type="minus">Salah</button>
+                </div>
+            </div>
+        </div>
+        <div class="scene-soal hidden">
+            <div class="matrix">
+                <div class="row">
+                    <div class="box">A1</div>
+                    <div class="box">A2</div>
+                    <div class="box">A3</div>
+                    <div class="box">A4</div>
+                    <div class="box">A5</div>
+                </div>
+                <div class="row">
+                    <div class="box">B1</div>
+                    <div class="box">B2</div>
+                    <div class="box">B3</div>
+                    <div class="box">B4</div>
+                    <div class="box">B5</div>
+                </div>
+                <div class="row">
+                    <div class="box">C1</div>
+                    <div class="box">C2</div>
+                    <div class="box">C3</div>
+                    <div class="box">C4</div>
+                    <div class="box">C5</div>
+                </div>
+                <div class="row">
+                    <div class="box">D1</div>
+                    <div class="box">D2</div>
+                    <div class="box">D3</div>
+                    <div class="box">D4</div>
+                    <div class="box">D5</div>
+                </div>
+                <div class="row">
+                    <div class="box">E1</div>
+                    <div class="box">E2</div>
+                    <div class="box">E3</div>
+                    <div class="box">E4</div>
+                    <div class="box">E5</div>
+                </div>
+            </div>
+    
+        </div>
+
+        <div class="scene-soal-detail hidden">
+            <div class="soal-panel">
+
+            </div>
+            <div class="detail-panel">
+                <span class="score-soal">Skor : 30</span>
+                <div class="lokasi-soal">A5</div>
+                <button class="close">Close</button>
+            </div>
+
+        </div>
+    </div>
+
+    
+</body>
+</html>
