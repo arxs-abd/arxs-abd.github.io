@@ -1,3 +1,12 @@
+// GAME
+const SCORE = {
+    A1 : 30, A2 : 40, A3 : 50, A4 : 60, A5 : 70,
+    B1 : 30, B2 : 40, B3 : 50, B4 : 60, B5 : 70,
+    C1 : 30, C2 : 40, C3 : 50, C4 : 60, C5 : 70,
+    D1 : 30, D2 : 40, D3 : 50, D4 : 60, D5 : 70,
+    E1 : 30, E2 : 40, E3 : 50, E4 : 60, E5 : 70,
+}
+
 // SCENE
 const startScene = document.querySelector('.scene-awal')
 const mainScene = document.querySelector('.scene-main')
@@ -37,17 +46,20 @@ const soal = document.querySelector('.soal-panel')
 const PLAYER_1 = {
     name: '',
     score: 0,
-    textScore : player1TextScore
+    textScore : player1TextScore,
+    isPlay : false
 }
 const PLAYER_2 = {
     name: '',
     score: 0,
-    textScore : player2TextScore
+    textScore : player2TextScore,
+    isPlay : false
 }
 const PLAYER_3 = {
     name: '',
     score: 0,
-    textScore : player3TextScore
+    textScore : player3TextScore,
+    isPlay : false
 }
 
 const PLAYER_MAP = {
@@ -57,14 +69,6 @@ const PLAYER_MAP = {
 }
 
 let CURRENT_LOCATION = ''
-
-const SCORE = {
-    A1 : 30, A2 : 40, A3 : 50, A4 : 60, A5 : 70,
-    B1 : 30, B2 : 40, B3 : 50, B4 : 60, B5 : 70,
-    C1 : 30, C2 : 40, C3 : 50, C4 : 60, C5 : 70,
-    D1 : 30, D2 : 40, D3 : 50, D4 : 60, D5 : 70,
-    E1 : 30, E2 : 40, E3 : 50, E4 : 60, E5 : 70,
-}
 
 const FIELD = [
     0, 0, 0, 0, 0,
@@ -113,7 +117,7 @@ for (const matrix of allMatrix) {
         showScoreChanger(true)
 
         // Set Soal
-        soal.style.backgroundImage = `url(/soal/${matrix.textContent}.png)`
+        soal.style.backgroundImage = `url(soal/${matrix.textContent}.png)`
 
         // Set Soal
         const score = SCORE[matrix.textContent]
@@ -148,6 +152,7 @@ for (const score of scoreChanger) {
                     setNewScore(PLAYER_MAP[player], TEMP_SCORE / 2)
                     IS_SECOND_TURN = false
                 }
+                PLAYER_MAP[player].isPlay = true
                 setColorMatrix(player)
                 isComplete()
                 closeButton()
@@ -161,6 +166,7 @@ for (const score of scoreChanger) {
                     setColorMatrix(0)
                     closeButton()
                 }
+                PLAYER_MAP[player].isPlay = true
             }
         })
     }
