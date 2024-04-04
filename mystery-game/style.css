@@ -1,0 +1,88 @@
+:root {
+    --width-kotak: 90px;
+    --first-color: red;
+    --second-color: blue;
+    --third-color: green;
+    --fourth-color: yellow;
+    --fifth-color: purple;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
+}
+
+.kotak-kotak {
+    display: flex;
+    justify-content: center;
+}
+
+/* .kotak-kotak[data-kotak="1"] .row .kotak {
+    background-color: var(--first-color);
+}
+.kotak-kotak[data-kotak="2"] .row .kotak {
+    background-color: var(--second-color);
+}
+.kotak-kotak[data-kotak="3"] .row .kotak {
+    background-color: var(--third-color);
+}
+.kotak-kotak[data-kotak="4"] .row .kotak {
+    background-color: var(--fourth-color);
+}
+.kotak-kotak[data-kotak="5"] .row .kotak {
+    background-color: var(--fifth-color);
+} */
+
+.kotak[data-square="1"] {
+    background-color: var(--first-color);
+}
+
+.kotak[data-square="2"] {
+    background-color: var(--second-color);
+}
+
+.kotak[data-square="3"] {
+    background-color: var(--third-color);
+}
+
+.kotak[data-square="4"] {
+    background-color: var(--fourth-color);
+}
+
+.kotak[data-square="5"] {
+    background-color: var(--fifth-color);
+}
+
+/* .hide-box {
+    color: black !important;
+    background-color: white !important;
+} */
+
+.kotak {
+    width: var(--width-kotak);
+    height: var(--width-kotak);
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
