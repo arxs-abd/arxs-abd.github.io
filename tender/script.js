@@ -1,10 +1,7 @@
 // GAME
 const SCORE = {
-    A1 : 30, A2 : 40, A3 : 50, A4 : 60, A5 : 70,
-    B1 : 30, B2 : 40, B3 : 50, B4 : 60, B5 : 70,
-    C1 : 30, C2 : 40, C3 : 50, C4 : 60, C5 : 70,
-    D1 : 30, D2 : 40, D3 : 50, D4 : 60, D5 : 70,
-    E1 : 30, E2 : 40, E3 : 50, E4 : 60, E5 : 70,
+    CORRECT : 100,
+    WRONG : -50
 }
 
 // SCENE
@@ -15,8 +12,18 @@ const soalDetailScene = document.querySelector('.scene-soal-detail')
 
 // BUTTON COMPONENT
 const startButton = document.querySelector('#start')
+const playSoalButton = document.querySelector('.play-soal')
 const closeSoalButton = document.querySelector('.close')
 const scoreChanger = document.querySelectorAll('.score-changer')
+const time30Second = document.querySelector('.btn-time[data-time="30"]')
+const time60Second = document.querySelector('.btn-time[data-time="60"]')
+const time90Second = document.querySelector('.btn-time[data-time="90"]')
+const time120Second = document.querySelector('.btn-time[data-time="120"]')
+const prevSoal = document.querySelector('.prev')
+const nextSoal = document.querySelector('.next')
+
+const ALLTimeSecond = [time30Second, time60Second, time90Second, time120Second]
+
 
 // INPUT COMPONENT
 const inputPlayer1 = document.querySelector('#player-1-input')
@@ -32,19 +39,20 @@ const player3TextName = document.querySelector('#player-3-name')
 const player1TextScore = document.querySelector('#player-1-score')
 const player2TextScore = document.querySelector('#player-2-score')
 const player3TextScore = document.querySelector('#player-3-score')
+// Soal
+const waktuSoal = document.querySelector('.score-soal')
+const lokasiSoal = document.querySelector('.lokasi-soal')
+const soalKe = document.querySelector('.soal-ke')
 // Reset
 const player1Reset = document.querySelector('#player-1-reset-score')
 const player2Reset = document.querySelector('#player-2-reset-score')
 const player3Reset = document.querySelector('#player-3-reset-score')
-// Soal
-const scoreSoal = document.querySelector('.score-soal')
-const lokasiSoal = document.querySelector('.lokasi-soal')
-
-// MATRIX COMPONNET
-const allMatrix = document.querySelectorAll('.box')
 
 // SOAL COMPONENT
 const soal = document.querySelector('.soal-panel')
+
+// TIME
+let TIME_INTERVAL = null
 
 // GAMPEPLAY
 const PLAYER_1 = {
@@ -52,21 +60,21 @@ const PLAYER_1 = {
     score: 0,
     textScore : player1TextScore,
     isPlay : false,
-    reset : player1Reset,
+    reset : player1Reset
 }
 const PLAYER_2 = {
     name: '',
     score: 0,
     textScore : player2TextScore,
     isPlay : false,
-    reset : player2Reset,
+    reset : player2Reset
 }
 const PLAYER_3 = {
     name: '',
     score: 0,
     textScore : player3TextScore,
     isPlay : false,
-    reset : player3Reset,
+    reset : player3Reset
 }
 
 const PLAYER_MAP = {
@@ -75,7 +83,8 @@ const PLAYER_MAP = {
     3 : PLAYER_3,
 }
 
-let CURRENT_LOCATION = ''
+let CURRENT_LOCATION = 1
+let IS_RESET = false
 
 const FIELD = [
     0, 0, 0, 0, 0,
@@ -84,13 +93,6 @@ const FIELD = [
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
 ]
-
-// To set temp score
-let TEMP_SCORE = 0
-
-// To check is second turn
-let IS_SECOND_TURN = false
-let IS_RESET = false
 
 // WHEN START BUTTON CLICKED
 startButton.addEventListener('click', () => {
@@ -112,70 +114,53 @@ startButton.addEventListener('click', () => {
     soalScene.classList.remove('hidden')
 })
 
-// WHEN MATRIX CLICKED
-for (const matrix of allMatrix) {
-    matrix.addEventListener('click', () => {
-        // Hide Soal Scene
+// WHEN TIME BUTTON CLICKED
+for (const button of ALLTimeSecond) {
+    button.addEventListener('click', () => {
+         // Hide Soal Scene
         soalScene.classList.add('hidden')
 
         // Show Soal Detail Scene
         soalDetailScene.classList.remove('hidden')
 
-        // Show Score Changer
-        showScoreChanger(true)
-
-        // Set Soal
-        soal.style.backgroundImage = `url(soal/${matrix.textContent}.png)`
-
-        // Set Soal
-        const score = SCORE[matrix.textContent]
-        TEMP_SCORE = score
-        scoreSoal.textContent = `Skor : ${score}`
-        lokasiSoal.textContent = matrix.textContent
-
-        // Set Current Location
-        CURRENT_LOCATION = matrix.textContent
+        // SET TIMER
+        const time = button.dataset.time
+        startTimer(time)
     })
 }
+
+// WHEN PLAY BUTTON CLICKED
+playSoalButton.addEventListener('click', () => {
+    // Hide Soal Scene
+    soalScene.classList.add('hidden')
+    // Show Soal Detail Scene
+    soalDetailScene.classList.remove('hidden')
+
+    // Set Soal Detail
+    soal.style.backgroundImage = `url(soal/${CURRENT_LOCATION}.png)`
+    startTimer(5)
+    lokasiSoal.textContent = 'Soal Ke - ' + CURRENT_LOCATION
+})
 
 // WHEN CLOSE SOAL BUTTON CLICKED
 closeSoalButton.addEventListener('click', () => {
     closeButton()
-    setColorMatrix(0)
 })
 
 // WHEN SCORE CHANGER CLICKED
 for (const score of scoreChanger) {
     for (const button of score.children) {
         button.addEventListener('click', () => {
-            // Get Data
             const type = button.dataset.type
             const player = button.dataset.player
 
             // If Plus Button Set
             if (type === 'plus') {
-                if (!IS_SECOND_TURN) {
-                    setNewScore(PLAYER_MAP[player], TEMP_SCORE)
-                }
-                else {
-                    setNewScore(PLAYER_MAP[player], TEMP_SCORE / 2)
-                    IS_SECOND_TURN = false
-                }
                 PLAYER_MAP[player].isPlay = true
-                setColorMatrix(player)
-                isComplete()
-                closeButton()
+                setNewScore(PLAYER_MAP[player], SCORE.CORRECT)
             } else if (type === 'minus') {
-                if (!IS_SECOND_TURN) {
-                    setNewScore(PLAYER_MAP[player], -TEMP_SCORE / 2)
-                    IS_SECOND_TURN = true
-                } else {
-                    setNewScore(PLAYER_MAP[player], -TEMP_SCORE)
-                    IS_SECOND_TURN = false
-                    setColorMatrix(0)
-                    closeButton()
-                }
                 PLAYER_MAP[player].isPlay = true
+                setNewScore(PLAYER_MAP[player], SCORE.WRONG)
             } else if (type === 'reset') {
                 if (IS_RESET) {
                     // Hide Reset Input
@@ -216,19 +201,36 @@ for (const score of scoreChanger) {
     })
 })
 
+// WHEN PREV OR NEXT BUTTON CLICKED
+prevSoal.addEventListener('click', () => {
+    if (CURRENT_LOCATION === 1) return
+
+    CURRENT_LOCATION--
+    lokasiSoal.textContent = 'Soal Ke - ' + CURRENT_LOCATION
+    soalKe.textContent = 'Soal Ke - ' + CURRENT_LOCATION
+})
+
+nextSoal.addEventListener('click', () => {
+    // if (CURRENT_LOCATION === 25) return
+
+    CURRENT_LOCATION++
+    lokasiSoal.textContent = 'Soal Ke - ' + CURRENT_LOCATION
+    soalKe.textContent = 'Soal Ke - ' + CURRENT_LOCATION
+})
+
 // UTILITY
 function closeButton() {
     // Hide Soal Detail Scene
     soalDetailScene.classList.add('hidden')
 
     // Hide Score Changer
-    showScoreChanger(false)
+    // showScoreChanger(false)
 
     // Show Soal Scene
     soalScene.classList.remove('hidden')
 
-    // Reset IS SECOND TURN
-    IS_SECOND_TURN = false
+    // Clear Interval
+    clearInterval(TIME_INTERVAL)
 }
 
 function showScoreChanger(type) {
@@ -263,40 +265,34 @@ function setThirdAnswer(score) {
     }
 }
 
-function setColorMatrix(player) {
-    allMatrix[transformLocation(CURRENT_LOCATION)].dataset.player = player
-    FIELD[transformLocation(CURRENT_LOCATION)] = player
-}
+function startTimer(duration) {
+    waktuSoal.innerHTML = `Waktu <br> ${duration}`
+    TIME_INTERVAL = setInterval(() => {
+        duration--
+        waktuSoal.innerHTML = `Waktu <br> ${duration}`
 
-function transformLocation(location) {
-    const [x, y] = location.split('')
-    const xIndex = ['A', 'B', 'C', 'D', 'E'].indexOf(x)
-    const yIndex = ['1', '2', '3', '4', '5'].indexOf(y)
+        if (duration === -1) {
+            // clearInterval(interval)
+            closeButton()
+        }
+    }, 1000)
 
-    return ((xIndex * 5) + (yIndex + 1)) - 1
-}
-
-function isComplete() {
-    if (
-        ((FIELD[0] === FIELD[1] && FIELD[1] === FIELD[2] && FIELD[2] === FIELD[3] && FIELD[3] === FIELD[4] && FIELD[0]) ||
-        (FIELD[5] === FIELD[6] && FIELD[6] === FIELD[7] && FIELD[7] === FIELD[8] && FIELD[8] === FIELD[9] && FIELD[5]) ||
-        (FIELD[10] === FIELD[11] && FIELD[11] === FIELD[12] && FIELD[12] === FIELD[13] && FIELD[13] === FIELD[14] && FIELD[14]) ||
-        (FIELD[15] === FIELD[16] && FIELD[16] === FIELD[17] && FIELD[17] === FIELD[18] && FIELD[18] === FIELD[19] && FIELD[19]) ||
-        (FIELD[20] === FIELD[21] && FIELD[21] === FIELD[22] && FIELD[22] === FIELD[23] && FIELD[23] === FIELD[24] && FIELD[24]) ||
-        (FIELD[0] === FIELD[5] && FIELD[5] === FIELD[10] && FIELD[10] === FIELD[15] && FIELD[15] === FIELD[20] && FIELD[20]) ||
-        (FIELD[1] === FIELD[6] && FIELD[6] === FIELD[11] && FIELD[11] === FIELD[16] && FIELD[16] === FIELD[21] && FIELD[21]) ||
-        (FIELD[2] === FIELD[7] && FIELD[7] === FIELD[12] && FIELD[12] === FIELD[17] && FIELD[17] === FIELD[22] && FIELD[22]) ||
-        (FIELD[3] === FIELD[8] && FIELD[8] === FIELD[13] && FIELD[13] === FIELD[18] && FIELD[18] === FIELD[23] && FIELD[23]) ||
-        (FIELD[4] === FIELD[9] && FIELD[9] === FIELD[14] && FIELD[14] === FIELD[19] && FIELD[19] === FIELD[24] && FIELD[24]) ||
-        (FIELD[0] === FIELD[6] && FIELD[6] === FIELD[12] && FIELD[12] === FIELD[18] && FIELD[18] === FIELD[24] && FIELD[24]) ||
-        (FIELD[4] === FIELD[8] && FIELD[8] === FIELD[12] && FIELD[12] === FIELD[16] && FIELD[16] === FIELD[20] && FIELD[20])
-        )) {
-        console.log('Selesai')
+    if (duration === 5) {
+        playSoalButton.disabled = true
+        for (const button of ALLTimeSecond) {
+            button.disabled = false
+        }
+    }
+    else {
+        playSoalButton.disabled = false
+        for (const button of ALLTimeSecond) {
+            button.disabled = true
+        }
     }
 }
 
-document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && (event.key === 'r' || event.key === 'R') || event.key === 'F5') {
-        event.preventDefault()
-    }
-});
+// document.addEventListener('keydown', function(event) {
+//     if (event.ctrlKey && (event.key === 'r' || event.key === 'R') || event.key === 'F5') {
+//         event.preventDefault()
+//     }
+// });

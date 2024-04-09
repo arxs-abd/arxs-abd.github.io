@@ -2,6 +2,10 @@
     --player-1-color: red;
     --player-2-color: blue;
     --player-3-color: rgb(157, 157, 3);
+    --button-time-color: white;
+    --button-time-bg: black;
+    --button-disable-time-color: black;
+    --button-disable-time-bg: white;
 }
 
 * {
@@ -161,60 +165,92 @@ button#start {
 
 /* SCENE SOAL */
 
-.scene-soal {
+.scene-soal, .scene-choice {
     /* position: sticky; */
     width : 100dvw;
     height : 100dvh;
     background: grey;
     display: flex;
+    gap: 10px;
+    /* margin-top: 300px; */
     justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
 }
 
-.matrix {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.matrix .row {
-    display: flex;
-    gap: 10px;
-}
-
-.box {
-    width: 110px;
-    height: 110px;
-    padding: 10px;
-    background-color: black;
+.play-soal {
+    padding: 40px 140px;
+    background-color: white;
+    width: 300px;
+    text-align: center !important;
+    font-size: 3rem;
     border-radius: 10px;
-    color : white;
+    border: none;
+    cursor: pointer;
     display: flex;
-    font-size: 2rem;
     justify-content: center;
     align-items: center;
+    background-color: var(--button-time-bg);
+    color: var(--button-time-color);
+}
+
+.play-soal:disabled {
+    opacity: 0.7;
+}
+
+.container-button {
+    margin-top: 30px;
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+}
+
+.container-button span {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.container-button button {
+    padding: 10px;
+    font-size: 1.5rem;
+    border: none;
     cursor: pointer;
 }
 
-.box[data-player="0"] {
-    background-color: white;
-    color: black;
-}
-.box[data-player="1"] {
-    background-color: var(--player-1-color);
-}
-
-.box[data-player="2"] {
-    background-color: var(--player-2-color);
-}
-
-.box[data-player="3"] {
-    background-color: var(--player-3-color);
+.row {
+    display: flex;
+    padding: 40px;
+    width: 30%;
+    height: auto;
+    flex-direction: column;
+    /* background-color: red; */
+    gap: 20px;
+    justify-content: space-between;
 }
 
-.box:hover {
-    opacity: .8;
+.row-btn {
+    display: flex;
+    padding: 40px;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.row .btn-time {
+    padding: 10px;
+    width: 200px;
+    height: 180px;
+    font-size: 2rem;
+    border: none;
+    cursor: pointer;
+    background-color: var(--button-time-bg);
+    color: var(--button-time-color);
+}
+
+.btn-time:disabled {
+    opacity: .7;
 }
 
 /* SCENE SOAL */
@@ -252,10 +288,11 @@ button#start {
 
 .score-soal {
     font-size: 2.5rem;
+    text-align: center;
 }
 
 .lokasi-soal {
-    font-size: 5rem;
+    font-size: 2rem;
 }
 
 .close {

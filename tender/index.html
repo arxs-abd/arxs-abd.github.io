@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    <title>GAME</title>
+    <title>TENDER</title>
 </head>
 <body>
     <div class="scene-awal">
         <div class="name-box">
-            <input type="text" id="player-1-input" value="">
-            <input type="text" id="player-2-input" value="">
-            <input type="text" id="player-3-input" value="">
+            <input type="text" id="player-1-input" value="SMAN 1 PANGKAJENE">
+            <input type="text" id="player-2-input" value="SMAN 1 PANGKAJENE">
+            <input type="text" id="player-3-input" value="SMAN 1 PANGKAJENE">
         </div>
         <button id="start">Mulai</button>
     </div>
@@ -24,7 +24,7 @@
                     <span class="score" id="player-1-score">000</span>
                     <span class="name" id="player-1-name">SMAN 1 PANGKAJENE</span>
                 </div>
-                <div class="score-changer hide">
+                <div class="score-changer">
                     <button class="plus" id="player-1-plus" data-player="1" data-type="plus">Benar</button>
                     <button class="minus" id="player-1-minus" data-player="1" data-type="minus">Salah</button>
                     <button class="reset" id="player-1-reset" data-player="1" data-type="reset">Reset</button>
@@ -36,7 +36,7 @@
                     <span class="score" id="player-2-score">000</span>
                     <span class="name" id="player-2-name">SMAN 2 PANGKAJENE</span>
                 </div>
-                <div class="score-changer hide">
+                <div class="score-changer">
                     <button class="plus" id="player-2-plus" data-player="2" data-type="plus">Benar</button>
                     <button class="minus" id="player-2-minus" data-player="2" data-type="minus">Salah</button>
                     <button class="reset" id="player-2-reset" data-player="2" data-type="reset">Reset</button>
@@ -48,7 +48,7 @@
                     <span class="score" id="player-3-score">000</span>
                     <span class="name" id="player-3-name">SMAN 3 PANGKAJENE</span>
                 </div>
-                <div class="score-changer hide">
+                <div class="score-changer">
                     <button class="plus" id="player-3-plus" data-player="3" data-type="plus">Benar</button>
                     <button class="minus" id="player-3-minus" data-player="3" data-type="minus">Salah</button>
                     <button class="reset" id="player-3-reset" data-player="3" data-type="reset">Reset</button>
@@ -56,45 +56,33 @@
                 </div>
             </div>
         </div>
-        <div class="scene-soal hidden">
-            <div class="matrix">
-                <div class="row">
-                    <div class="box">A1</div>
-                    <div class="box">A2</div>
-                    <div class="box">A3</div>
-                    <div class="box">A4</div>
-                    <div class="box">A5</div>
-                </div>
-                <div class="row">
-                    <div class="box">B1</div>
-                    <div class="box">B2</div>
-                    <div class="box">B3</div>
-                    <div class="box">B4</div>
-                    <div class="box">B5</div>
-                </div>
-                <div class="row">
-                    <div class="box">C1</div>
-                    <div class="box">C2</div>
-                    <div class="box">C3</div>
-                    <div class="box">C4</div>
-                    <div class="box">C5</div>
-                </div>
-                <div class="row">
-                    <div class="box">D1</div>
-                    <div class="box">D2</div>
-                    <div class="box">D3</div>
-                    <div class="box">D4</div>
-                    <div class="box">D5</div>
-                </div>
-                <div class="row">
-                    <div class="box">E1</div>
-                    <div class="box">E2</div>
-                    <div class="box">E3</div>
-                    <div class="box">E4</div>
-                    <div class="box">E5</div>
+        <!-- <div class="scene-soal hidden">
+            <div class="middle">
+                <button class="play-soal">Play</button>
+                <div class="container-button">
+                    <button>Prev</button>
+                    <span>Soal Ke - 1</span>
+                    <button>Next</button>
                 </div>
             </div>
-    
+        </div> -->
+        <div class="scene-soal hidden">
+            <div class="row">
+                <button class="btn-time" data-time="30" disabled>30 Detik</button>
+                <button class="btn-time" data-time="60" disabled>60 Detik</button>
+            </div>
+            <div class="row-btn">
+                <button class="play-soal">Play</button>
+                <div class="container-button">
+                    <button class="prev">Prev</button>
+                    <span class="soal-ke">Soal Ke - 1</span>
+                    <button class="next">Next</button>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn-time" data-time="90" disabled>90 Detik</button>
+                <button class="btn-time" data-time="120" disabled>120 Detik</button>
+            </div>
         </div>
 
         <div class="scene-soal-detail hidden">
@@ -102,8 +90,8 @@
 
             </div>
             <div class="detail-panel">
-                <span class="score-soal">Skor : 30</span>
-                <div class="lokasi-soal">A5</div>
+                <span class="score-soal">Waktu <br> 130</span>
+                <div class="lokasi-soal">Soal Ke - </div>
                 <button class="close">Close</button>
             </div>
 
