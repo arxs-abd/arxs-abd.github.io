@@ -12,6 +12,13 @@ class DB {
 		// Generate ID
 		const id = +Date.now()
 
+		// Generate Created At & Updated At
+		const date = moment().format('DD MMMM YYYY HH:mm:ss')
+		data.createdAt = date
+
+		// If Schema have Updated At
+		if (this.schema.updatedAt) data.updatedAt = date
+
 		// Save Data
 		const newData = { id, ...data }
 		const oldData = getItem(this.table) || []
@@ -53,6 +60,9 @@ class DB {
 		const index = data.findIndex((item) => String(item.id) === String(id))
 		if (index === -1) return logDB('error', `Data From Tabel ${this.table} With id = ${id} Not Found`, null)
 
+		// If Schema have Updated At
+		if (this.schema.updatedAt) data.updatedAt = date
+
 		// Set Data
 		data[index] = newData
 		setItem(this.table, data)
@@ -86,7 +96,16 @@ class DB {
 
 			// Validate Value
 			const type = this.schema[d]
-			if (typeof data[d] !== type) return logDB('error', `Invalid Value ${d} With Type ${type}`, false)
+
+			// For Custom Type
+			if (type.startsWith('enum')) {
+				const enumValues = type.split(':')[1].split(',')
+				if (!enumValues.includes(data[d])) return logDB('error', `Invalid Value ${d} With Enum ${enumValues}`, false)
+			}
+			// For Regular Type
+			else {
+				if (typeof data[d] !== type) return logDB('error', `Invalid Value ${d} With Type ${type}`, false)
+			}
 		}
 
 		return true
