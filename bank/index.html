@@ -5,25 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BANK</title>
     <!-- CSS -->
+    <link rel="stylesheet" href="bulma.css">
     <link rel="stylesheet" href="style.css">
 
     <!-- JS -->
     <!-- Library -->
     <script src="lib/moment.js"></script>
+    <script src="lib/dom.js" type="module"></script>
     <script src="lib/faker.js" type="module"></script>
 
     <!-- App -->
     <script src="app/utility.js" type="module"></script>
     <script src="app/database.js" type="module"></script>
     <script src="app/model.js" type="module"></script>
+    <script src="app/controller.js" type="module"></script>
     <script src="app/seed.js" type="module"></script>
+    
+    <!-- View -->
+    <script src="views/router.js" type="module"></script>
 
     <!-- Main -->
-    <script src="main.js"></script>
+    <script src="main.js" type="module"></script>
 </head>
 <body>
     <div class="container">
+        <!-- Login Page -->
+        <!-- <div id="page-login" class="columns is-hidden">
+            <div class="column is-half is-offset-one-quarter">
+                <div id="page-login" class="card p-5 ">
+                    <h1 class="title ml-5">Login to Bank</h1>
+                    <div class="m-5">
+                        <label for=username"">Username</label>
+                        <input class="input" type="text" name="username" placeholder="Enter Username" />
+                    </div>
+                    <div class="m-5">
+                        <label for="passowrd">Password</label>
+                        <input class="input" type="password" name="password" placeholder="Enter Password" />
+                    </div>
+                    <div class="m-5">
+                        <button class="button is-success is-dark">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Login Page -->
 
+        <!-- Register Page -->
+        <div id="page-register" class="columns is-hidden">
+            <div class="column is-half is-offset-one-quarter">
+                <div id="page-register" class="card p-5 ">
+                    <h1 class="title ml-5">Register to Bank</h1>
+                    <div class="m-5">
+                        <label for=username"">Username</label>
+                        <input class="input" type="text" name="username" placeholder="Enter Username" />
+                    </div>
+                    <div class="m-5">
+                        <label for=name"">Fullname</label>
+                        <input class="input" type="text" name="name" placeholder="Enter Fullname" />
+                    </div>
+                    <div class="m-5">
+                        <label for=email"">Email</label>
+                        <input class="input" type="email" name="email" placeholder="Enter Email" autocomplete="off" />
+                    </div>
+                    <div class="m-5">
+                        <label for="passowrd">Password</label>
+                        <input class="input" type="password" name="password" placeholder="Enter Password" />
+                    </div>
+                    <div class="m-5">
+                        <button class="button is-success is-dark">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="page-dashboard" class="columns is-hidden">
+            <div class="column is-four-fifths">
+                <div class="columns">
+                    <div class="column">
+                        <div class="card p-5">
+                            <!-- User Details -->
+                            <div class="is-flex is-flex-direction-row is-justify-content-space-between">
+                                <div class="profile is-flex is-align-content-center">
+                                    <figure class="image is-48x48">
+                                        <img class="is-rounded" src="" alt="John Doe" />
+                                        <!-- <img class="is-rounded" src="https://ui-avatars.com/api/?name=John+Doe" /> -->
+                                    </figure>
+                                    <div class="ml-3">
+                                        <p class="subtitle is-5">John Doe</p>
+                                        <p class="title is-7">johndoe</p>
+                                    </div>
+                                </div>
+                                <button class="button is-danger is-dark">Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <!-- Transaction History -->
+                        <div class="card p-5">
+                            <h1>Transaction History</h1>
+        
+                            <table class="table is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1000</td>
+                                        <td>Deposit</td>
+                                        <td>2020-10-10</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <div class="card-content">
+                        <h1>Account Balance</h1>
+                        <p class="subtitle">1000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

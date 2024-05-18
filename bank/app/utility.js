@@ -7,4 +7,27 @@ async function hashPassword(password) {
 	return hashHex
 }
 
-export { hashPassword }
+function getQueryParams(field) {
+	// Dapatkan URL saat ini
+	const url = window.location.href
+
+	// Buat objek URL
+	const urlObj = new URL(url)
+
+	// Gunakan URLSearchParams untuk mendapatkan query parameters
+	const params = new URLSearchParams(urlObj.search)
+
+	// Buat objek untuk menyimpan parameter
+	const queryParams = {}
+
+	// Iterasi melalui semua parameter
+	params.forEach((value, key) => {
+		queryParams[key] = value
+	})
+
+	return queryParams[field] ?? null
+
+	return queryParams
+}
+
+export { hashPassword, getQueryParams }

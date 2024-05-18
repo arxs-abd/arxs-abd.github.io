@@ -85,6 +85,32 @@ class DB {
 		return newData
 	}
 
+	findOne(field, value) {
+		// Get All Data
+		const data = getItem(this.table)
+		if (!data) return logDB('warn', `Data From Tabel ${this.table} Not Found`, null)
+
+		// Find Data By Field
+		const finded = data.find((item) => String(item[field]) === String(value))
+		if (!finded) return logDB('error', `Data From Tabel ${this.table} With ${field} = ${value} Not Found`, null)
+
+		logDB('log', `Data Found With ${field} = ${value}`, null)
+		return finded
+	}
+
+	findAll(field, value) {
+		// Get All Data
+		const data = getItem(this.table)
+		if (!data) return logDB('warn', `Data From Tabel ${this.table} Not Found`, null)
+
+		// Find Data By Field
+		const finded = data.filter((item) => String(item[field]) === String(value))
+		if (!finded.length) return logDB('error', `Data From Tabel ${this.table} With ${field} = ${value} Not Found`, null)
+
+		logDB('log', `Data Found With ${field} = ${value}`, null)
+		return finded
+	}
+
 	// FOR SCHEMA
 	validate(data) {
 		const keys = Object.keys(data)
