@@ -1,0 +1,214 @@
+:root {
+    --primary-color: #7c4dff;
+    --secondary-color: #1be1ae;
+    --background-color : #e5e7e9;
+    --calender-color : #484848;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--background-color);
+}
+
+.container {
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* LEFT */
+
+.left-container {
+    width: 45%;
+    height: 100%;
+    background-color: var(--primary-color);
+}
+
+.weather-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 40%;
+    color: white;
+}
+
+.temp sup {
+    font-size: 1.7rem;
+}
+
+.weather {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.city {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+
+}
+
+.weather .icon {
+    font-size: 9rem;
+    text-align: center;
+}
+
+.weather .temp {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.task-section {
+    display: flex;
+    flex-direction: column;
+    height: 57%;
+    color: white;
+}
+
+.task-section h5 {
+    text-align: center;
+    font-weight: normal;
+    margin-top: 30px;
+}
+
+.task-container {
+    height: 100%;
+    overflow-y: scroll;
+    padding-left: 50px;
+    margin-top: 20px;
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    width: auto;
+    gap: 40px;
+}
+
+.task .time {
+    font-size: 1rem;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    padding: 5px 10px;
+    border-radius: 50px;
+}
+
+/* RIGTH */
+.right-container {
+    width: 55%;
+    height: 100%;
+    background-color: white;
+}
+
+.date-picker h1 {
+    text-align: center;
+    margin-top: 70px;
+    /* font-weight: 800; */
+    color: var(--primary-color);
+    text-transform: uppercase;
+}
+
+.calendar {
+    display: flex;
+    margin-top: 70px;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.days-week span {
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 40px;
+    /* position: relative;
+  display: inline-block; */
+}
+
+.days-week {
+    display: flex;
+    justify-content: space-evenly;
+    color: var(--secondary-color);
+}
+
+.days {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.days span {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+}
+
+.days span:not(.not):hover {
+    background: var(--secondary-color);
+    cursor: pointer;
+}
+
+.not {
+    opacity: .3;
+}
+
+.holiday {
+    color: red;
+}
+
+.today {
+    background: var(--secondary-color);
+}
+
+/* Mengatur lebar dan tinggi scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+/* Mengatur warna track (background) scrollbar */
+::-webkit-scrollbar-track {
+    background: var(--primary-color); 
+    border-radius: 5px;
+}
+
+/* Mengatur warna thumb (slider) scrollbar */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 5px;
+}
+
+/* Hover effect untuk thumb */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
