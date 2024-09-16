@@ -108,3 +108,7 @@ function calculateDistancesFrom(lat, lon, dataList) {
         }
     })
 }
+
+// Structure Table
+// Shop (type : Indomaret, Alfamart, Alfamidi, Lainnya)
+// id, name, type, lat, long, is_verified, insert_by, created_at, updated_at

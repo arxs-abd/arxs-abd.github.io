@@ -1,10 +1,9 @@
 // Initialize the map and set its view
-const map = L.map('map').setView([0, 0], 13);
+const map = L.map('map').setView([0, 0], 13)
 
-// Add a tile layer (using OpenStreetMap tiles)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  // attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map)
 
 // Function to handle success when geolocation is found
 function onLocationFound(e) {
@@ -20,7 +19,7 @@ function onLocationFound(e) {
   map.setView([latlng.lat, latlng.lng], 13)
 
   // Fungsi untuk membuat legenda
-  const legend = L.control({ position: 'bottomright' })
+  const legend = L.control({ position: 'topright' })
 
   legend.onAdd = function (map) {
     const div = L.DomUtil.create('div', 'legend');
@@ -43,10 +42,10 @@ function onLocationFound(e) {
       color: color,
       fillColor: color, 
       fillOpacity: 1
-    }).addTo(map);
+    }).addTo(map)
   
     // Add popup to the circle marker
-    circleMarker.bindPopup(`<b>${data.type}</b><br>${data.name}. <a href="https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.long}" target="_blank">Lihat Rute</a>`);
+    circleMarker.bindPopup(`<b>${data.type}</b><br>${data.name}. <a href="https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.long}" target="_blank" noopener>Lihat Rute</a>`)
   }
   
 
@@ -60,22 +59,18 @@ function onLocationFound(e) {
 
     // Log koordinat yang diklik
     console.log(`Koordinat yang diklik: Latitude = ${lat}, Longitude = ${lng}`)
-
-    // Tambahkan marker di lokasi yang diklik
-    // markerx = L.marker([lat, lng]).addTo(map)
-    //   .bindPopup(`Latitude: ${lat}, Longitude: ${lng}`).openPopup();
-  });
+  })
 
 }
 
 // Function to handle geolocation error
 function onLocationError(e) {
-  alert(e.message);
+  alert(e.message)
 }
 
 // Request user's location
-map.locate({setView: true, maxZoom: 16});
+map.locate({setView: true, maxZoom: 16})
 
 // Event listeners for location found and error
-map.on('locationfound', onLocationFound);
-map.on('locationerror', onLocationError);
+map.on('locationfound', onLocationFound)
+map.on('locationerror', onLocationError)

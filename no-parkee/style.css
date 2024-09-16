@@ -1,3 +1,11 @@
+:root {
+  --primary-color: #7c4dff;
+  --secondary-color: #1be1ae;
+  --background-color : #e5e7e9;
+  --calender-color : #484848;
+  --color : #007BFF;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,8 +13,12 @@
 }
 
 #map {
-    height: 700px;
+    height: calc(100vh - 56px);
     width: 100%;
+}
+
+.bg-primary-1 {
+    background-color: var(--primary-color) !important;
 }
 
  /* Styling untuk legendanya */
