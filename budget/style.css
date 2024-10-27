@@ -1,0 +1,30 @@
+:root {
+    --main-color: #00d09e;
+    --second-color: #dff7e2;
+    --third-color: #00d09e;
+}
+
+/* * {
+    font-family: 'Montserrat', sans-serif !important;
+} */
+
+body {
+    background-color: var(--main-color) !important;
+    color: white !important;
+}
+
+.tab {
+    background-color: var(--second-color) !important;
+}
+
+.main-color {
+    color: var(--main-color) !important;
+}
+
+.second-color {
+    color: var(--second-color) !important;
+}
+
+.third-color {
+    color: var(--third-color) !important;
+}
