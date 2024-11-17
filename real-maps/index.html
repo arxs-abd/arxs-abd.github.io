@@ -18,45 +18,56 @@
     <div id="map" style="height: 100vh;"></div>
 
     <script>
-        // Inisialisasi peta
-        var map = L.map('map').setView([0, 0], 15); // Atur zoom awal dan posisi default
-      
-        // Tambahkan tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-      
-        // Buat marker untuk menunjukkan lokasi pengguna
-        var userMarker = L.marker([0, 0], { icon: L.icon({
+      // Inisialisasi peta
+      var map = L.map('map').setView([0, 0], 15);
+    
+      // Tambahkan tile layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+    
+      // Buat marker untuk lokasi pengguna
+      var userMarker = L.marker([0, 0], {
+        icon: L.icon({
           iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
           iconSize: [25, 41],
           iconAnchor: [12, 41],
-        }) }).addTo(map);
-      
-        // Fungsi untuk memperbarui lokasi
-        function onLocationFound(e) {
-          var latlng = e.latlng; // Posisi latitude dan longitude pengguna
-          userMarker.setLatLng(latlng); // Perbarui posisi marker pengguna
-          map.setView(latlng, map.getZoom(), { animate: true }); // Pusatkan map ke lokasi pengguna
+        })
+      }).addTo(map);
+    
+      // Variabel untuk menyimpan apakah map sudah diinisialisasi ke lokasi awal
+      var isMapInitialized = false;
+    
+      // Fungsi untuk memperbarui lokasi
+      function onLocationFound(e) {
+        var latlng = e.latlng;
+        userMarker.setLatLng(latlng); // Update posisi marker
+    
+        if (!isMapInitialized) {
+          // Pertama kali lokasi ditemukan, pusatkan peta dengan zoom yang ditentukan
+          map.setView(latlng, 15, { animate: true });
+          isMapInitialized = true; // Tandai bahwa map sudah diatur ke lokasi awal
+        } else {
+          // Perbarui posisi peta tanpa mengubah level zoom
+          map.panTo(latlng, { animate: true });
         }
-      
-        // Tangani kesalahan lokasi
-        function onLocationError(e) {
-          alert(e.message); // Misalnya, pengguna menolak akses lokasi
-        }
-      
-        // Aktifkan pelacakan lokasi dengan `watch`
-        map.locate({
-          watch: true, // Pantau perubahan lokasi pengguna
-          setView: true, // Otomatis pindahkan map sesuai lokasi pengguna
-          maxZoom: 16, // Zoom maksimal saat mengikuti lokasi
-          enableHighAccuracy: true // Gunakan GPS jika tersedia
-        });
-      
-        // Tambahkan event listener untuk lokasi
-        map.on('locationfound', onLocationFound);
-        map.on('locationerror', onLocationError);
-      </script>
+      }
+    
+      // Tangani kesalahan lokasi
+      function onLocationError(e) {
+        alert(e.message); // Misalnya, pengguna menolak akses lokasi
+      }
+    
+      // Aktifkan pelacakan lokasi dengan `watch`
+      map.locate({
+        watch: true, // Pantau perubahan lokasi pengguna
+        enableHighAccuracy: true // Gunakan GPS jika tersedia
+      });
+    
+      // Tambahkan event listener
+      map.on('locationfound', onLocationFound);
+      map.on('locationerror', onLocationError);
+    </script>
 </body>
 </html>
