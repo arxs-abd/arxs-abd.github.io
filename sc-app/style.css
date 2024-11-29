@@ -98,6 +98,16 @@
     cursor: pointer;
   }
 
+  .setting-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .setting-item {
+    margin: 10px 0;
+  }
+
 @media (max-width: 600px) {
     .container {
         flex-direction: column; 
