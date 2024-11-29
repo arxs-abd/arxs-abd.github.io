@@ -15,8 +15,10 @@ let SETTINGS = {
   }
 }
 
-let startY = 0
-let endY = 0
+let startYHome = 0
+let endYAway = 0
+let startYAway = 0
+let endYHome = 0
 
 // SELECTOR
 const settingsButton = document.querySelector('.setting')
@@ -68,17 +70,40 @@ function updateScore(type, isPlus) {
 
 function detectSwipe(selector, type) {
   selector.addEventListener('touchstart', (e) => {
-    startY = e.touches[0].clientY
+    if (type === 'home') {
+      startYHome = e.touches[0].clientY
+    } else if (type === 'away') {
+      startYAway = e.touches[0].clientY
+    }
   })
   
-  selector.addEventListener("touchmove", (e) => {
-    endY = e.touches[0].clientY
+  selector.addEventListener('touchmove', (e) => {
+    if (type === 'home') {
+      endYHome = e.touches[0].clientY
+    } else if (type === 'away') {
+      endYAway = e.touches[0].clientY
+    }
   })
   
   selector.addEventListener('touchend', (e) => {
-    if (startY < endY && endY - startY > 50) {
-      updateScore(type, false)
-      updateScore()
+    // if (startY < endY && endY - startY > 50) {
+    //   updateScore(type, false)
+    //   updateScore()
+    // }
+    if (type === 'home') {
+      if (startYHome < endYHome && endYHome - startYHome > 50) {
+        updateScore(type, false)
+        updateScore()
+        startYHome = 0
+        endYHome = 0
+      }
+    } else if (type === 'away') {
+      if (startYAway < endYAway && endYAway - startYAway > 50) {
+        updateScore(type, false)
+        updateScore()
+        startYAway = 0
+        endYAway = 0
+      }
     }
   })
 }
