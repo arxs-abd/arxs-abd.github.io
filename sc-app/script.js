@@ -26,6 +26,7 @@ const homeTeam = document.querySelector('#home')
 const awayTeam = document.querySelector('#away')
 const homeTeamScore = homeTeam.querySelector('.team-score')
 const awayTeamScore = awayTeam.querySelector('.team-score')
+const fullScreenButton = document.querySelector('#full')
 
 // LISTENERS
 homeTeam.addEventListener('click', function() {
@@ -47,6 +48,14 @@ settingsButton.addEventListener('click', function() {
   
 closeSettingsButton.addEventListener('click', function() {
   document.getElementById('settings-panel').style.bottom = '-100%'
+})
+
+fullScreenButton.addEventListener('click', function() {
+  if (document.fullscreenElement) {
+    document.exitFullscreen()
+  } else {
+    document.body.requestFullscreen()
+  }
 })
 
 // FUNCTIONS
