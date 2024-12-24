@@ -30,7 +30,7 @@ const CLOSE_SETTINGS_BUTTON = document.querySelector('.close-settings')
 getAllSurahs()
 
 async function getAllSurahs() {
-  const surahs = await fetchJSON('data/surah.json')
+  const surahs = await fetchJSON(`${BASE_URL_QURAN_API}/surahs`)
   for (const surah of surahs) {
     CONTAINER_SURAH.appendChild(createSurahItem(surah))
   }
@@ -63,44 +63,6 @@ document.addEventListener('click', (event) => {
 
 // COMPONENTS
 function createSurahItem(surah) {
-  const { number, name, numberOfAyahs, revelation } = surah
-  const element = createElement('div', { class: 'surah-item' }, [
-    createElement('div', { class: 'surah-number' }, [toArabic(number)]),
-    createElement('div', { class: 'surah-info' }, [
-      createElement('h2', {}, [name]),
-      createElement('p', {}, [`${revelation} · ${numberOfAyahs} Ayat`]),
-    ]),
-  ])
-
-  element.addEventListener('click', async () => {
-    try {
-      const data = await fetchJSON(`data/${number}.json`)
-
-      SURAH_NAME_LATIN.textContent = surah.name
-      SURAH_NAME_INDO.textContent = surah.translation
-      SURAH_INFO.textContent = `${surah.revelation} · ${surah.numberOfAyahs} Ayat`
-
-      AYAH_CONTAINER.innerHTML = ''
-      AUDIOS = []
-      for (let i = 0; i < data.ayahs.length; i++) {
-        let ayah = {
-          arab: data.ayahs[i].arab + ' ۝' + toArabic(data.ayahs[i].no),
-          translation: data.ayahs[i].translation,
-          latin: data.ayahs[i].latin,
-          audio: data.ayahs[i].audio[SETTINGS.sound],
-          i,
-        }
-        AYAH_CONTAINER.appendChild(createAyah(ayah))
-      }
-
-      switchPage('surah')
-    } catch (error) {
-      console.error('Terjadi kesalahan:', error)
-    }
-  })
-  return element
-}
-function createSurahItemOld(surah) {
   const { number, name, numberOfAyahs, revelation } = surah
   const element = createElement('div', { class: 'surah-item' }, [
     createElement('div', { class: 'surah-number' }, [toArabic(number)]),

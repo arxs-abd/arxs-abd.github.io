@@ -1,0 +1,52 @@
+{
+  "number": 108,
+  "numberOfAyahs": 3,
+  "name": "Al-Kausar",
+  "translation": "Pemberian Yang Banyak",
+  "revelation": "Makkiyah",
+  "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/108AlKautsar.mp3",
+  "ayahs": [
+    {
+      "no": 1,
+      "arab": "اِنَّآ اَعْطَيْنٰكَ الْكَوْثَرَۗ",
+      "latin": "inn<u>aa</u> a'<u>th</u>ayn<u>aa</u>ka <strong>a</strong>lkawtsar<strong>a</strong>",
+      "translation": "Sungguh, Kami telah memberimu (Muhammad) nikmat yang banyak.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6205.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6205.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6205.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6205.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6205.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6205.mp3"
+      }
+    },
+    {
+      "no": 2,
+      "arab": "فَصَلِّ لِرَبِّكَ وَانْحَرْۗ",
+      "latin": "fa<u>sh</u>alli lirabbika wa<strong>i</strong>n<u>h</u>ar",
+      "translation": "Maka laksanakanlah salat karena Tuhanmu, dan berkurbanlah (sebagai ibadah dan mendekatkan diri kepada Allah).",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6206.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6206.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6206.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6206.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6206.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6206.mp3"
+      }
+    },
+    {
+      "no": 3,
+      "arab": "اِنَّ شَانِئَكَ هُوَ الْاَبْتَرُ ࣖ",
+      "latin": "inna sy<u>aa</u>ni-aka huwa <strong>a</strong>l-abtar<strong>u</strong>",
+      "translation": "Sungguh, orang-orang yang membencimu dialah yang terputus (dari rahmat Allah).",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6207.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6207.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6207.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6207.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6207.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6207.mp3"
+      }
+    }
+  ]
+}

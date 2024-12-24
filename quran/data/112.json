@@ -1,0 +1,66 @@
+{
+  "number": 112,
+  "numberOfAyahs": 4,
+  "name": "Al-Ikhlas",
+  "translation": "Ikhlas",
+  "revelation": "Makkiyah",
+  "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/112AlIkhlash.mp3",
+  "ayahs": [
+    {
+      "no": 1,
+      "arab": "قُلْ هُوَ اللّٰهُ اَحَدٌۚ",
+      "latin": "qul huwa <strong>al</strong>l<u>aa</u>hu a<u>h</u>ad<strong>un</strong>",
+      "translation": "Katakanlah (Muhammad), “Dialah Allah, Yang Maha Esa.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6222.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6222.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6222.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6222.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6222.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6222.mp3"
+      }
+    },
+    {
+      "no": 2,
+      "arab": "اَللّٰهُ الصَّمَدُۚ",
+      "latin": "<strong>al</strong>l<u>aa</u>hu <strong>al</strong><u>shsh</u>amad<strong>u</strong>",
+      "translation": "Allah tempat meminta segala sesuatu.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6223.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6223.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6223.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6223.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6223.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6223.mp3"
+      }
+    },
+    {
+      "no": 3,
+      "arab": "لَمْ يَلِدْ وَلَمْ يُوْلَدْۙ",
+      "latin": "lam yalid walam yuulad<strong>u</strong>",
+      "translation": "(Allah) tidak beranak dan tidak pula diperanakkan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6224.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6224.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6224.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6224.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6224.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6224.mp3"
+      }
+    },
+    {
+      "no": 4,
+      "arab": "وَلَمْ يَكُنْ لَّهٗ كُفُوًا اَحَدٌ ࣖ",
+      "latin": "walam yakun lahu kufuwan a<u>h</u>ad<strong>un</strong>",
+      "translation": "Dan tidak ada sesuatu yang setara dengan Dia.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6225.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6225.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6225.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6225.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6225.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6225.mp3"
+      }
+    }
+  ]
+}

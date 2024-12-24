@@ -1,0 +1,52 @@
+{
+  "number": 110,
+  "numberOfAyahs": 3,
+  "name": "An-Nasr",
+  "translation": "Pertolongan",
+  "revelation": "Madaniyah",
+  "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/110AnNashr.mp3",
+  "ayahs": [
+    {
+      "no": 1,
+      "arab": "اِذَا جَاۤءَ نَصْرُ اللّٰهِ وَالْفَتْحُۙ",
+      "latin": "i<u>dzaa</u> j<u>aa</u>-a na<u>sh</u>ru <strong>al</strong>l<u>aa</u>hi wa<strong>a</strong>lfat<u>h</u><strong>u</strong>",
+      "translation": "Apabila telah datang pertolongan Allah dan kemenangan,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6214.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6214.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6214.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6214.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6214.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6214.mp3"
+      }
+    },
+    {
+      "no": 2,
+      "arab": "وَرَاَيْتَ النَّاسَ يَدْخُلُوْنَ فِيْ دِيْنِ اللّٰهِ اَفْوَاجًاۙ",
+      "latin": "wara-ayta <strong>al</strong>nn<u>aa</u>sa yadkhuluuna fii diini <strong>al</strong>l<u>aa</u>hi afw<u>aa</u>j<u>aa</u><strong>n</strong>",
+      "translation": "dan engkau melihat manusia berbondong-bondong masuk agama Allah,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6215.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6215.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6215.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6215.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6215.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6215.mp3"
+      }
+    },
+    {
+      "no": 3,
+      "arab": "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُۗ اِنَّهٗ كَانَ تَوَّابًا ࣖ",
+      "latin": "fasabbi<u>h</u> bi<u>h</u>amdi rabbika wa<strong>i</strong>staghfirhu innahu k<u>aa</u>na taww<u>aa</u>b<u>aa</u><strong>n</strong>",
+      "translation": "maka bertasbihlah dalam dengan Tuhanmu dan mohonlah ampunan kepada-Nya. Sungguh, Dia Maha Penerima tobat.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6216.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6216.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6216.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6216.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6216.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6216.mp3"
+      }
+    }
+  ]
+}

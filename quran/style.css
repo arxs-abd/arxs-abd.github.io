@@ -15,6 +15,10 @@ body {
   padding: 1rem;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Header */
 header {
   text-align: center;
@@ -23,7 +27,7 @@ header {
 
 header h1 {
   font-size: 2.5rem;
-  color: #4CAF50;
+  color: #4caf50;
   margin: 0;
 }
 
@@ -33,6 +37,147 @@ header p {
 }
 
 /* Surah List */
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-actions h1 {
+  font-size: 1.8rem;
+  color: #4caf50;
+  margin: 0;
+  width: 33%;
+}
+
+/* Tombol Back */
+.back-button {
+  font-size: 1rem;
+  text-decoration: none;
+  color: #4caf50;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s;
+  width: 33%;
+  text-align: left;
+}
+
+.back-button:hover {
+  color: #388e3c;
+}
+
+/* Tombol Pengaturan */
+.settings-button {
+  font-size: 1rem;
+  background: none;
+  border: none;
+  color: #4caf50;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s;
+  width: 33%;
+  text-align: right;
+}
+
+.settings-button:hover {
+  color: #388e3c;
+}
+
+.settings-card {
+  position: absolute;
+  display: inline-block;
+  top: 12%;
+  right: 20%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 200px;
+}
+
+.settings-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  color: #4caf50;
+}
+
+.settings-card label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.settings-card input[type='checkbox'] {
+  margin-right: 0.5rem;
+}
+
+.settings-card .close-settings {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.settings-card .close-settings:hover {
+  background: #388e3c;
+}
+
+/* Tombol Titik Tiga */
+.options-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+  position: relative;
+  margin-right: 1rem;
+}
+
+.options-button:hover {
+  color: #4caf50;
+}
+
+/* Menu Opsional */
+.options-menu {
+  position: relative;
+  top: 0.5rem;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 0.5rem 0;
+  width: 120px;
+}
+
+.options-menu button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  text-align: left;
+  font-size: 1rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.options-menu button:hover {
+  background: #f0f0f0;
+  color: #4caf50;
+}
+
 .surah-name-indo {
   font-size: 1.2rem;
   margin-top: 200px;
@@ -68,13 +213,13 @@ header p {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #F7F9FC;
+  background-color: #f7f9fc;
   border: 1px solid #ddd;
   font-size: 2rem;
   letter-spacing: -3px;
   border-radius: 50%;
   font-weight: bold;
-  color: #4CAF50;
+  color: #4caf50;
   margin-right: 1rem;
 }
 
@@ -105,12 +250,12 @@ header p {
   flex-shrink: 0;
   margin-right: 1rem;
   text-align: center;
-  background-color: #F7F9FC;
+  background-color: #f7f9fc;
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 50%;
   font-weight: bold;
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 .ayah-text {
@@ -128,7 +273,7 @@ header p {
 
 .latin {
   font-size: 1rem;
-  color: #4CAF50;
+  color: #4caf50;
   font-style: italic;
   margin: 0.2rem 0;
 }

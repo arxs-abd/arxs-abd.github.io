@@ -1,0 +1,80 @@
+{
+  "number": 113,
+  "numberOfAyahs": 5,
+  "name": "Al-Falaq",
+  "translation": "Subuh",
+  "revelation": "Makkiyah",
+  "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/113AlFalaq.mp3",
+  "ayahs": [
+    {
+      "no": 1,
+      "arab": "قُلْ اَعُوْذُ بِرَبِّ الْفَلَقِۙ",
+      "latin": "qul a'uu<u>dz</u>u birabbi <strong>a</strong>lfalaq<strong>i</strong>",
+      "translation": "Katakanlah, “Aku berlindung kepada Tuhan yang menguasai subuh (fajar),",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6226.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6226.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6226.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6226.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6226.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6226.mp3"
+      }
+    },
+    {
+      "no": 2,
+      "arab": "مِنْ شَرِّ مَا خَلَقَۙ",
+      "latin": "min syarri m<u>aa</u> khalaq<strong>a</strong>",
+      "translation": "dari kejahatan (makhluk yang) Dia ciptakan,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6227.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6227.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6227.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6227.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6227.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6227.mp3"
+      }
+    },
+    {
+      "no": 3,
+      "arab": "وَمِنْ شَرِّ غَاسِقٍ اِذَا وَقَبَۙ",
+      "latin": "wamin syarri gh<u>aa</u>siqin i<u>dzaa</u> waqab<strong>a</strong>",
+      "translation": "dan dari kejahatan malam apabila telah gelap gulita,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6228.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6228.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6228.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6228.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6228.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6228.mp3"
+      }
+    },
+    {
+      "no": 4,
+      "arab": "وَمِنْ شَرِّ النَّفّٰثٰتِ فِى الْعُقَدِۙ",
+      "latin": "wamin syarri <strong>al</strong>nnaff<u>aa</u>ts<u>aa</u>ti fii <strong>a</strong>l'uqad<strong>i</strong>",
+      "translation": "dan dari kejahatan (perempuan-perempuan) penyihir yang meniup pada buhul-buhul (talinya),",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6229.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6229.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6229.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6229.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6229.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6229.mp3"
+      }
+    },
+    {
+      "no": 5,
+      "arab": "وَمِنْ شَرِّ حَاسِدٍ اِذَا حَسَدَ ࣖ",
+      "latin": "wamin syarri <u>haa</u>sidin i<u>dzaa</u> <u>h</u>asad<strong>a</strong>",
+      "translation": "dan dari kejahatan orang yang dengki apabila dia dengki.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6230.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6230.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6230.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6230.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6230.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6230.mp3"
+      }
+    }
+  ]
+}

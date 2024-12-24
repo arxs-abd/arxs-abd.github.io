@@ -1,0 +1,108 @@
+{
+  "number": 1,
+  "numberOfAyahs": 7,
+  "name": "Al-Fatihah",
+  "translation": "Pembukaan",
+  "revelation": "Makkiyah",
+  "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/001AlFaatihah.mp3",
+  "ayahs": [
+    {
+      "no": 1,
+      "arab": "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
+      "latin": "bismi <strong>al</strong>l<u>aa</u>hi <strong>al</strong>rra<u>h</u>m<u>aa</u>ni <strong>al</strong>rra<u>h</u>iim<strong>i</strong>",
+      "translation": "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/1.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/1.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/1.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/1.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/1.mp3"
+      }
+    },
+    {
+      "no": 2,
+      "arab": "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَۙ",
+      "latin": "al<u>h</u>amdu lill<u>aa</u>hi rabbi <strong>a</strong>l'<u>aa</u>lamiin<strong>a</strong>",
+      "translation": "Segala puji bagi Allah, Tuhan seluruh alam,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/2.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/2.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/2.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/2.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/2.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/2.mp3"
+      }
+    },
+    {
+      "no": 3,
+      "arab": "الرَّحْمٰنِ الرَّحِيْمِۙ",
+      "latin": "a<strong>l</strong>rra<u>h</u>m<u>aa</u>ni <strong>al</strong>rra<u>h</u>iim<strong>i</strong>",
+      "translation": "Yang Maha Pengasih, Maha Penyayang,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/3.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/3.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/3.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/3.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/3.mp3"
+      }
+    },
+    {
+      "no": 4,
+      "arab": "مٰلِكِ يَوْمِ الدِّيْنِۗ",
+      "latin": "m<u>aa</u>liki yawmi <strong>al</strong>ddiin<strong>i</strong>",
+      "translation": "Pemilik hari pembalasan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4.mp3"
+      }
+    },
+    {
+      "no": 5,
+      "arab": "اِيَّاكَ نَعْبُدُ وَاِيَّاكَ نَسْتَعِيْنُۗ",
+      "latin": "iyy<u>aa</u>ka na'budu wa-iyy<u>aa</u>ka nasta'iin<strong>u</strong>",
+      "translation": "Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami mohon pertolongan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5.mp3"
+      }
+    },
+    {
+      "no": 6,
+      "arab": "اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيْمَ ۙ",
+      "latin": "ihdin<u>aa</u> <strong>al</strong><u>shsh</u>ir<u>aath</u>a <strong>a</strong>lmustaqiim<strong>a</strong>",
+      "translation": "Tunjukilah kami jalan yang lurus,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6.mp3"
+      }
+    },
+    {
+      "no": 7,
+      "arab": "صِرَاطَ الَّذِيْنَ اَنْعَمْتَ عَلَيْهِمْ ەۙ غَيْرِ الْمَغْضُوْبِ عَلَيْهِمْ وَلَا الضَّاۤلِّيْنَ ࣖ",
+      "latin": "<u>sh</u>ir<u>aath</u>a <strong>al</strong>la<u>dz</u>iina an'amta 'alayhim ghayri <strong>a</strong>lmagh<u>dh</u>uubi 'alayhim wal<u>aa</u> <strong>al</strong><u>dhdhaa</u>lliin<strong>a</strong>",
+      "translation": "(yaitu) jalan orang-orang yang telah Engkau beri nikmat kepadanya; bukan (jalan) mereka yang dimurkai, dan bukan (pula jalan) mereka yang sesat.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/7.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/7.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/7.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/7.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/7.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/7.mp3"
+      }
+    }
+  ]
+}

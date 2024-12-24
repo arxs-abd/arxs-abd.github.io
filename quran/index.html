@@ -35,23 +35,55 @@
   <!-- PAGE SURAHS -->
   <div id="page-surah" class="hidden">
     <header>
+      <div class="container">
+        <div class="header-actions">
+          <button class="back-button">← Kembali</button>
+          <h1 id="surah-name-latin">Al-Fatihah</h1>
+          <button class="settings-button">⚙ Pengaturan</button>
+           <!-- Card Pengaturan -->
+          <div class="settings-card hidden" id="settings-card">
+            <h3>Pengaturan</h3>
+            <label>
+              <input type="checkbox" id="show-translation" checked>
+              Tampilkan Terjemahan
+            </label>
+            <label>
+              <input type="checkbox" id="show-latin" checked>
+              Tampilkan Latin
+            </label>
+            <label>
+              <select name="sound" id="sound" style="margin-right: 10px;">
+                <option value="ahmedajamy">Ahmed Ajamy</option>
+                <option value="alafasy">Alafasy</option>
+                <option value="husarymujawwad">Husary Mujawwad</option>
+                <option value="minshawi">Minshawi</option>
+                <option value="muhammadayyoub">Muhammad Ayyoub</option>
+                <option value="muhammadjibreel">Muhammad Jibreel</option>
+              </select>
+                Suara
+            </label>
+            <button class="close-settings" id="close-settings">Tutup</button>
+          </div>
+        </div>
+      </div>
       <div class="container" id="surah">
-        <h1 id="surah-name-latin">Al-Fatihah</h1>
         <h2 id="surah-name-indo">Pembukaan</h2>
         <p id="surah-info">Makkiyah · 7 Ayat</p>
       </div>
     </header>
     <main class="container" id="ayah-container">
       <!-- <div class="ayah">
+        <div class="ayah-options">
+          <button class="options-button">⋮</button>
+          <div class="options-menu">
+            <button>Bookmark</button>
+            <button>Bagikan</button>
+            <button>Salin Teks</button>
+          </div>
+        </div>
         <div class="ayah-text">
           <p class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
           <p class="translation">Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang.</p>
-        </div>
-      </div>
-      <div class="ayah">
-        <div class="ayah-text">
-          <p class="arabic">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ</p>
-          <p class="translation">Segala puji bagi Allah, Tuhan semesta alam.</p>
         </div>
       </div> -->
     </main>

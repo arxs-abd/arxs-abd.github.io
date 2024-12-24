@@ -1,0 +1,766 @@
+{
+  "number": 41,
+  "numberOfAyahs": 54,
+  "name": "Fussilat",
+  "translation": "Yang Dijelaskan",
+  "revelation": "Makkiyah",
+  "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/041Fushshilat.mp3",
+  "ayahs": [
+    {
+      "no": 1,
+      "arab": " حٰمۤ ۚ ",
+      "latin": "<u>haa</u>-miim",
+      "translation": "Ha Mim",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4219.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4219.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4219.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4219.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4219.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4219.mp3"
+      }
+    },
+    {
+      "no": 2,
+      "arab": "تَنْزِيْلٌ مِّنَ الرَّحْمٰنِ الرَّحِيْمِ ۚ ",
+      "latin": "tanziilun mina <strong>al</strong>rra<u>h</u>m<u>aa</u>ni <strong>al</strong>rra<u>h</u>iim<strong>i</strong>",
+      "translation": "(Al-Qur'an ini) diturunkan dari Tuhan Yang Maha Pengasih, Maha Penyayang.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4220.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4220.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4220.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4220.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4220.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4220.mp3"
+      }
+    },
+    {
+      "no": 3,
+      "arab": "كِتٰبٌ فُصِّلَتْ اٰيٰتُهٗ قُرْاٰنًا عَرَبِيًّا لِّقَوْمٍ يَّعْلَمُوْنَۙ ",
+      "latin": "kit<u>aa</u>bun fu<u>shsh</u>ilat <u>aa</u>y<u>aa</u>tuhu qur-<u>aa</u>nan 'arabiyyan liqawmin ya'lamuun<strong>a</strong>",
+      "translation": "Kitab yang ayat-ayatnya dijelaskan, bacaan dalam bahasa Arab, untuk kaum yang mengetahui,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4221.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4221.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4221.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4221.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4221.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4221.mp3"
+      }
+    },
+    {
+      "no": 4,
+      "arab": "بَشِيْرًا وَّنَذِيْرًاۚ فَاَعْرَضَ اَكْثَرُهُمْ فَهُمْ لَا يَسْمَعُوْنَ ",
+      "latin": "basyiiran wana<u>dz</u>iiran fa-a'ra<u>dh</u>a aktsaruhum fahum l<u>aa</u> yasma'uun<strong>a</strong>",
+      "translation": "yang membawa berita gembira dan peringatan, tetapi kebanyakan mereka berpaling (darinya) serta tidak mendengarkan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4222.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4222.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4222.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4222.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4222.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4222.mp3"
+      }
+    },
+    {
+      "no": 5,
+      "arab": "وَقَالُوْا قُلُوْبُنَا فِيْٓ اَكِنَّةٍ مِّمَّا تَدْعُوْنَآ اِلَيْهِ وَفِيْٓ اٰذَانِنَا وَقْرٌ وَّمِنْۢ بَيْنِنَا وَبَيْنِكَ حِجَابٌ فَاعْمَلْ اِنَّنَا عٰمِلُوْنَ",
+      "latin": "waq<u>aa</u>luu quluubun<u>aa</u> fii akinnatin mimm<u>aa</u> tad'uun<u>aa</u> ilayhi wafii <u>aatsaa</u>nin<u>aa</u> waqrun wamin baynin<u>aa</u> wabaynika <u>h</u>ij<u>aa</u>bun fa<strong>i</strong>'mal innan<u>aa</u> '<u>aa</u>miluun<strong>a</strong>",
+      "translation": "Dan mereka berkata, “Hati kami sudah tertutup dari apa yang engkau seru kami kepadanya dan telinga kami sudah tersumbat, dan di antara kami dan engkau ada dinding, karena itu lakukanlah (sesuai kehendakmu), sesungguhnya kami akan melakukan (sesuai kehendak kami).”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4223.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4223.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4223.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4223.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4223.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4223.mp3"
+      }
+    },
+    {
+      "no": 6,
+      "arab": "قُلْ اِنَّمَآ اَنَا۟ بَشَرٌ مِّثْلُكُمْ يُوْحٰىٓ اِلَيَّ اَنَّمَآ اِلٰهُكُمْ اِلٰهٌ وَّاحِدٌ فَاسْتَقِيْمُوْٓا اِلَيْهِ وَاسْتَغْفِرُوْهُ ۗوَوَيْلٌ لِّلْمُشْرِكِيْنَۙ ",
+      "latin": "qul innam<u>aa</u> an<u>aa</u> basyarun mitslukum yuu<u>haa</u> ilayya annam<u>aa</u> il<u>aa</u>hukum il<u>aa</u>hun w<u>aah</u>idun fa<strong>i</strong>staqiimuu ilayhi wa<strong>i</strong>staghfiruuhu wawaylun lilmusyrikiin<strong>a</strong>",
+      "translation": "Katakanlah (Muhammad), “Aku ini hanyalah seorang manusia seperti kamu, yang diwahyukan kepadaku bahwa Tuhan kamu adalah Tuhan Yang Maha Esa, karena itu tetaplah kamu (beribadah) kepada-Nya dan mohonlah ampunan kepada-Nya. Dan celakalah bagi orang-orang yang mempersekutukan-(Nya),",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4224.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4224.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4224.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4224.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4224.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4224.mp3"
+      }
+    },
+    {
+      "no": 7,
+      "arab": "الَّذِيْنَ لَا يُؤْتُوْنَ الزَّكٰوةَ وَهُمْ بِالْاٰخِرَةِ هُمْ كٰفِرُوْنَ",
+      "latin": "<strong>al</strong>la<u>dz</u>iina l<u>aa</u> yu/tuuna <strong>al</strong>zzak<u>aa</u>ta wahum bi<strong>a</strong>l-<u>aa</u>khirati hum k<u>aa</u>firuun<strong>a</strong>",
+      "translation": "(yaitu) orang-orang yang tidak menunaikan zakat dan mereka ingkar terhadap kehidupan akhirat.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4225.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4225.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4225.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4225.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4225.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4225.mp3"
+      }
+    },
+    {
+      "no": 8,
+      "arab": "اِنَّ الَّذِيْنَ اٰمَنُوْا وَعَمِلُوا الصّٰلِحٰتِ لَهُمْ اَجْرٌ غَيْرُ مَمْنُوْنٍ ࣖ ",
+      "latin": "inna <strong>al</strong>la<u>dz</u>iina <u>aa</u>manuu wa'amiluu <strong>al</strong><u>shshaa</u>li<u>haa</u>ti lahum ajrun ghayru mamnuun<strong>in</strong>",
+      "translation": "Sesungguhnya orang-orang yang beriman dan mengerjakan kebajikan, mereka mendapat pahala yang tidak ada putus-putusnya.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4226.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4226.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4226.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4226.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4226.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4226.mp3"
+      }
+    },
+    {
+      "no": 9,
+      "arab": "۞ قُلْ اَىِٕنَّكُمْ لَتَكْفُرُوْنَ بِالَّذِيْ خَلَقَ الْاَرْضَ فِيْ يَوْمَيْنِ وَتَجْعَلُوْنَ لَهٗٓ اَنْدَادًا ۗذٰلِكَ رَبُّ الْعٰلَمِيْنَ ۚ ",
+      "latin": "qul a-innakum latakfuruuna bi<strong>a</strong>lla<u>dz</u>ii khalaqa <strong>a</strong>l-ar<u>dh</u>a fii yawmayni wataj'aluuna lahu and<u>aa</u>dan <u>dzaa</u>lika rabbu <strong>a</strong>l'<u>aa</u>lamiin<strong>a</strong>",
+      "translation": "Katakanlah, “Pantaskah kamu ingkar kepada Tuhan yang menciptakan bumi dalam dua masa dan kamu adakan pula sekutu-sekutu bagi-Nya? Itulah Tuhan seluruh alam.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4227.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4227.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4227.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4227.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4227.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4227.mp3"
+      }
+    },
+    {
+      "no": 10,
+      "arab": "وَجَعَلَ فِيْهَا رَوَاسِيَ مِنْ فَوْقِهَا وَبٰرَكَ فِيْهَا وَقَدَّرَ فِيْهَآ اَقْوَاتَهَا فِيْٓ اَرْبَعَةِ اَيَّامٍۗ سَوَاۤءً لِّلسَّاۤىِٕلِيْنَ",
+      "latin": "waja'ala fiih<u>aa</u> raw<u>aa</u>siya min fawqih<u>aa</u> wab<u>aa</u>raka fiih<u>aa</u> waqaddara fiih<u>aa</u> aqw<u>aa</u>tah<u>aa</u> fii arba'ati ayy<u>aa</u>min saw<u>aa</u>-an li<strong>l</strong>ss<u>aa</u>-iliin<strong>a</strong>",
+      "translation": "Dan Dia ciptakan padanya gunung-gunung yang kokoh di atasnya. Dan kemudian Dia berkahi, dan Dia tentukan makanan-makanan (bagi penghuni)nya dalam empat masa, memadai untuk (memenuhi kebutuhan) mereka yang memerlukannya.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4228.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4228.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4228.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4228.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4228.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4228.mp3"
+      }
+    },
+    {
+      "no": 11,
+      "arab": "ثُمَّ اسْتَوٰىٓ اِلَى السَّمَاۤءِ وَهِيَ دُخَانٌ فَقَالَ لَهَا وَلِلْاَرْضِ ائْتِيَا طَوْعًا اَوْ كَرْهًاۗ قَالَتَآ اَتَيْنَا طَاۤىِٕعِيْنَ ",
+      "latin": "tsumma istaw<u>aa</u> il<u>aa</u> <strong>al</strong>ssam<u>aa</u>-i wahiya dukh<u>aa</u>nun faq<u>aa</u>la lah<u>aa</u> walil-ar<u>dh</u>i i/tiy<u>aa</u> <u>th</u>aw'an aw karhan q<u>aa</u>lat<u>aa</u> atayn<u>aa</u> <u>th</u><u>aa</u>-i'iin<strong>a</strong>",
+      "translation": "Kemudian Dia menuju ke langit dan (langit) itu masih berupa asap, lalu Dia berfirman kepadanya dan kepada bumi, “Datanglah kamu berdua menurut perintah-Ku dengan patuh atau terpaksa.” Keduanya menjawab, “Kami datang dengan patuh.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4229.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4229.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4229.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4229.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4229.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4229.mp3"
+      }
+    },
+    {
+      "no": 12,
+      "arab": "فَقَضٰىهُنَّ سَبْعَ سَمٰوٰتٍ فِيْ يَوْمَيْنِ وَاَوْحٰى فِيْ كُلِّ سَمَاۤءٍ اَمْرَهَا ۗوَزَيَّنَّا السَّمَاۤءَ الدُّنْيَا بِمَصَابِيْحَۖ وَحِفْظًا ۗذٰلِكَ تَقْدِيْرُ الْعَزِيْزِ الْعَلِيْمِ",
+      "latin": "faqa<u>daa</u>hunna sab'a sam<u>aa</u>w<u>aa</u>tin fii yawmayni wa-aw<u>haa</u> fii kulli sam<u>aa</u>-in amrah<u>aa</u> wazayyann<u>aa</u> <strong>al</strong>ssam<u>aa</u>-a <strong>al</strong>dduny<u>aa</u> bima<u>shaa</u>bii<u>h</u>a wa<u>h</u>if<u>zh</u>an <u>dzaa</u>lika taqdiiru <strong>a</strong>l'aziizi <strong>a</strong>l'aliim<strong>i</strong>",
+      "translation": "Lalu diciptakan-Nya tujuh langit dalam dua masa dan pada setiap langit Dia mewahyukan urusan masing-masing. Kemudian langit yang dekat (dengan bumi), Kami hiasi dengan bintang-bintang, dan (Kami ciptakan itu) untuk memelihara. Demikianlah ketentuan (Allah) Yang Mahaperkasa, Maha Mengetahui.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4230.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4230.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4230.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4230.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4230.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4230.mp3"
+      }
+    },
+    {
+      "no": 13,
+      "arab": "فَاِنْ اَعْرَضُوْا فَقُلْ اَنْذَرْتُكُمْ صٰعِقَةً مِّثْلَ صٰعِقَةِ عَادٍ وَّثَمُوْدَ ۗ ",
+      "latin": "fa-in a'ra<u>dh</u>uu fuqul an<u>dz</u>artukum <u>shaa</u>'iqatan mitsla <u>shaa</u>'iqati '<u>aa</u>din watsamuud<strong>a</strong>",
+      "translation": "Jika mereka berpaling maka katakanlah, “Aku telah memperingatkan kamu akan (bencana) petir seperti petir yang menimpa kaum ’Ad dan kaum Samud.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4231.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4231.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4231.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4231.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4231.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4231.mp3"
+      }
+    },
+    {
+      "no": 14,
+      "arab": "اِذْ جَاۤءَتْهُمُ الرُّسُلُ مِنْۢ بَيْنِ اَيْدِيْهِمْ وَمِنْ خَلْفِهِمْ اَلَّا تَعْبُدُوْٓا اِلَّا اللّٰهَ ۗقَالُوْا لَوْ شَاۤءَ رَبُّنَا لَاَنْزَلَ مَلٰۤىِٕكَةً فَاِنَّا بِمَآ اُرْسِلْتُمْ بِهٖ كٰفِرُوْنَ ",
+      "latin": "i<u>dz</u> j<u>aa</u>-at-humu <strong>al</strong>rrusulu min bayni aydiihim wamin khalfihim <strong>al</strong>l<u>aa</u> ta'buduu ill<u>aa</u> <strong>al</strong>l<u>aa</u>ha q<u>aa</u>luu law sy<u>aa</u>-a rabbun<u>aa</u> la-anzala mal<u>aa</u>-ikatan fa-inn<u>aa</u> bim<u>aa</u> ursiltum bihi k<u>aa</u>firuun<strong>a</strong>",
+      "translation": "Ketika para rasul datang kepada mereka dari depan dan dari belakang mereka (dengan menyerukan), “Janganlah kamu menyembah selain Allah.” Mereka menjawab, “Kalau Tuhan kami menghendaki tentu Dia menurunkan malaikat-malaikat-Nya, maka sesungguhnya kami mengingkari wahyu yang engkau diutus menyampaikannya.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4232.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4232.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4232.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4232.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4232.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4232.mp3"
+      }
+    },
+    {
+      "no": 15,
+      "arab": "فَاَمَّا عَادٌ فَاسْتَكْبَرُوْا فِى الْاَرْضِ بِغَيْرِ الْحَقِّ وَقَالُوْا مَنْ اَشَدُّ مِنَّا قُوَّةً ۗ اَوَلَمْ يَرَوْا اَنَّ اللّٰهَ الَّذِيْ خَلَقَهُمْ هُوَ اَشَدُّ مِنْهُمْ قُوَّةً ۗ وَكَانُوْا بِاٰيٰتِنَا يَجْحَدُوْنَ",
+      "latin": "fa-amm<u>aa</u> '<u>aa</u>dun fa<strong>i</strong>stakbaruu fii <strong>a</strong>l-ar<u>dh</u>i bighayri <strong>a</strong>l<u>h</u>aqqi waq<u>aa</u>luu man asyaddu minn<u>aa</u> quwwatan awa lam yaraw anna <strong>al</strong>l<u>aa</u>ha <strong>al</strong>la<u>dz</u>ii khalaqahum huwa asyaddu minhum quwwatan wak<u>aa</u>nuu bi-<u>aa</u>y<u>aa</u>tin<u>aa</u> yaj<u>h</u>aduun<strong>a</strong>",
+      "translation": "Maka adapun kaum ‘Ad, mereka menyombongkan diri di bumi tanpa (mengindahkan) kebenaran dan mereka berkata, “Siapakah yang lebih hebat kekuatannya dari kami?” Tidakkah mereka memperhatikan bahwa sesungguhnya Allah yang menciptakan mereka. Dia lebih hebat kekuatan-Nya dari mereka? Dan mereka telah mengingkari tanda-tanda (kebesaran) Kami.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4233.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4233.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4233.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4233.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4233.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4233.mp3"
+      }
+    },
+    {
+      "no": 16,
+      "arab": "فَاَرْسَلْنَا عَلَيْهِمْ رِيْحًا صَرْصَرًا فِيْٓ اَيَّامٍ نَّحِسَاتٍ لِّنُذِيْقَهُمْ عَذَابَ الْخِزْيِ فِى الْحَيٰوةِ الدُّنْيَا ۗوَلَعَذَابُ الْاٰخِرَةِ اَخْزٰى وَهُمْ لَا يُنْصَرُوْنَ",
+      "latin": "fa-arsaln<u>aa</u> 'alayhim rii<u>h</u>an <u>sh</u>ar<u>sh</u>aran fii ayy<u>aa</u>min na<u>h</u>is<u>aa</u>tin linu<u>dz</u>iiqahum 'a<u>dzaa</u>ba <strong>a</strong>lkhizyi fii <strong>a</strong>l<u>h</u>ay<u>aa</u>ti <strong>al</strong>dduny<u>aa</u> wala'a<u>dzaa</u>bu <strong>a</strong>l-<u>aa</u>khirati akhz<u>aa</u> wahum l<u>aa</u> yun<u>sh</u>aruun<strong>a</strong>",
+      "translation": "Maka Kami tiupkan angin yang sangat bergemuruh kepada mereka dalam beberapa hari yang nahas, karena Kami ingin agar mereka itu merasakan siksaan yang menghinakan dalam kehidupan di dunia. Sedangkan azab akhirat pasti lebih menghinakan dan mereka tidak diberi pertolongan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4234.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4234.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4234.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4234.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4234.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4234.mp3"
+      }
+    },
+    {
+      "no": 17,
+      "arab": "وَاَمَّا ثَمُوْدُ فَهَدَيْنٰهُمْ فَاسْتَحَبُّوا الْعَمٰى عَلَى الْهُدٰى فَاَخَذَتْهُمْ صٰعِقَةُ الْعَذَابِ الْهُوْنِ بِمَا كَانُوْا يَكْسِبُوْنَ ۚ ",
+      "latin": "wa-amm<u>aa</u> tsamuudu fahadayn<u>aa</u>hum fa<strong>i</strong>sta<u>h</u>abbuu <strong>a</strong>l'am<u>aa</u> 'al<u>aa</u> <strong>a</strong>lhud<u>aa</u> fa-akha<u>dz</u>at-hum <u>shaa</u>'iqatu <strong>a</strong>l'a<u>dzaa</u>bi <strong>a</strong>lhuuni bim<u>aa</u> k<u>aa</u>nuu yaksibuun<strong>a</strong>",
+      "translation": "Dan adapun kaum Samud, mereka telah Kami beri petunjuk tetapi mereka lebih menyukai kebutaan (kesesatan) daripada petunjuk itu, maka mereka disambar petir sebagai azab yang menghinakan disebabkan apa yang telah mereka kerjakan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4235.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4235.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4235.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4235.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4235.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4235.mp3"
+      }
+    },
+    {
+      "no": 18,
+      "arab": "وَنَجَّيْنَا الَّذِيْنَ اٰمَنُوْا وَكَانُوْا يَتَّقُوْنَ ࣖ ",
+      "latin": "wanajjayn<u>aa</u> <strong>al</strong>la<u>dz</u>iina <u>aa</u>manuu wak<u>aa</u>nuu yattaquun<strong>a</strong>",
+      "translation": "Dan Kami selamatkan orang-orang yang beriman karena mereka adalah orang-orang yang bertakwa.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4236.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4236.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4236.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4236.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4236.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4236.mp3"
+      }
+    },
+    {
+      "no": 19,
+      "arab": "وَيَوْمَ يُحْشَرُ اَعْدَاۤءُ اللّٰهِ اِلَى النَّارِ فَهُمْ يُوْزَعُوْنَ",
+      "latin": "wayawma yu<u>h</u>syaru a'd<u>aa</u>u <strong>al</strong>l<u>aa</u>hi il<u>aa</u> <strong>al</strong>nn<u>aa</u>ri fahum yuuza'uun<strong>a</strong>",
+      "translation": "Dan (ingatlah) pada hari (ketika) musuh-musuh Allah digiring ke neraka lalu mereka dipisah-pisahkan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4237.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4237.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4237.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4237.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4237.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4237.mp3"
+      }
+    },
+    {
+      "no": 20,
+      "arab": "حَتّٰىٓ اِذَا مَا جَاۤءُوْهَا شَهِدَ عَلَيْهِمْ سَمْعُهُمْ وَاَبْصَارُهُمْ وَجُلُوْدُهُمْ بِمَا كَانُوْا يَعْمَلُوْنَ ",
+      "latin": "<u>h</u>att<u>aa</u> i<u>dzaa</u> m<u>aa</u> j<u>aa</u>uuh<u>aa</u> syahida 'alayhim sam'uhum wa-ab<u>shaa</u>ruhum wajuluuduhum bim<u>aa</u> k<u>aa</u>nuu ya'maluun<strong>a</strong>",
+      "translation": "Sehingga apabila mereka sampai ke neraka, pendengaran, penglihatan dan kulit mereka menjadi saksi terhadap apa yang telah mereka lakukan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4238.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4238.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4238.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4238.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4238.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4238.mp3"
+      }
+    },
+    {
+      "no": 21,
+      "arab": "وَقَالُوْا لِجُلُوْدِهِمْ لِمَ شَهِدْتُّمْ عَلَيْنَا ۗقَالُوْٓا اَنْطَقَنَا اللّٰهُ الَّذِيْٓ اَنْطَقَ كُلَّ شَيْءٍ وَّهُوَ خَلَقَكُمْ اَوَّلَ مَرَّةٍۙ وَّاِلَيْهِ تُرْجَعُوْنَ",
+      "latin": "waq<u>aa</u>luu lijuluudihim lima syahidtum 'alayn<u>aa</u> q<u>aa</u>luu an<u>th</u>aqan<u>aa</u> <strong>al</strong>l<u>aa</u>hu <strong>al</strong>la<u>dz</u>ii an<u>th</u>aqa kulla syay-in wahuwa khalaqakum awwala marratin wa-ilayhi turja'uun<strong>a</strong>",
+      "translation": "Dan mereka berkata kepada kulit mereka, “Mengapa kamu menjadi saksi terhadap kami?” (Kulit) mereka men-jawab, “Yang menjadikan kami dapat berbicara adalah Allah, yang (juga) menjadikan segala sesuatu dapat berbicara, dan Dialah yang menciptakan kamu yang pertama kali dan hanya kepada-Nya kamu dikembalikan.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4239.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4239.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4239.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4239.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4239.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4239.mp3"
+      }
+    },
+    {
+      "no": 22,
+      "arab": "وَمَا كُنْتُمْ تَسْتَتِرُوْنَ اَنْ يَّشْهَدَ عَلَيْكُمْ سَمْعُكُمْ وَلَآ اَبْصَارُكُمْ وَلَا جُلُوْدُكُمْ وَلٰكِنْ ظَنَنْتُمْ اَنَّ اللّٰهَ لَا يَعْلَمُ كَثِيْرًا مِّمَّا تَعْمَلُوْنَ",
+      "latin": "wam<u>aa</u> kuntum tastatiruuna an yasyhada 'alaykum sam'ukum wal<u>aa</u> ab<u>shaa</u>rukum wal<u>aa</u> juluudukum wal<u>aa</u>kin <u>zh</u>anantum anna <strong>al</strong>l<u>aa</u>ha l<u>aa</u> ya'lamu katsiiran mimm<u>aa</u> ta'maluun<strong>a</strong>",
+      "translation": "Dan kamu tidak dapat bersembunyi dari kesaksian pendengaran, penglihatan dan kulitmu terhadapmu ) bahkan kamu mengira Allah tidak mengetahui banyak tentang apa yang kamu lakukan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4240.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4240.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4240.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4240.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4240.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4240.mp3"
+      }
+    },
+    {
+      "no": 23,
+      "arab": "وَذٰلِكُمْ ظَنُّكُمُ الَّذِيْ ظَنَنْتُمْ بِرَبِّكُمْ اَرْدٰىكُمْ فَاَصْبَحْتُمْ مِّنَ الْخٰسِرِيْنَ",
+      "latin": "wa<u>dzaa</u>likum <u>zh</u>annukumu <strong>al</strong>la<u>dz</u>ii <u>zh</u>anantum birabbikum ard<u>aa</u>kum fa-a<u>sh</u>ba<u>h</u>tum mina <strong>a</strong>lkh<u>aa</u>siriin<strong>a</strong>",
+      "translation": "Dan itulah dugaanmu yang telah kamu sangkakan terhadap Tuhanmu (dugaan itu) telah membinasakan kamu, sehingga jadilah kamu termasuk orang yang rugi.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4241.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4241.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4241.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4241.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4241.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4241.mp3"
+      }
+    },
+    {
+      "no": 24,
+      "arab": "فَاِنْ يَّصْبِرُوْا فَالنَّارُ مَثْوًى لَّهُمْ ۚوَاِنْ يَّسْتَعْتِبُوْا فَمَا هُمْ مِّنَ الْمُعْتَبِيْنَ",
+      "latin": "fa-in ya<u>sh</u>biruu fa<strong>al</strong>nn<u>aa</u>ru matswan lahum wa-in yasta'tibuu fam<u>aa</u> hum mina <strong>a</strong>lmu'tabiin<strong>a</strong>",
+      "translation": "Meskipun mereka bersabar (atas azab neraka) maka nerakalah tempat tinggal mereka dan jika mereka minta belas kasihan, maka mereka itu tidak termasuk orang yang pantas dikasihani.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4242.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4242.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4242.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4242.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4242.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4242.mp3"
+      }
+    },
+    {
+      "no": 25,
+      "arab": "۞ وَقَيَّضْنَا لَهُمْ قُرَنَاۤءَ فَزَيَّنُوْا لَهُمْ مَّا بَيْنَ اَيْدِيْهِمْ وَمَا خَلْفَهُمْ وَحَقَّ عَلَيْهِمُ الْقَوْلُ فِيْٓ اُمَمٍ قَدْ خَلَتْ مِنْ قَبْلِهِمْ مِّنَ الْجِنِّ وَالْاِنْسِۚ اِنَّهُمْ كَانُوْا خٰسِرِيْنَ ࣖ ",
+      "latin": "waqayya<u>dh</u>n<u>aa</u> lahum quran<u>aa</u>-a fazayyanuu lahum m<u>aa</u> bayna aydiihim wam<u>aa</u> khalfahum wa<u>h</u>aqqa 'alayhimu <strong>a</strong>lqawlu fii umamin qad khalat min qablihim mina <strong>a</strong>ljinni wa<strong>a</strong>l-insi innahum k<u>aa</u>nuu kh<u>aa</u>siriin<strong>a</strong>",
+      "translation": "Dan Kami tetapkan bagi mereka teman-teman (setan) yang memuji-muji apa saja yang ada di hadapan dan di belakang mereka dan tetaplah atas mereka putusan azab bersama umat-umat yang terdahulu sebelum mereka dari (golongan) jin dan manusia. Sungguh, mereka adalah orang-orang yang rugi.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4243.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4243.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4243.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4243.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4243.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4243.mp3"
+      }
+    },
+    {
+      "no": 26,
+      "arab": "وَقَالَ الَّذِيْنَ كَفَرُوْا لَا تَسْمَعُوْا لِهٰذَا الْقُرْاٰنِ وَالْغَوْا فِيْهِ لَعَلَّكُمْ تَغْلِبُوْنَ",
+      "latin": "waq<u>aa</u>la <strong>al</strong>la<u>dz</u>iina kafaruu l<u>aa</u> tasma'uu lih<u>aadzaa</u> <strong>a</strong>lqur-<u>aa</u>ni wa<strong>i</strong>lghaw fiihi la'allakum taghlibuun<strong>a</strong>",
+      "translation": "Dan orang-orang yang kafir berkata, “Janganlah kamu mendengarkan (bacaan) Al-Qur'an ini dan buatlah kegaduhan terhadapnya, agar kamu dapat mengalahkan (mereka).”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4244.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4244.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4244.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4244.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4244.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4244.mp3"
+      }
+    },
+    {
+      "no": 27,
+      "arab": "فَلَنُذِيْقَنَّ الَّذِيْنَ كَفَرُوْا عَذَابًا شَدِيْدًاۙ وَّلَنَجْزِيَنَّهُمْ اَسْوَاَ الَّذِيْ كَانُوْا يَعْمَلُوْنَ",
+      "latin": "falanu<u>dz</u>iiqanna <strong>al</strong>la<u>dz</u>iina kafaruu 'a<u>dzaa</u>ban syadiidan walanajziyannahum aswa-a <strong>al</strong>la<u>dz</u>ii k<u>aa</u>nuu ya'maluun<strong>a</strong>",
+      "translation": "Maka sungguh, akan Kami timpakan azab yang keras kepada orang-orang yang kafir itu dan sungguh, akan Kami beri balasan mereka dengan seburuk-buruk balasan terhadap apa yang telah mereka kerjakan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4245.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4245.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4245.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4245.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4245.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4245.mp3"
+      }
+    },
+    {
+      "no": 28,
+      "arab": "ذٰلِكَ جَزَاۤءُ اَعْدَاۤءِ اللّٰهِ النَّارُ لَهُمْ فِيْهَا دَارُ الْخُلْدِ ۗجَزَاۤءً ۢبِمَا كَانُوْا بِاٰيٰتِنَا يَجْحَدُوْنَ",
+      "latin": "<u>dzaa</u>lika jaz<u>aa</u>u a'd<u>aa</u>-i <strong>al</strong>l<u>aa</u>hi <strong>al</strong>nn<u>aa</u>ru lahum fiih<u>aa</u> d<u>aa</u>ru <strong>a</strong>lkhuldi jaz<u>aa</u>-an bim<u>aa</u> k<u>aa</u>nuu bi-<u>aa</u>y<u>aa</u>tin<u>aa</u> yaj<u>h</u>aduun<strong>a</strong>",
+      "translation": "Demikianlah balasan (terhadap) musuh-musuh Allah (yaitu) neraka; mereka mendapat tempat tinggal yang kekal di dalamnya sebagai balasan atas keingkaran mereka terhadap ayat-ayat Kami.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4246.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4246.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4246.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4246.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4246.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4246.mp3"
+      }
+    },
+    {
+      "no": 29,
+      "arab": "وَقَالَ الَّذِيْنَ كَفَرُوْا رَبَّنَآ اَرِنَا الَّذَيْنِ اَضَلّٰنَا مِنَ الْجِنِّ وَالْاِنْسِ نَجْعَلْهُمَا تَحْتَ اَقْدَامِنَا لِيَكُوْنَا مِنَ الْاَسْفَلِيْنَ",
+      "latin": "waq<u>aa</u>la <strong>al</strong>la<u>dz</u>iina kafaruu rabban<u>aa</u> arin<u>aa</u> <strong>al</strong>la<u>dz</u>ayni a<u>dh</u>all<u>aa</u>n<u>aa</u> mina <strong>a</strong>ljinni wa<strong>a</strong>l-insi naj'alhum<u>aa</u> ta<u>h</u>ta aqd<u>aa</u>min<u>aa</u> liyakuun<u>aa</u> mina <strong>a</strong>l-asfaliin<strong>a</strong>",
+      "translation": "Dan orang-orang yang kafir berkata, “Ya Tuhan kami, perlihatkanlah kepada kami dua golongan yang telah menyesatkan kami yaitu (golongan) jin dan manusia, agar kami letakkan keduanya di bawah telapak kaki kami agar kedua golongan itu menjadi yang paling bawah (hina).”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4247.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4247.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4247.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4247.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4247.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4247.mp3"
+      }
+    },
+    {
+      "no": 30,
+      "arab": "اِنَّ الَّذِيْنَ قَالُوْا رَبُّنَا اللّٰهُ ثُمَّ اسْتَقَامُوْا تَتَنَزَّلُ عَلَيْهِمُ الْمَلٰۤىِٕكَةُ اَلَّا تَخَافُوْا وَلَا تَحْزَنُوْا وَاَبْشِرُوْا بِالْجَنَّةِ الَّتِيْ كُنْتُمْ تُوْعَدُوْنَ",
+      "latin": "inna <strong>al</strong>la<u>dz</u>iina q<u>aa</u>luu rabbun<u>aa</u> <strong>al</strong>l<u>aa</u>hu tsumma istaq<u>aa</u>muu tatanazzalu 'alayhimu <strong>a</strong>lmal<u>aa</u>-ikatu <strong>al</strong>l<u>aa</u> takh<u>aa</u>fuu wal<u>aa</u> ta<u>h</u>zanuu wa-absyiruu bi<strong>a</strong>ljannati <strong>al</strong>latii kuntum tuu'aduun<strong>a</strong>",
+      "translation": "Sesungguhnya orang-orang yang berkata, “Tuhan kami adalah Allah” kemudian mereka meneguhkan pendirian mereka, maka malaikat-malaikat akan turun kepada mereka (dengan berkata), “Janganlah kamu merasa takut dan janganlah kamu bersedih hati; dan bergembiralah kamu dengan (memperoleh) surga yang telah dijanjikan kepadamu.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4248.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4248.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4248.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4248.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4248.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4248.mp3"
+      }
+    },
+    {
+      "no": 31,
+      "arab": "نَحْنُ اَوْلِيَاۤؤُكُمْ فِى الْحَيٰوةِ الدُّنْيَا وَفِى الْاٰخِرَةِ ۚوَلَكُمْ فِيْهَا مَا تَشْتَهِيْٓ اَنْفُسُكُمْ وَلَكُمْ فِيْهَا مَا تَدَّعُوْنَ ۗ ",
+      "latin": "na<u>h</u>nu awliy<u>aa</u>ukum fii <strong>a</strong>l<u>h</u>ay<u>aa</u>ti <strong>al</strong>dduny<u>aa</u> wafii <strong>a</strong>l-<u>aa</u>khirati walakum fiih<u>aa</u> m<u>aa</u> tasytahii anfusukum walakum fiih<u>aa</u> m<u>aa</u> tadda'uun<strong>a</strong>",
+      "translation": "Kamilah pelindung-pelindungmu dalam kehidupan dunia dan akhirat; di dalamnya (surga) kamu memperoleh apa yang kamu inginkan dan memperoleh apa yang kamu minta.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4249.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4249.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4249.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4249.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4249.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4249.mp3"
+      }
+    },
+    {
+      "no": 32,
+      "arab": "نُزُلًا مِّنْ غَفُوْرٍ رَّحِيْمٍ ࣖ ",
+      "latin": "nuzulan min ghafuurin ra<u>h</u>iim<strong>in</strong>",
+      "translation": "Sebagai penghormatan (bagimu) dari (Allah) Yang Maha Pengampun, Maha Penyayang.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4250.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4250.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4250.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4250.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4250.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4250.mp3"
+      }
+    },
+    {
+      "no": 33,
+      "arab": "وَمَنْ اَحْسَنُ قَوْلًا مِّمَّنْ دَعَآ اِلَى اللّٰهِ وَعَمِلَ صَالِحًا وَّقَالَ اِنَّنِيْ مِنَ الْمُسْلِمِيْنَ ",
+      "latin": "waman a<u>h</u>sanu qawlan mimman da'<u>aa</u> il<u>aa</u> <strong>al</strong>l<u>aa</u>hi wa'amila <u>shaa</u>li<u>h</u>an waq<u>aa</u>la innanii mina <strong>a</strong>lmusl",
+      "translation": "Dan siapakah yang lebih baik perkataannya daripada orang yang menyeru kepada Allah dan mengerjakan kebajikan dan berkata, “Sungguh, aku termasuk orang-orang muslim (yang berserah diri)?”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4251.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4251.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4251.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4251.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4251.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4251.mp3"
+      }
+    },
+    {
+      "no": 34,
+      "arab": "وَلَا تَسْتَوِى الْحَسَنَةُ وَلَا السَّيِّئَةُ ۗاِدْفَعْ بِالَّتِيْ هِيَ اَحْسَنُ فَاِذَا الَّذِيْ بَيْنَكَ وَبَيْنَهٗ عَدَاوَةٌ كَاَنَّهٗ وَلِيٌّ حَمِيْمٌ  ",
+      "latin": "wal<u>aa</u> tastawii <strong>a</strong>l<u>h</u>asanatu wal<u>aa</u> <strong>al</strong>ssayyi-atu idfa' bi<strong>a</strong>llatii hiya a<u>h</u>sanu fa-i<u>dzaa</u> <strong>al</strong>la<u>dz</u>ii baynaka wabaynahu 'ad<u>aa</u>watun ka-annahu waliyyun <u>h</u>amiim<strong>un</strong>",
+      "translation": "Dan tidaklah sama kebaikan dengan kejahatan. Tolaklah (kejahatan itu) dengan cara yang lebih baik, sehingga orang yang ada rasa permusuhan an-tara kamu dan dia akan seperti teman yang setia.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4252.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4252.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4252.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4252.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4252.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4252.mp3"
+      }
+    },
+    {
+      "no": 35,
+      "arab": "وَمَا يُلَقّٰىهَآ اِلَّا الَّذِيْنَ صَبَرُوْاۚ وَمَا يُلَقّٰىهَآ اِلَّا ذُوْ حَظٍّ عَظِيْمٍ",
+      "latin": "wam<u>aa</u> yulaqq<u>aa</u>h<u>aa</u> ill<u>aa</u> <strong>al</strong>la<u>dz</u>iina <u>sh</u>abaruu wam<u>aa</u> yulaqq<u>aa</u>h<u>aa</u> ill<u>aa</u> <u>dz</u>uu <u>h</u>a<u>zhzh</u>in 'a<u>zh</u>iim<strong>in</strong>",
+      "translation": "Dan (sifat-sifat yang baik itu) tidak akan dianugerahkan kecuali kepada orang-orang yang sabar dan tidak dianugerahkan kecuali kepada orang-orang yang mempunyai keberuntungan yang besar.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4253.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4253.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4253.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4253.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4253.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4253.mp3"
+      }
+    },
+    {
+      "no": 36,
+      "arab": "وَاِمَّا يَنْزَغَنَّكَ مِنَ الشَّيْطٰنِ نَزْغٌ فَاسْتَعِذْ بِاللّٰهِ ۗاِنَّهٗ هُوَ السَّمِيْعُ الْعَلِيْمُ ",
+      "latin": "wa-imm<u>aa</u> yanzaghannaka mina <strong>al</strong>sysyay<u>th</u><u>aa</u>ni nazghun fa<strong>i</strong>sta'i<u>dz</u> bi<strong>al</strong>l<u>aa</u>hi innahu huwa <strong>al</strong>ssamii'u <strong>a</strong>l'aliim<strong></strong>",
+      "translation": "Dan jika setan mengganggumu dengan suatu godaan, maka mohonlah perlindungan kepada Allah. Sungguh, Dialah Yang Maha Mendengar, Maha Mengetahui.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4254.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4254.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4254.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4254.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4254.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4254.mp3"
+      }
+    },
+    {
+      "no": 37,
+      "arab": "وَمِنْ اٰيٰتِهِ الَّيْلُ وَالنَّهَارُ وَالشَّمْسُ وَالْقَمَرُۗ  لَا تَسْجُدُوْا لِلشَّمْسِ وَلَا لِلْقَمَرِ وَاسْجُدُوْا لِلّٰهِ الَّذِيْ خَلَقَهُنَّ اِنْ كُنْتُمْ اِيَّاهُ تَعْبُدُوْنَ  ",
+      "latin": "wamin <u>aa</u>y<u>aa</u>tihi <strong>al</strong>laylu wa<strong>al</strong>nnah<u>aa</u>ru wa<strong>al</strong>sysyamsu wa<strong>a</strong>lqamaru l<u>aa</u> tasjuduu li<strong>l</strong>sysyamsi wal<u>aa</u> lilqamari wa<strong>u</strong>sjuduu lill<u>aa</u>hi ala<u>dz</u>ii khalaqahunna in kuntum iyy<u>aa</u>hu ta'buduun<strong>a</strong>",
+      "translation": "Dan sebagian dari tanda-tanda kebesaran-Nya ialah malam, siang, mata-hari dan bulan. Janganlah bersujud kepada matahari dan jangan (pula) kepada bulan, tetapi bersujudlah kepada Allah yang menciptakannya, jika kamu hanya menyembah kepada-Nya.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4255.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4255.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4255.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4255.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4255.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4255.mp3"
+      }
+    },
+    {
+      "no": 38,
+      "arab": "فَاِنِ اسْتَكْبَرُوْا فَالَّذِيْنَ عِنْدَ رَبِّكَ يُسَبِّحُوْنَ لَهٗ بِالَّيْلِ وَالنَّهَارِ وَهُمْ لَا يَسْـَٔمُوْنَ ۩",
+      "latin": "fa-ini istakbaruu fa<strong>a</strong>lla<u>dz</u>iina 'inda rabbika yusabbi<u>h</u>uuna lahu bi<strong>a</strong>llayli wa<strong>al</strong>nnah<u>aa</u>ri wahum l<u>aa</u> yas-amuun<strong>a</strong>",
+      "translation": "Jika mereka menyombongkan diri, maka mereka (malaikat) yang di sisi Tuhanmu bertasbih kepada-Nya pada malam dan siang hari, sedang mereka tidak pernah jemu.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4256.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4256.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4256.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4256.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4256.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4256.mp3"
+      }
+    },
+    {
+      "no": 39,
+      "arab": "وَمِنْ اٰيٰتِهٖٓ اَنَّكَ تَرَى الْاَرْضَ خَاشِعَةً فَاِذَآ اَنْزَلْنَا عَلَيْهَا الْمَاۤءَ اهْتَزَّتْ وَرَبَتْۗ اِنَّ الَّذِيْٓ اَحْيَاهَا لَمُحْيِ الْمَوْتٰى ۗاِنَّهٗ عَلٰى كُلِّ شَيْءٍ قَدِيْرٌ ",
+      "latin": "wamin <u>aa</u>y<u>aa</u>tihi annaka tar<u>aa</u> <strong>a</strong>l-ar<u>dh</u>a kh<u>aa</u>syi'atan fa-i<u>dzaa</u> anzaln<u>aa</u> 'alayh<u>aa</u> <strong>a</strong>lm<u>aa</u>-a ihtazzat warabat inna <strong>al</strong>la<u>dz</u>ii a<u>h</u>y<u>aa</u>h<u>aa</u> lamu<u>h</u>yii <strong>a</strong>lmawt<u>aa</u> innahu 'al<u>aa</u> kulli syay-in qadiir<strong>un</strong>",
+      "translation": "Dan sebagian dari tanda-tanda (kebesaran)-Nya, engkau melihat bumi itu kering dan tandus, tetapi apabila Kami turunkan hujan di atasnya, niscaya ia bergerak dan subur. Sesungguhnya (Allah) yang menghidupkannya pasti dapat menghidupkan yang mati; sesungguhnya Dia Mahakuasa atas segala sesuatu.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4257.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4257.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4257.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4257.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4257.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4257.mp3"
+      }
+    },
+    {
+      "no": 40,
+      "arab": "اِنَّ الَّذِيْنَ يُلْحِدُوْنَ فِيْٓ اٰيٰتِنَا لَا يَخْفَوْنَ عَلَيْنَاۗ اَفَمَنْ يُّلْقٰى فِى النَّارِ خَيْرٌ اَمَّنْ يَّأْتِيْٓ اٰمِنًا يَّوْمَ الْقِيٰمَةِ ۗاِعْمَلُوْا مَا شِئْتُمْ ۙاِنَّهٗ بِمَا تَعْمَلُوْنَ بَصِيْرٌ ",
+      "latin": "inna <strong>al</strong>la<u>dz</u>iina yul<u>h</u>iduuna fii <u>aa</u>y<u>aa</u>tin<u>aa</u> l<u>aa</u> yakhfawna 'alayn<u>aa</u> afaman yulq<u>aa</u> fii <strong>al</strong>nn<u>aa</u>ri khayrun amman ya/tii <u>aa</u>minan yawma <strong>a</strong>lqiy<u>aa</u>mati i'maluu m<u>aa</u> syi/tum innahu bim<u>aa</u> ta'maluuna ba<u>sh</u>iir<strong></strong>",
+      "translation": "Sesungguhnya orang-orang yang mengingkari tanda-tanda (kebesaran) Kami, mereka tidak tersembunyi dari Kami. Apakah orang-orang yang dilemparkan ke dalam neraka yang lebih baik ataukah mereka yang datang dengan aman sentosa pada hari Kiamat? Lakukanlah apa yang kamu kehendaki! Sungguh, Dia Maha Melihat apa yang kamu kerjakan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4258.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4258.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4258.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4258.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4258.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4258.mp3"
+      }
+    },
+    {
+      "no": 41,
+      "arab": "اِنَّ الَّذِيْنَ كَفَرُوْا بِالذِّكْرِ لَمَّا جَاۤءَهُمْ ۗوَاِنَّهٗ لَكِتٰبٌ عَزِيْزٌ ۙ",
+      "latin": "inna <strong>al</strong>la<u>dz</u>iina kafaruu bi<strong>al</strong><u>dzdz</u>ikri lamm<u>aa</u> j<u>aa</u>-ahum wa-innahu lakit<u>aa</u>bun 'aziiz<strong>un</strong>",
+      "translation": "Sesungguhnya orang-orang yang mengingkari Al-Qur'an ketika (Al-Qur'an) itu disampaikan kepada mereka (mereka itu pasti akan celaka), dan sesungguhnya (Al-Qur'an) itu adalah Kitab yang mulia,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4259.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4259.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4259.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4259.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4259.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4259.mp3"
+      }
+    },
+    {
+      "no": 42,
+      "arab": "لَّا يَأْتِيْهِ الْبَاطِلُ مِنْۢ بَيْنِ يَدَيْهِ وَلَا مِنْ خَلْفِهٖ ۗتَنْزِيْلٌ مِّنْ حَكِيْمٍ حَمِيْدٍ ",
+      "latin": "l<u>aa</u> ya/tiihi <strong>a</strong>lb<u>aath</u>ilu min bayni yadayhi wal<u>aa</u> min khalfihi tanziilun min <u>h</u>akiimin <u>h</u>amiid<strong>in</strong>",
+      "translation": "yang) tidak akan didatangi oleh kebatilan baik dari depan maupun dari belakang (pada masa lalu dan yang akan datang), yang diturunkan dari Tuhan Yang Mahabijaksana, Maha Terpuji.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4260.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4260.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4260.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4260.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4260.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4260.mp3"
+      }
+    },
+    {
+      "no": 43,
+      "arab": "مَا يُقَالُ لَكَ اِلَّا مَا قَدْ قِيْلَ لِلرُّسُلِ مِنْ قَبْلِكَ ۗاِنَّ رَبَّكَ لَذُوْ مَغْفِرَةٍ وَّذُوْ عِقَابٍ اَلِيْمٍ ",
+      "latin": "m<u>aa</u> yuq<u>aa</u>lu laka ill<u>aa</u> m<u>aa</u> qad qiila li<strong>l</strong>rrusuli min qablika inna rabbaka la<u>dz</u>uu maghfiratin wa<u>dz</u>uu 'iq<u>aa</u>bin <strong>a</strong>liim<strong>in</strong>",
+      "translation": "Apa yang dikatakan (oleh orang-orang kafir) kepadamu tidak lain adalah apa yang telah dikatakan kepada rasul-rasul sebelummu. Sungguh, Tuhanmu mempunyai ampunan dan azab yang pedih.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4261.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4261.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4261.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4261.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4261.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4261.mp3"
+      }
+    },
+    {
+      "no": 44,
+      "arab": "وَلَوْ جَعَلْنٰهُ قُرْاٰنًا اَعْجَمِيًّا لَّقَالُوْا لَوْلَا فُصِّلَتْ اٰيٰتُهٗ ۗ ءَاَ۬عْجَمِيٌّ وَّعَرَبِيٌّ ۗ قُلْ هُوَ لِلَّذِيْنَ اٰمَنُوْا هُدًى وَّشِفَاۤءٌ ۗوَالَّذِيْنَ لَا يُؤْمِنُوْنَ فِيْٓ اٰذَانِهِمْ وَقْرٌ وَّهُوَ عَلَيْهِمْ عَمًىۗ اُولٰۤىِٕكَ يُنَادَوْنَ مِنْ مَّكَانٍۢ بَعِيْدٍ ࣖ",
+      "latin": "walaw ja'aln<u>aa</u>hu qur-<u>aa</u>nan a'jamiyyan laq<u>aa</u>luu lawl<u>aa</u> fu<u>shsh</u>ilat <u>aa</u>y<u>aa</u>tuhu a-a'jamiyyun wa'arabiyyun qul huwa lilla<u>dz</u>iina <u>aa</u>manuu hudan wasyif<u>aa</u>un wa<strong>a</strong>lla<u>dz</u>iina l<u>aa</u> yu/minuuna fii <u>aatsaa</u>nihim waqrun wahuwa 'alayhim 'aman ul<u>aa</u>-ika yun<u>aa</u>dawna min mak<u>aa</u>nin ba'iid<strong>in</strong>",
+      "translation": "Dan sekiranya Al-Qur'an Kami jadikan sebagai bacaan dalam bahasa selain bahasa Arab niscaya mereka mengatakan, “Mengapa tidak dijelaskan ayat-ayatnya?” Apakah patut (Al-Qur'an) dalam bahasa selain bahasa Arab sedang (rasul), orang Arab? Katakanlah, “Al-Qur'an adalah petunjuk dan penyembuh bagi orang-orang yang beriman. Dan orang-orang yang tidak beriman pada telinga mereka ada sumbatan, dan (Al-Qur'an) itu merupakan kegelapan bagi mereka. Mereka itu (seperti) orang-orang yang dipanggil dari tempat yang jauh.”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4262.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4262.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4262.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4262.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4262.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4262.mp3"
+      }
+    },
+    {
+      "no": 45,
+      "arab": "وَلَقَدْ اٰتَيْنَا مُوْسَى الْكِتٰبَ فَاخْتُلِفَ فِيْهِ ۗوَلَوْلَا كَلِمَةٌ سَبَقَتْ مِنْ رَّبِّكَ لَقُضِيَ بَيْنَهُمْ ۗوَاِنَّهُمْ لَفِيْ شَكٍّ مِّنْهُ مُرِيْبٍ ",
+      "latin": "walaqad <u>aa</u>tayn<u>aa</u> muus<u>aa</u> <strong>a</strong>lkit<u>aa</u>ba fa<strong>i</strong>khtulifa fiihi walawl<u>aa</u> kalimatun sabaqat min rabbika laqu<u>dh</u>iya baynahum wa-innahum lafii syakkin minhu muriib<strong>in</strong>",
+      "translation": "Dan sungguh, telah Kami berikan kepada Musa Kitab (Taurat) lalu diperselisihkan. Sekiranya tidak ada keputusan yang terdahulu dari Tuhanmu, orang-orang kafir itu pasti sudah dibinasakan. Dan sesungguhnya mereka benar-benar dalam keraguan yang mendalam terhadapnya.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4263.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4263.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4263.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4263.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4263.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4263.mp3"
+      }
+    },
+    {
+      "no": 46,
+      "arab": "مَنْ عَمِلَ صَالِحًا فَلِنَفْسِهٖ ۙوَمَنْ اَسَاۤءَ فَعَلَيْهَا ۗوَمَا رَبُّكَ بِظَلَّامٍ لِّلْعَبِيْدِ  ۔ ",
+      "latin": "man 'amila <u>shaa</u>li<u>h</u>an falinafsihi waman as<u>aa</u>-a fa'alayh<u>aa</u> wam<u>aa</u> rabbuka bi<u>zh</u>all<u>aa</u>min lil'abiid<strong>i</strong>",
+      "translation": "Barangsiapa mengerjakan kebajikan maka (pahalanya) untuk dirinya sendiri dan barangsiapa berbuat jahat maka (dosanya) menjadi tanggungan dirinya sendiri. Dan Tuhanmu sama sekali tidak menzalimi hamba-hamba(-Nya).",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4264.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4264.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4264.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4264.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4264.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4264.mp3"
+      }
+    },
+    {
+      "no": 47,
+      "arab": "۞ اِلَيْهِ يُرَدُّ عِلْمُ السَّاعَةِ ۗوَمَا تَخْرُجُ مِنْ ثَمَرٰتٍ ِمّنْ اَكْمَامِهَا وَمَا تَحْمِلُ مِنْ اُنْثٰى وَلَا تَضَعُ اِلَّا بِعِلْمِهٖ ۗوَيَوْمَ يُنَادِيْهِمْ اَيْنَ شُرَكَاۤءِيْۙ قَالُوْٓا اٰذَنّٰكَ مَا مِنَّا مِنْ شَهِيْدٍ ۚ ",
+      "latin": "ilayhi yuraddu 'ilmu <strong>al</strong>ss<u>aa</u>'ati wam<u>aa</u> takhruju min tsamar<u>aa</u>tin min akm<u>aa</u>mih<u>aa</u> wam<u>aa</u> ta<u>h</u>milu min unts<u>aa</u> wal<u>aa</u> ta<u>dh</u>a'u ill<u>aa</u> bi'ilmihi wayawma yun<u>aa</u>diihim ayna syurak<u>aa</u>-ii q<u>aa</u>luu <u>aadz</u>ann<u>aa</u>ka m<u>aa</u> minn<u>aa</u> min syahiid<strong>in</strong>",
+      "translation": "Kepada-Nyalah ilmu tentang hari Kiamat itu dikembalikan. Tidak ada buah-buahan yang keluar dari kelopaknya dan tidak seorang perempuan pun yang mengandung dan yang melahirkan, melainkan semuanya dengan sepengetahuan-Nya. Pada hari ketika Dia (Allah) menyeru mereka, “Dimanakah sekutu-sekutu-Ku itu?” Mereka menjawab, “Kami nyatakan kepada Engkau bahwa tidak ada seorang pun di antara kami yang dapat memberi kesaksian (bahwa Engkau mempunyai sekutu).”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4265.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4265.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4265.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4265.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4265.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4265.mp3"
+      }
+    },
+    {
+      "no": 48,
+      "arab": "وَضَلَّ عَنْهُمْ مَّا كَانُوْا يَدْعُوْنَ مِنْ قَبْلُ وَظَنُّوْا مَا لَهُمْ مِّنْ مَّحِيْصٍ ",
+      "latin": "wa<u>dh</u>alla 'anhum m<u>aa</u> k<u>aa</u>nuu yad'uuna min qablu wa<u>zh</u>annuu m<u>aa</u> lahum min ma<u>h</u>ii<u>sh</u><strong>in</strong>",
+      "translation": "Dan lenyaplah dari mereka apa yang dahulu selalu mereka sembah, dan mereka pun tahu bahwa tidak ada jalan keluar (dari azab Allah) bagi mereka.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4266.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4266.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4266.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4266.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4266.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4266.mp3"
+      }
+    },
+    {
+      "no": 49,
+      "arab": "لَا يَسْـَٔمُ الْاِنْسَانُ مِنْ دُعَاۤءِ الْخَيْرِۖ وَاِنْ مَّسَّهُ الشَّرُّ فَيَـُٔوْسٌ قَنُوْطٌ ",
+      "latin": "l<u>aa</u> yas-amu <strong>a</strong>l-ins<u>aa</u>nu min du'<u>aa</u>-i <strong>a</strong>lkhayri wa-in massahu <strong>al</strong>sysyarru fayauusun qanuu<u>th</u><strong>u</strong>",
+      "translation": "Manusia tidak jemu memohon kebaikan, dan jika ditimpa malapetaka, mereka berputus asa dan hilang harapannya.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4267.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4267.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4267.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4267.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4267.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4267.mp3"
+      }
+    },
+    {
+      "no": 50,
+      "arab": "وَلَىِٕنْ اَذَقْنٰهُ رَحْمَةً مِّنَّا مِنْۢ بَعْدِ ضَرَّاۤءَ مَسَّتْهُ لَيَقُوْلَنَّ هٰذَا لِيْۙ وَمَآ اَظُنُّ السَّاعَةَ قَاۤىِٕمَةًۙ وَّلَىِٕنْ رُّجِعْتُ اِلٰى رَبِّيْٓ اِنَّ لِيْ عِنْدَهٗ لَلْحُسْنٰىۚ فَلَنُنَبِّئَنَّ الَّذِيْنَ كَفَرُوْا بِمَا عَمِلُوْاۖ وَلَنُذِيْقَنَّهُمْ مِّنْ عَذَابٍ غَلِيْظٍ ",
+      "latin": "wala-in a<u>dz</u>aqn<u>aa</u>hu ra<u>h</u>matan minn<u>aa</u> min ba'di <u>dh</u>arr<u>aa</u>-a massat-hu layaquulanna h<u>aadzaa</u> lii wam<u>aa</u> a<u>zh</u>unnu <strong>al</strong>ss<u>aa</u>'ata q<u>aa</u>-imatan wala-in ruji'tu il<u>aa</u> rabbii inna lii 'indahu lal<u>h</u>usn<u>aa</u> falanunabbi-anna <strong>al</strong>la<u>dz</u>iina kafaruu bim<u>aa</u> 'amiluu walanu<u>dz</u>iiqannahum min 'a<u>dzaa</u>bin ghalii<u>zh</u><strong>in</strong>",
+      "translation": "Dan jika Kami berikan kepadanya suatu rahmat dari Kami setelah ditimpa kesusahan, pastilah dia berkata, “Ini adalah hakku, dan aku tidak yakin bahwa hari Kiamat itu akan terjadi. Dan jika aku dikembalikan kepada Tuhanku, sesungguhnya aku akan memperoleh kebaikan di sisi-Nya.” Maka sungguh, akan Kami beritahukan kepada orang-orang kafir tentang apa yang telah mereka kerjakan, dan sungguh, akan Kami timpakan kepada mereka azab yang berat.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4268.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4268.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4268.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4268.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4268.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4268.mp3"
+      }
+    },
+    {
+      "no": 51,
+      "arab": "وَاِذَآ اَنْعَمْنَا عَلَى الْاِنْسَانِ اَعْرَضَ وَنَاٰ بِجَانِبِهٖۚ وَاِذَا مَسَّهُ الشَّرُّ فَذُوْ دُعَاۤءٍ عَرِيْضٍ ",
+      "latin": "wa-i<u>dzaa</u> an'amn<u>aa</u> 'al<u>aa</u> <strong>a</strong>l-ins<u>aa</u>ni a'ra<u>dh</u>a wana<u>aa</u> bij<u>aa</u>nibihi wa-i<u>dzaa</u> massahu <strong>al</strong>sysyarru fa<u>dz</u>uu du'<u>aa</u>-in 'arii<u>dh</u><strong>in</strong>",
+      "translation": "Dan apabila Kami berikan nikmat kepada manusia, dia berpaling dan menjauhkan diri (dengan sombong); tetapi apabila ditimpa malapetaka maka dia banyak berdoa.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4269.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4269.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4269.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4269.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4269.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4269.mp3"
+      }
+    },
+    {
+      "no": 52,
+      "arab": "قُلْ اَرَءَيْتُمْ اِنْ كَانَ مِنْ عِنْدِ اللّٰهِ ثُمَّ كَفَرْتُمْ بِهٖ مَنْ اَضَلُّ مِمَّنْ هُوَ فِيْ شِقَاقٍۢ بَعِيْدٍ ",
+      "latin": "qul ara-aytum in k<u>aa</u>na min 'indi <strong>al</strong>l<u>aa</u>hi tsumma kafartum bihi man a<u>dh</u>allu mimman huwa fii syiq<u>aa</u>qin ba'iid<strong>in</strong>",
+      "translation": "Katakanlah, “Bagaimana pendapatmu jika (Al-Qur'an) itu datang dari sisi Allah, kemudian kamu mengingkarinya. Siapakah yang lebih sesat daripada orang yang selalu berada dalam penyimpangan yang jauh (dari kebenaran)?”",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4270.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4270.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4270.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4270.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4270.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4270.mp3"
+      }
+    },
+    {
+      "no": 53,
+      "arab": "سَنُرِيْهِمْ اٰيٰتِنَا فِى الْاٰفَاقِ وَفِيْٓ اَنْفُسِهِمْ حَتّٰى يَتَبَيَّنَ لَهُمْ اَنَّهُ الْحَقُّۗ اَوَلَمْ يَكْفِ بِرَبِّكَ اَنَّهٗ عَلٰى كُلِّ شَيْءٍ شَهِيْدٌ ",
+      "latin": "sanuriihim <u>aa</u>y<u>aa</u>tin<u>aa</u> fii <strong>a</strong>l-<u>aa</u>f<u>aa</u>qi wafii anfusihim <u>h</u>att<u>aa</u> yatabayyana lahum annahu <strong>a</strong>l<u>h</u>aqqu awa lam yakfi birabbika annahu 'al<u>aa</u> kulli syay-in syahiid<strong>un</strong>",
+      "translation": "Kami akan memperlihatkan kepada mereka tanda-tanda (kebesaran) Kami di segenap penjuru dan pada diri mereka sendiri, sehingga jelaslah bagi mereka bahwa Al-Qur'an itu adalah benar. Tidak cukupkah (bagi kamu) bahwa Tuhanmu menjadi saksi atas segala sesuatu?",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4271.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4271.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4271.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4271.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4271.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4271.mp3"
+      }
+    },
+    {
+      "no": 54,
+      "arab": "اَلَآ اِنَّهُمْ  فِيْ مِرْيَةٍ مِّنْ لِّقَاۤءِ رَبِّهِمْ ۗ اَلَآ اِنَّهٗ بِكُلِّ شَيْءٍ مُّحِيْطٌ ࣖ",
+      "latin": "al<u>aa</u> innahum fii miryatin min liq<u>aa</u>-i rabbihim <strong>a</strong>l<u>aa</u> innahu bikulli syay-in mu<u>h</u>ii<u>th</u><strong>un</strong>",
+      "translation": "Ingatlah, sesungguhnya mereka dalam keraguan tentang pertemuan dengan Tuhan mereka. Ingatlah, sesungguhnya Dia Maha Meliputi segala sesuatu.  ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4272.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/4272.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/4272.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/4272.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/4272.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/4272.mp3"
+      }
+    }
+  ]
+}

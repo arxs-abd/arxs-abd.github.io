@@ -1,0 +1,416 @@
+{
+  "number": 81,
+  "numberOfAyahs": 29,
+  "name": "At-Takwir",
+  "translation": "Penggulungan",
+  "revelation": "Makkiyah",
+  "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/081AtTakwiir.mp3",
+  "ayahs": [
+    {
+      "no": 1,
+      "arab": "اِذَا الشَّمْسُ كُوِّرَتْۖ",
+      "latin": "i<u>dzaa</u> <strong>al</strong>sysyamsu kuwwirat",
+      "translation": "Apabila matahari digulung,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5801.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5801.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5801.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5801.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5801.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5801.mp3"
+      }
+    },
+    {
+      "no": 2,
+      "arab": "وَاِذَا النُّجُوْمُ انْكَدَرَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>al</strong>nnujuumu inkadarat",
+      "translation": "dan apabila bintang-bintang berjatuhan,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5802.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5802.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5802.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5802.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5802.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5802.mp3"
+      }
+    },
+    {
+      "no": 3,
+      "arab": "وَاِذَا الْجِبَالُ سُيِّرَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>a</strong>ljib<u>aa</u>lu suyyirath",
+      "translation": "dan apabila gunung-gunung dihancurkan,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5803.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5803.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5803.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5803.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5803.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5803.mp3"
+      }
+    },
+    {
+      "no": 4,
+      "arab": "وَاِذَا الْعِشَارُ عُطِّلَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>a</strong>l'isy<u>aa</u>ru 'u<u>ththh</u>ilath",
+      "translation": "dan apabila unta-unta yang bunting ditinggalkan (tidak terurus),",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5804.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5804.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5804.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5804.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5804.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5804.mp3"
+      }
+    },
+    {
+      "no": 5,
+      "arab": "وَاِذَا الْوُحُوْشُ حُشِرَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>a</strong>lwu<u>h</u>uusyu <u>h</u>usyirath",
+      "translation": "dan apabila binatang-binatang liar dikumpulkan,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5805.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5805.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5805.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5805.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5805.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5805.mp3"
+      }
+    },
+    {
+      "no": 6,
+      "arab": "وَاِذَا الْبِحَارُ سُجِّرَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>a</strong>lbi<u>haa</u>ru sujjirath",
+      "translation": "dan apabila lautan dipanaskan,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5806.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5806.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5806.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5806.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5806.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5806.mp3"
+      }
+    },
+    {
+      "no": 7,
+      "arab": "وَاِذَا النُّفُوْسُ زُوِّجَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>al</strong>nnufuusu zuwwijat",
+      "translation": "dan apabila roh-roh dipertemukan (dengan tubuh), ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5807.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5807.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5807.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5807.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5807.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5807.mp3"
+      }
+    },
+    {
+      "no": 8,
+      "arab": "وَاِذَا الْمَوْءٗدَةُ سُىِٕلَتْۖ ",
+      "latin": "wa-i<u>dzaa</u> <strong>a</strong>lmawuudatu su-ilath",
+      "translation": "dan apabila bayi-bayi perempuan yang dikubur hidup-hidup ditanya, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5808.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5808.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5808.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5808.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5808.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5808.mp3"
+      }
+    },
+    {
+      "no": 9,
+      "arab": "بِاَيِّ ذَنْۢبٍ قُتِلَتْۚ",
+      "latin": "bi-ayyi <u>dz</u>anbin qutilath",
+      "translation": "karena dosa apa dia dibunuh? ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5809.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5809.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5809.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5809.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5809.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5809.mp3"
+      }
+    },
+    {
+      "no": 10,
+      "arab": "وَاِذَا الصُّحُفُ نُشِرَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>al</strong><u>shsh</u>u<u>h</u>ufu nusyirath",
+      "translation": "Dan apabila lembaran-lembaran (catatan amal) telah dibuka lebar-lebar, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5810.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5810.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5810.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5810.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5810.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5810.mp3"
+      }
+    },
+    {
+      "no": 11,
+      "arab": "وَاِذَا السَّمَاۤءُ كُشِطَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>al</strong>ssam<u>aa</u>u kusyi<u>th</u>ath",
+      "translation": "dan apabila langit dilenyapkan, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5811.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5811.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5811.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5811.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5811.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5811.mp3"
+      }
+    },
+    {
+      "no": 12,
+      "arab": "وَاِذَا الْجَحِيْمُ سُعِّرَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>a</strong>lja<u>h</u>iimu su''irath",
+      "translation": "dan apabila neraka Jahim dinyalakan, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5812.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5812.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5812.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5812.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5812.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5812.mp3"
+      }
+    },
+    {
+      "no": 13,
+      "arab": "وَاِذَا الْجَنَّةُ اُزْلِفَتْۖ",
+      "latin": "wa-i<u>dzaa</u> <strong>a</strong>ljannatu uzlifath",
+      "translation": "dan apabila surga didekatkan, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5813.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5813.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5813.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5813.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5813.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5813.mp3"
+      }
+    },
+    {
+      "no": 14,
+      "arab": "عَلِمَتْ نَفْسٌ مَّآ اَحْضَرَتْۗ",
+      "latin": "'alimat nafsun m<u>aa</u> a<u>hd</u>arath",
+      "translation": "setiap jiwa akan mengetahui apa yang telah dikerjakannya. ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5814.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5814.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5814.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5814.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5814.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5814.mp3"
+      }
+    },
+    {
+      "no": 15,
+      "arab": "فَلَآ اُقْسِمُ بِالْخُنَّسِۙ",
+      "latin": "fal<u>aa</u> uqsimu bi<strong>a</strong>lkhunnas<strong>i</strong>",
+      "translation": "Aku bersumpah demi bintang-bintang,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5815.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5815.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5815.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5815.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5815.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5815.mp3"
+      }
+    },
+    {
+      "no": 16,
+      "arab": "الْجَوَارِ الْكُنَّسِۙ",
+      "latin": "aljaw<u>aa</u>ri <strong>a</strong>lkunnas<strong>i</strong>",
+      "translation": "yang beredar dan terbenam, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5816.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5816.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5816.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5816.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5816.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5816.mp3"
+      }
+    },
+    {
+      "no": 17,
+      "arab": "وَالَّيْلِ اِذَا عَسْعَسَۙ",
+      "latin": "wa<strong>a</strong>llayli i<u>dzaa</u> 'as'as<strong>a</strong>",
+      "translation": "demi malam apabila telah larut, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5817.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5817.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5817.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5817.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5817.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5817.mp3"
+      }
+    },
+    {
+      "no": 18,
+      "arab": "وَالصُّبْحِ اِذَا تَنَفَّسَۙ",
+      "latin": "wa<strong>al</strong><u>shsh</u>ub<u>h</u>i i<u>dzaa</u> tanaffas<strong>a</strong>",
+      "translation": "dan demi subuh apabila fajar telah menyingsing, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5818.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5818.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5818.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5818.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5818.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5818.mp3"
+      }
+    },
+    {
+      "no": 19,
+      "arab": "اِنَّهٗ لَقَوْلُ رَسُوْلٍ كَرِيْمٍۙ",
+      "latin": "innahu laqawlu rasuulin kariim<strong>in</strong>",
+      "translation": "sesungguhnya (Al-Qur'an) itu benar-benar firman (Allah yang dibawa oleh) utusan yang mulia (Jibril),",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5819.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5819.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5819.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5819.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5819.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5819.mp3"
+      }
+    },
+    {
+      "no": 20,
+      "arab": "ذِيْ قُوَّةٍ عِنْدَ ذِى الْعَرْشِ مَكِيْنٍۙ",
+      "latin": "<u>dz</u>ii quwwatin 'inda <u>dz</u>ii <strong>a</strong>l'arsyi makiin<strong>in</strong>",
+      "translation": "yang memiliki kekuatan, memiliki kedudukan tinggi di sisi (Allah) yang memiliki ‘Arsy,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5820.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5820.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5820.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5820.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5820.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5820.mp3"
+      }
+    },
+    {
+      "no": 21,
+      "arab": "مُّطَاعٍ ثَمَّ اَمِيْنٍۗ",
+      "latin": "mu<u>th</u><u>aa</u>'in tsamma amiin<strong>in</strong>",
+      "translation": "yang di sana (di alam malaikat) ditaati dan dipercaya.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5821.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5821.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5821.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5821.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5821.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5821.mp3"
+      }
+    },
+    {
+      "no": 22,
+      "arab": "وَمَا صَاحِبُكُمْ بِمَجْنُوْنٍۚ",
+      "latin": "wam<u>aa</u> <u>shaah</u>ibukum bimajnuun<strong>in</strong>",
+      "translation": "Dan temanmu (Muhammad) itu bukanlah orang gila. ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5822.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5822.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5822.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5822.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5822.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5822.mp3"
+      }
+    },
+    {
+      "no": 23,
+      "arab": "وَلَقَدْ رَاٰهُ بِالْاُفُقِ الْمُبِيْنِۚ",
+      "latin": "walaqad ra<u>aa</u>hu bi<strong>a</strong>lufuqi <strong>a</strong>lmubiin<strong>i</strong>",
+      "translation": "Dan sungguh, dia (Muhammad) telah melihatnya (Jibril) di ufuk yang terang. ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5823.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5823.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5823.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5823.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5823.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5823.mp3"
+      }
+    },
+    {
+      "no": 24,
+      "arab": "وَمَا هُوَ عَلَى الْغَيْبِ بِضَنِيْنٍۚ",
+      "latin": "wam<u>aa</u> huwa 'al<u>aa</u> <strong>a</strong>lghaybi bi<u>dh</u>aniin<strong>in</strong>",
+      "translation": "Dan dia (Muhammad) bukanlah seorang yang kikir (enggan) untuk menerangkan yang gaib.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5824.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5824.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5824.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5824.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5824.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5824.mp3"
+      }
+    },
+    {
+      "no": 25,
+      "arab": "وَمَا هُوَ بِقَوْلِ شَيْطٰنٍ رَّجِيْمٍۚ",
+      "latin": "wam<u>aa</u> huwa biqawli syay<u>th</u><u>aa</u>nin rajiim<strong>in</strong>",
+      "translation": "Dan (Al-Qur'an) itu bukanlah perkataan setan yang terkutuk,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5825.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5825.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5825.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5825.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5825.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5825.mp3"
+      }
+    },
+    {
+      "no": 26,
+      "arab": "فَاَيْنَ تَذْهَبُوْنَۗ",
+      "latin": "fa-ayna ta<u>dz</u>habuun<strong>a</strong>",
+      "translation": "maka ke manakah kamu akan pergi?",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5826.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5826.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5826.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5826.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5826.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5826.mp3"
+      }
+    },
+    {
+      "no": 27,
+      "arab": "اِنْ هُوَ اِلَّا ذِكْرٌ لِّلْعٰلَمِيْنَۙ",
+      "latin": "in huwa ill<u>aa</u> <u>dz</u>ikrun lil'<u>aa</u>lamiin<strong>a</strong>",
+      "translation": "(Al-Qur'an) itu tidak lain adalah peringatan bagi seluruh alam, ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5827.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5827.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5827.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5827.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5827.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5827.mp3"
+      }
+    },
+    {
+      "no": 28,
+      "arab": "لِمَنْ شَاۤءَ مِنْكُمْ اَنْ يَّسْتَقِيْمَۗ",
+      "latin": "liman sy<u>aa</u>-a minkum an yastaqiim<strong>a</strong>",
+      "translation": "(yaitu) bagi siapa di antara kamu yang menghendaki menempuh jalan yang lurus. ",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5828.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5828.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5828.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5828.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5828.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5828.mp3"
+      }
+    },
+    {
+      "no": 29,
+      "arab": "وَمَا تَشَاۤءُوْنَ اِلَّآ اَنْ يَّشَاۤءَ اللّٰهُ رَبُّ الْعٰلَمِيْنَ ࣖ",
+      "latin": "wam<u>aa</u> tasy<u>aa</u>uuna ill<u>aa</u> an yasy<u>aa</u>-a <strong>al</strong>l<u>aa</u>hu rabbu <strong>a</strong>l'<u>aa</u>lamiin<strong>a</strong>",
+      "translation": "Dan kamu tidak dapat menghendaki (menempuh jalan itu) kecuali apabila dikehendaki Allah, Tuhan seluruh alam.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5829.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/5829.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/5829.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/5829.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/5829.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/5829.mp3"
+      }
+    }
+  ]
+}

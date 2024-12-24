@@ -1,0 +1,66 @@
+{
+  "number": 106,
+  "numberOfAyahs": 4,
+  "name": "Quraisy",
+  "translation": "Quraisy",
+  "revelation": "Makkiyah",
+  "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/106Quraisy.mp3",
+  "ayahs": [
+    {
+      "no": 1,
+      "arab": "لِاِيْلٰفِ قُرَيْشٍۙ",
+      "latin": "li-iil<u>aa</u>fi quraysy<strong>in</strong>",
+      "translation": "Karena kebiasaan orang-orang Quraisy,",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6194.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6194.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6194.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6194.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6194.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6194.mp3"
+      }
+    },
+    {
+      "no": 2,
+      "arab": "اٖلٰفِهِمْ رِحْلَةَ الشِّتَاۤءِ وَالصَّيْفِۚ",
+      "latin": "iil<u>aa</u>fihim ri<u>h</u>lata <strong>al</strong>sysyit<u>aa</u>-i wa<strong>al</strong><u>shsh</u>ayf<strong>i</strong>",
+      "translation": "(yaitu) kebiasaan mereka bepergian pada musim dingin dan musim panas.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6195.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6195.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6195.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6195.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6195.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6195.mp3"
+      }
+    },
+    {
+      "no": 3,
+      "arab": "فَلْيَعْبُدُوْا رَبَّ هٰذَا الْبَيْتِۙ",
+      "latin": "falya'buduu rabba h<u>aadzaa</u> <strong>a</strong>lbayt<strong>i</strong>",
+      "translation": "Maka hendaklah mereka menyembah Tuhan (pemilik) rumah ini (Ka‘bah),",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6196.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6196.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6196.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6196.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6196.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6196.mp3"
+      }
+    },
+    {
+      "no": 4,
+      "arab": "الَّذِيْٓ اَطْعَمَهُمْ مِّنْ جُوْعٍ ەۙ وَّاٰمَنَهُمْ مِّنْ خَوْفٍ ࣖ",
+      "latin": "<strong>al</strong>la<u>dz</u>ii a<u>th</u>'amahum min juu'in wa<u>aa</u>manahum min khawf<strong>in</strong>",
+      "translation": "yang telah memberi makanan kepada mereka untuk menghilangkan lapar dan mengamankan mereka dari rasa ketakutan.",
+      "audio": {
+        "alafasy": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6197.mp3",
+        "ahmedajamy": "https://cdn.islamic.network/quran/audio/128/ar.ahmedajamy/6197.mp3",
+        "husarymujawwad": "https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/6197.mp3",
+        "minshawi": "https://cdn.islamic.network/quran/audio/128/ar.minshawi/6197.mp3",
+        "muhammadayyoub": "https://cdn.islamic.network/quran/audio/128/ar.muhammadayyoub/6197.mp3",
+        "muhammadjibreel": "https://cdn.islamic.network/quran/audio/128/ar.muhammadjibreel/6197.mp3"
+      }
+    }
+  ]
+}

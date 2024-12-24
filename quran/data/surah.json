@@ -1,0 +1,914 @@
+[
+  {
+    "number": 1,
+    "numberOfAyahs": 7,
+    "name": "Al-Fatihah",
+    "translation": "Pembukaan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/001AlFaatihah.mp3"
+  },
+  {
+    "number": 2,
+    "numberOfAyahs": 286,
+    "name": "Al-Baqarah",
+    "translation": "Sapi",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/002AlBaqarah.mp3"
+  },
+  {
+    "number": 3,
+    "numberOfAyahs": 200,
+    "name": "Ali 'Imran",
+    "translation": "Keluarga Imran",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/003AliImran.mp3"
+  },
+  {
+    "number": 4,
+    "numberOfAyahs": 176,
+    "name": "An-Nisa'",
+    "translation": "Wanita",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/004AnNisaa.mp3"
+  },
+  {
+    "number": 5,
+    "numberOfAyahs": 120,
+    "name": "Al-Ma'idah",
+    "translation": "Hidangan",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/005AlMaaidah.mp3"
+  },
+  {
+    "number": 6,
+    "numberOfAyahs": 165,
+    "name": "Al-An'am",
+    "translation": "Binatang Ternak",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/006AlAnaam.mp3"
+  },
+  {
+    "number": 7,
+    "numberOfAyahs": 206,
+    "name": "Al-A'raf",
+    "translation": "Tempat Tertinggi",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/007AlAaraaf.mp3"
+  },
+  {
+    "number": 8,
+    "numberOfAyahs": 75,
+    "name": "Al-Anfal",
+    "translation": "Rampasan Perang",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/008AlAnfaal.mp3"
+  },
+  {
+    "number": 9,
+    "numberOfAyahs": 129,
+    "name": "At-Taubah",
+    "translation": "Pengampunan",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/009AtTaubah.mp3"
+  },
+  {
+    "number": 10,
+    "numberOfAyahs": 109,
+    "name": "Yunus",
+    "translation": "Yunus",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/010Yunus.mp3"
+  },
+  {
+    "number": 11,
+    "numberOfAyahs": 123,
+    "name": "Hud",
+    "translation": "Hud",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/011Huud.mp3"
+  },
+  {
+    "number": 12,
+    "numberOfAyahs": 111,
+    "name": "Yusuf",
+    "translation": "Yusuf",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/012Yusuf.mp3"
+  },
+  {
+    "number": 13,
+    "numberOfAyahs": 43,
+    "name": "Ar-Ra'd",
+    "translation": "Guruh",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/013ArRaad.mp3"
+  },
+  {
+    "number": 14,
+    "numberOfAyahs": 52,
+    "name": "Ibrahim",
+    "translation": "Ibrahim",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/014Ibrahim.mp3"
+  },
+  {
+    "number": 15,
+    "numberOfAyahs": 99,
+    "name": "Al-Hijr",
+    "translation": "Hijr",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/015AlHijr.mp3"
+  },
+  {
+    "number": 16,
+    "numberOfAyahs": 128,
+    "name": "An-Nahl",
+    "translation": "Lebah",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/016AnNahl.mp3"
+  },
+  {
+    "number": 17,
+    "numberOfAyahs": 111,
+    "name": "Al-Isra'",
+    "translation": "Memperjalankan Malam Hari",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/017AlIsraa.mp3"
+  },
+  {
+    "number": 18,
+    "numberOfAyahs": 110,
+    "name": "Al-Kahf",
+    "translation": "Goa",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/018AlKahfi.mp3"
+  },
+  {
+    "number": 19,
+    "numberOfAyahs": 98,
+    "name": "Maryam",
+    "translation": "Maryam",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/019Maryam.mp3"
+  },
+  {
+    "number": 20,
+    "numberOfAyahs": 135,
+    "name": "Taha",
+    "translation": "Taha",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/020Thaahaa2.mp3"
+  },
+  {
+    "number": 21,
+    "numberOfAyahs": 112,
+    "name": "Al-Anbiya'",
+    "translation": "Para Nabi",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/021AlAnbiyaa.mp3"
+  },
+  {
+    "number": 22,
+    "numberOfAyahs": 78,
+    "name": "Al-Hajj",
+    "translation": "Haji",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/022AlHajj.mp3"
+  },
+  {
+    "number": 23,
+    "numberOfAyahs": 118,
+    "name": "Al-Mu'minun",
+    "translation": "Orang-Orang Mukmin",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/023AlMuminuun.mp3"
+  },
+  {
+    "number": 24,
+    "numberOfAyahs": 64,
+    "name": "An-Nur",
+    "translation": "Cahaya",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/024AnNuur.mp3"
+  },
+  {
+    "number": 25,
+    "numberOfAyahs": 77,
+    "name": "Al-Furqan",
+    "translation": "Pembeda",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/025AlFurqaan.mp3"
+  },
+  {
+    "number": 26,
+    "numberOfAyahs": 227,
+    "name": "Asy-Syu'ara'",
+    "translation": "Para Penyair",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/026AsySyuaaraa.mp3"
+  },
+  {
+    "number": 27,
+    "numberOfAyahs": 93,
+    "name": "An-Naml",
+    "translation": "Semut-semut",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/027AnNaml.mp3"
+  },
+  {
+    "number": 28,
+    "numberOfAyahs": 88,
+    "name": "Al-Qasas",
+    "translation": "Kisah-Kisah",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/028AlQashash.mp3"
+  },
+  {
+    "number": 29,
+    "numberOfAyahs": 69,
+    "name": "Al-'Ankabut",
+    "translation": "Laba-Laba",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/029AlAnkabuut.mp3"
+  },
+  {
+    "number": 30,
+    "numberOfAyahs": 60,
+    "name": "Ar-Rum",
+    "translation": "Romawi",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/030ArRuum.mp3"
+  },
+  {
+    "number": 31,
+    "numberOfAyahs": 34,
+    "name": "Luqman",
+    "translation": "Luqman",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/031Luqman.mp3"
+  },
+  {
+    "number": 32,
+    "numberOfAyahs": 30,
+    "name": "As-Sajdah",
+    "translation": "Sajdah",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/032AsSajdah.mp3"
+  },
+  {
+    "number": 33,
+    "numberOfAyahs": 73,
+    "name": "Al-Ahzab",
+    "translation": "Golongan Yang Bersekutu",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/033AlAhzab.mp3"
+  },
+  {
+    "number": 34,
+    "numberOfAyahs": 54,
+    "name": "Saba'",
+    "translation": "Saba'",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/034Sabaa.mp3"
+  },
+  {
+    "number": 35,
+    "numberOfAyahs": 45,
+    "name": "Fatir",
+    "translation": "Maha Pencipta",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/035Faathir.mp3"
+  },
+  {
+    "number": 36,
+    "numberOfAyahs": 83,
+    "name": "Yasin",
+    "translation": "Yasin",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/036Yaasiin.mp3"
+  },
+  {
+    "number": 37,
+    "numberOfAyahs": 182,
+    "name": "As-Saffat",
+    "translation": "Barisan-Barisan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/037AshShaaffaat.mp3"
+  },
+  {
+    "number": 38,
+    "numberOfAyahs": 88,
+    "name": "Sad",
+    "translation": "Sad",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/038Shaad.mp3"
+  },
+  {
+    "number": 39,
+    "numberOfAyahs": 75,
+    "name": "Az-Zumar",
+    "translation": "Rombongan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/039AzZumar.mp3"
+  },
+  {
+    "number": 40,
+    "numberOfAyahs": 85,
+    "name": "Gafir",
+    "translation": "Maha Pengampun",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/040AlMuumin.mp3"
+  },
+  {
+    "number": 41,
+    "numberOfAyahs": 54,
+    "name": "Fussilat",
+    "translation": "Yang Dijelaskan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/041Fushshilat.mp3"
+  },
+  {
+    "number": 42,
+    "numberOfAyahs": 53,
+    "name": "Asy-Syura",
+    "translation": "Musyawarah",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/042AsySyuura.mp3"
+  },
+  {
+    "number": 43,
+    "numberOfAyahs": 89,
+    "name": "Az-Zukhruf",
+    "translation": "Perhiasan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/043AzZukhruf.mp3"
+  },
+  {
+    "number": 44,
+    "numberOfAyahs": 59,
+    "name": "Ad-Dukhan",
+    "translation": "Kabut",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/044AdDukhaan.mp3"
+  },
+  {
+    "number": 45,
+    "numberOfAyahs": 37,
+    "name": "Al-Jasiyah",
+    "translation": "Berlutut",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/045AlJaatsiyah.mp3"
+  },
+  {
+    "number": 46,
+    "numberOfAyahs": 35,
+    "name": "Al-Ahqaf",
+    "translation": "Bukit Pasir",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/046AlAhqaaf.mp3"
+  },
+  {
+    "number": 47,
+    "numberOfAyahs": 38,
+    "name": "Muhammad",
+    "translation": "Muhammad",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/047Muhammad.mp3"
+  },
+  {
+    "number": 48,
+    "numberOfAyahs": 29,
+    "name": "Al-Fath",
+    "translation": "Kemenangan",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/048AlFath.mp3"
+  },
+  {
+    "number": 49,
+    "numberOfAyahs": 18,
+    "name": "Al-Hujurat",
+    "translation": "Kamar-Kamar",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/049AlHujuraat.mp3"
+  },
+  {
+    "number": 50,
+    "numberOfAyahs": 45,
+    "name": "Qaf",
+    "translation": "Qaf",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/050Qaaf.mp3"
+  },
+  {
+    "number": 51,
+    "numberOfAyahs": 60,
+    "name": "Az-Zariyat",
+    "translation": "Angin yang Menerbangkan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/051AdzDzaariyaat.mp3"
+  },
+  {
+    "number": 52,
+    "numberOfAyahs": 49,
+    "name": "At-Tur",
+    "translation": "Bukit Tursina",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/052AthThuur.mp3"
+  },
+  {
+    "number": 53,
+    "numberOfAyahs": 62,
+    "name": "An-Najm",
+    "translation": "Bintang",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/053AnNajm.mp3"
+  },
+  {
+    "number": 54,
+    "numberOfAyahs": 55,
+    "name": "Al-Qamar",
+    "translation": "Bulan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/054AlQamar.mp3"
+  },
+  {
+    "number": 55,
+    "numberOfAyahs": 78,
+    "name": "Ar-Rahman",
+    "translation": "Maha Pengasih",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/055ArRahmaan.mp3"
+  },
+  {
+    "number": 56,
+    "numberOfAyahs": 96,
+    "name": "Al-Waqi'ah",
+    "translation": "Hari Kiamat",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/056AlWaqiah.mp3"
+  },
+  {
+    "number": 57,
+    "numberOfAyahs": 29,
+    "name": "Al-Hadid",
+    "translation": "Besi",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/057AlHadiid.mp3"
+  },
+  {
+    "number": 58,
+    "numberOfAyahs": 22,
+    "name": "Al-Mujadalah",
+    "translation": "Gugatan",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/058AlMujaadilah.mp3"
+  },
+  {
+    "number": 59,
+    "numberOfAyahs": 24,
+    "name": "Al-Hasyr",
+    "translation": "Pengusiran",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/059AlHasyr.mp3"
+  },
+  {
+    "number": 60,
+    "numberOfAyahs": 13,
+    "name": "Al-Mumtahanah",
+    "translation": "Wanita Yang Diuji",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/060AlMumtahanah.mp3"
+  },
+  {
+    "number": 61,
+    "numberOfAyahs": 14,
+    "name": "As-Saff",
+    "translation": "Barisan",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/061AshShaff.mp3"
+  },
+  {
+    "number": 62,
+    "numberOfAyahs": 11,
+    "name": "Al-Jumu'ah",
+    "translation": "Jumat",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/062AlJumuah.mp3"
+  },
+  {
+    "number": 63,
+    "numberOfAyahs": 11,
+    "name": "Al-Munafiqun",
+    "translation": "Orang-Orang Munafik",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/063AlMunaafiquun.mp3"
+  },
+  {
+    "number": 64,
+    "numberOfAyahs": 18,
+    "name": "At-Tagabun",
+    "translation": "Pengungkapan Kesalahan",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/064AtTaghaabun.mp3"
+  },
+  {
+    "number": 65,
+    "numberOfAyahs": 12,
+    "name": "At-Talaq",
+    "translation": "Talak",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/065AthThalaaq.mp3"
+  },
+  {
+    "number": 66,
+    "numberOfAyahs": 12,
+    "name": "At-Tahrim",
+    "translation": "Pengharaman",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/066AtTahrim.mp3"
+  },
+  {
+    "number": 67,
+    "numberOfAyahs": 30,
+    "name": "Al-Mulk",
+    "translation": "Kerajaan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/067AlMulk.mp3"
+  },
+  {
+    "number": 68,
+    "numberOfAyahs": 52,
+    "name": "Al-Qalam",
+    "translation": "Pena",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/068AlQalam.mp3"
+  },
+  {
+    "number": 69,
+    "numberOfAyahs": 52,
+    "name": "Al-Haqqah",
+    "translation": "Hari Kiamat",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/069AlHaaqqah.mp3"
+  },
+  {
+    "number": 70,
+    "numberOfAyahs": 44,
+    "name": "Al-Ma'arij",
+    "translation": "Tempat Naik",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/070AlMaaarij.mp3"
+  },
+  {
+    "number": 71,
+    "numberOfAyahs": 28,
+    "name": "Nuh",
+    "translation": "Nuh",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/071Nuh.mp3"
+  },
+  {
+    "number": 72,
+    "numberOfAyahs": 28,
+    "name": "Al-Jinn",
+    "translation": "Jin",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/072AlJin.mp3"
+  },
+  {
+    "number": 73,
+    "numberOfAyahs": 20,
+    "name": "Al-Muzzammil",
+    "translation": "Orang Yang Berselimut",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/073AlMuzzammil.mp3"
+  },
+  {
+    "number": 74,
+    "numberOfAyahs": 56,
+    "name": "Al-Muddassir",
+    "translation": "Orang Yang Berkemul",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/074AlMuddatstsir.mp3"
+  },
+  {
+    "number": 75,
+    "numberOfAyahs": 40,
+    "name": "Al-Qiyamah",
+    "translation": "Hari Kiamat",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/075AlQiyaamah.mp3"
+  },
+  {
+    "number": 76,
+    "numberOfAyahs": 31,
+    "name": "Al-Insan",
+    "translation": "Manusia",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/076AlInsaan.mp3"
+  },
+  {
+    "number": 77,
+    "numberOfAyahs": 50,
+    "name": "Al-Mursalat",
+    "translation": "Malaikat Yang Diutus",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/077AlMursalaat.mp3"
+  },
+  {
+    "number": 78,
+    "numberOfAyahs": 40,
+    "name": "An-Naba'",
+    "translation": "Berita Besar",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/078AnNaba.mp3"
+  },
+  {
+    "number": 79,
+    "numberOfAyahs": 46,
+    "name": "An-Nazi'at",
+    "translation": "Malaikat Yang Mencabut",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/079AnNaaziaat.mp3"
+  },
+  {
+    "number": 80,
+    "numberOfAyahs": 42,
+    "name": "'Abasa",
+    "translation": "Bermuka Masam",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/080Abasa.mp3"
+  },
+  {
+    "number": 81,
+    "numberOfAyahs": 29,
+    "name": "At-Takwir",
+    "translation": "Penggulungan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/081AtTakwiir.mp3"
+  },
+  {
+    "number": 82,
+    "numberOfAyahs": 19,
+    "name": "Al-Infitar",
+    "translation": "Terbelah",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/082AlInfithaar.mp3"
+  },
+  {
+    "number": 83,
+    "numberOfAyahs": 36,
+    "name": "Al-Mutaffifin",
+    "translation": "Orang-Orang Curang",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/083AlMuthaffifin.mp3"
+  },
+  {
+    "number": 84,
+    "numberOfAyahs": 25,
+    "name": "Al-Insyiqaq",
+    "translation": "Terbelah",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/084AlInsyiqaaq.mp3"
+  },
+  {
+    "number": 85,
+    "numberOfAyahs": 22,
+    "name": "Al-Buruj",
+    "translation": "Gugusan Bintang",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/085AlBuruuj.mp3"
+  },
+  {
+    "number": 86,
+    "numberOfAyahs": 17,
+    "name": "At-Tariq",
+    "translation": "Yang Datang Di Malam Hari",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/086AthThaariq.mp3"
+  },
+  {
+    "number": 87,
+    "numberOfAyahs": 19,
+    "name": "Al-A'la",
+    "translation": "Maha Tinggi",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/087AlAalaa.mp3"
+  },
+  {
+    "number": 88,
+    "numberOfAyahs": 26,
+    "name": "Al-Gasyiyah",
+    "translation": "Hari Kiamat",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/088AlGhaasyiyah.mp3"
+  },
+  {
+    "number": 89,
+    "numberOfAyahs": 30,
+    "name": "Al-Fajr",
+    "translation": "Fajar",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/089AlFajr.mp3"
+  },
+  {
+    "number": 90,
+    "numberOfAyahs": 20,
+    "name": "Al-Balad",
+    "translation": "Negeri",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/090AlBalad.mp3"
+  },
+  {
+    "number": 91,
+    "numberOfAyahs": 15,
+    "name": "Asy-Syams",
+    "translation": "Matahari",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/091AsySyams.mp3"
+  },
+  {
+    "number": 92,
+    "numberOfAyahs": 21,
+    "name": "Al-Lail",
+    "translation": "Malam",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/092AlLail.mp3"
+  },
+  {
+    "number": 93,
+    "numberOfAyahs": 11,
+    "name": "Ad-Duha",
+    "translation": "Duha",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/093AdhDhuhaa.mp3"
+  },
+  {
+    "number": 94,
+    "numberOfAyahs": 8,
+    "name": "Asy-Syarh",
+    "translation": "Lapang",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/094AlamNasyrah.mp3"
+  },
+  {
+    "number": 95,
+    "numberOfAyahs": 8,
+    "name": "At-Tin",
+    "translation": "Buah Tin",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/095AtTiin.mp3"
+  },
+  {
+    "number": 96,
+    "numberOfAyahs": 19,
+    "name": "Al-'Alaq",
+    "translation": "Segumpal Darah",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/096AlAlaq.mp3"
+  },
+  {
+    "number": 97,
+    "numberOfAyahs": 5,
+    "name": "Al-Qadr",
+    "translation": "Kemuliaan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/097AlQadr.mp3"
+  },
+  {
+    "number": 98,
+    "numberOfAyahs": 8,
+    "name": "Al-Bayyinah",
+    "translation": "Bukti Nyata",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/098AlBayyinah.mp3"
+  },
+  {
+    "number": 99,
+    "numberOfAyahs": 8,
+    "name": "Az-Zalzalah",
+    "translation": "Guncangan",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/099AlZalzalah.mp3"
+  },
+  {
+    "number": 100,
+    "numberOfAyahs": 11,
+    "name": "Al-'Adiyat",
+    "translation": "Kuda Yang Berlari Kencang",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/100AlAadiyaat.mp3"
+  },
+  {
+    "number": 101,
+    "numberOfAyahs": 11,
+    "name": "Al-Qari'ah",
+    "translation": "Hari Kiamat",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/101AlQaariah.mp3"
+  },
+  {
+    "number": 102,
+    "numberOfAyahs": 8,
+    "name": "At-Takasur",
+    "translation": "Bermegah-Megahan",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/102AtTakaatsur.mp3"
+  },
+  {
+    "number": 103,
+    "numberOfAyahs": 3,
+    "name": "Al-'Asr",
+    "translation": "Asar",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/103AlAshr.mp3"
+  },
+  {
+    "number": 104,
+    "numberOfAyahs": 9,
+    "name": "Al-Humazah",
+    "translation": "Pengumpat",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/104AlHumazah.mp3"
+  },
+  {
+    "number": 105,
+    "numberOfAyahs": 5,
+    "name": "Al-Fil",
+    "translation": "Gajah",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/105AlFiil.mp3"
+  },
+  {
+    "number": 106,
+    "numberOfAyahs": 4,
+    "name": "Quraisy",
+    "translation": "Quraisy",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/106Quraisy.mp3"
+  },
+  {
+    "number": 107,
+    "numberOfAyahs": 7,
+    "name": "Al-Ma'un",
+    "translation": "Barang Yang Berguna",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/107AlMaauun.mp3"
+  },
+  {
+    "number": 108,
+    "numberOfAyahs": 3,
+    "name": "Al-Kausar",
+    "translation": "Pemberian Yang Banyak",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/108AlKautsar.mp3"
+  },
+  {
+    "number": 109,
+    "numberOfAyahs": 6,
+    "name": "Al-Kafirun",
+    "translation": "Orang-Orang kafir",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/109AlKaafiruun.mp3"
+  },
+  {
+    "number": 110,
+    "numberOfAyahs": 3,
+    "name": "An-Nasr",
+    "translation": "Pertolongan",
+    "revelation": "Madaniyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/110AnNashr.mp3"
+  },
+  {
+    "number": 111,
+    "numberOfAyahs": 5,
+    "name": "Al-Lahab",
+    "translation": "Api Yang Bergejolak",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/111AlLahab.mp3"
+  },
+  {
+    "number": 112,
+    "numberOfAyahs": 4,
+    "name": "Al-Ikhlas",
+    "translation": "Ikhlas",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/112AlIkhlash.mp3"
+  },
+  {
+    "number": 113,
+    "numberOfAyahs": 5,
+    "name": "Al-Falaq",
+    "translation": "Subuh",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/113AlFalaq.mp3"
+  },
+  {
+    "number": 114,
+    "numberOfAyahs": 6,
+    "name": "An-Nas",
+    "translation": "Manusia",
+    "revelation": "Makkiyah",
+    "audio": "https://ia802609.us.archive.org/13/items/quraninindonesia/114AnNaas.mp3"
+  }
+]
