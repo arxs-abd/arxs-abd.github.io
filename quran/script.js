@@ -25,6 +25,8 @@ const BACK_HOME_BUTTON = document.querySelector('.back-button')
 const SETTING_BUTTON = document.querySelector('.settings-button')
 const SETTINGS_CARD = document.querySelector('.settings-card')
 const CLOSE_SETTINGS_BUTTON = document.querySelector('.close-settings')
+const SETTING_SHOW_TRANSLATION = document.querySelector('#show-translation')
+const SETTING_SHOW_LATIN = document.querySelector('#show-latin')
 
 // INIT
 getAllSurahs()
@@ -45,6 +47,22 @@ SETTING_BUTTON.addEventListener('click', () => {
 
 CLOSE_SETTINGS_BUTTON.addEventListener('click', () => {
   SETTINGS_CARD.classList.add('hidden')
+})
+
+SETTING_SHOW_TRANSLATION.addEventListener('change', () => {
+  SETTINGS.showTranslation = SETTING_SHOW_TRANSLATION.checked
+  const ayahs = document.querySelectorAll('.ayah')
+  ayahs.forEach((ayah) => {
+    ayah.querySelector('.translation').classList.toggle('hidden', !SETTINGS.showTranslation)
+  })
+})
+
+SETTING_SHOW_LATIN.addEventListener('change', () => {
+  SETTINGS.showLatin = SETTING_SHOW_LATIN.checked
+  const ayahs = document.querySelectorAll('.ayah')
+  ayahs.forEach((ayah) => {
+    ayah.querySelector('.latin').classList.toggle('hidden', !SETTINGS.showLatin)
+  })
 })
 
 document.addEventListener('click', (event) => {
@@ -100,6 +118,7 @@ function createSurahItem(surah) {
   })
   return element
 }
+
 function createSurahItemOld(surah) {
   const { number, name, numberOfAyahs, revelation } = surah
   const element = createElement('div', { class: 'surah-item' }, [
@@ -190,8 +209,8 @@ function createAyah(ayah) {
     ]),
     createElement('div', { class: 'ayah-text' }, [
       createElement('p', { class: 'arabic' }, [arab]),
-      createElement('custom', { class: 'latin' }, [latin]),
-      createElement('p', { class: 'translation' }, [translation]),
+      createElement('custom', { class: `latin ${SETTINGS.showLatin ? '' : 'hidden'}` }, [latin]),
+      createElement('p', { class: `translation ${SETTINGS.showTranslation ? '' : 'hidden'}` }, [translation]),
     ]),
     audioComponent,
   ])
