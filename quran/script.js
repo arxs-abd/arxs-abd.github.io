@@ -7,6 +7,7 @@ const SETTINGS = {
   showLatin: true,
   sound: 'ahmedajamy',
 }
+let SURAH = null
 let OPTIONS_MENU_ITEM = null
 let OPTIONS_MENU_BUTTON = null
 let AUDIOS = []
@@ -27,6 +28,15 @@ const SETTINGS_CARD = document.querySelector('.settings-card')
 const CLOSE_SETTINGS_BUTTON = document.querySelector('.close-settings')
 const SETTING_SHOW_TRANSLATION = document.querySelector('#show-translation')
 const SETTING_SHOW_LATIN = document.querySelector('#show-latin')
+const SETTING_SOUND = document.querySelector('#sound')
+const AUDIO_PLAYER = document.querySelector('.audio-player')
+const CLOSE_AUDIO = document.querySelector('.close-audio')
+const AUDIO_PLAYER_SURAH = document.querySelector('.audio-player-surah')
+const AUDIO = document.querySelector('#audio')
+const AUDIO_PROGRESS = document.querySelector('.audio-progress')
+const AUDIO_CURRENT_TIME = document.querySelector('.current-time')
+const AUDIO_TOTAL_TIME = document.querySelector('.total-time')
+const AUDIO_PLAY_PAUSE = document.querySelector('.audio-play')
 
 // INIT
 getAllSurahs()
@@ -65,6 +75,42 @@ SETTING_SHOW_LATIN.addEventListener('change', () => {
   })
 })
 
+SETTING_SOUND.addEventListener('change', () => {
+  SETTINGS.sound = SETTING_SOUND.value
+})
+
+// AUDIO PLAYER LISTENER
+AUDIO.addEventListener('timeupdate', () => {
+  const currentTime = Math.floor(AUDIO.currentTime)
+  const totalTime = Math.floor(AUDIO.duration || 0)
+  AUDIO_PROGRESS.max = totalTime
+  AUDIO_PROGRESS.value = currentTime
+  const value = Math.floor((currentTime / totalTime) * 100)
+  if (totalTime !== NaN) {
+    AUDIO_CURRENT_TIME.textContent = formatTime(currentTime)
+    AUDIO_TOTAL_TIME.textContent = formatTime(totalTime)
+  }
+
+  AUDIO_PROGRESS.style.background = `linear-gradient(to right, var(--secondary-color) ${value}%, #e9ecef ${value}%)`
+})
+
+CLOSE_AUDIO.addEventListener('click', () => {
+  AUDIO_PLAYER.classList.add('hidden')
+})
+
+AUDIO_PLAY_PAUSE.addEventListener('click', () => {
+  AUDIO.paused ? AUDIO.play() : AUDIO.pause()
+  const PLAY = document.querySelector('#play')
+  const PAUSE = document.querySelector('#pause')
+  if (!AUDIO.paused) {
+    PLAY.classList.add('hidden')
+    PAUSE.classList.remove('hidden')
+  } else {
+    PLAY.classList.remove('hidden')
+    PAUSE.classList.add('hidden')
+  }
+})
+
 document.addEventListener('click', (event) => {
   if (!SETTINGS_CARD.contains(event.target) && event.target !== SETTING_BUTTON) {
     SETTINGS_CARD.classList.add('hidden')
@@ -92,6 +138,7 @@ function createSurahItem(surah) {
 
   element.addEventListener('click', async () => {
     try {
+      SURAH = surah
       const data = await fetchJSON(`data/${number}.json`)
 
       SURAH_NAME_LATIN.textContent = surah.name
@@ -197,7 +244,7 @@ function createAyahOld(ayah) {
 
 function createAyah(ayah) {
   const { arab, translation, latin, audio, i } = ayah
-  const audioComponent = createElement('audio', { class: 'audio hidden', controls: true, src: audio })
+  // const audioComponent = createElement('audio', { class: 'audio hidden', controls: true, src: audio })
   const element = createElement('div', { class: 'ayah' }, [
     createElement('div', { class: 'ayah-options' }, [
       createElement('button', { class: 'options-button', onclick: optionsMenuClick }, ['⋮']),
@@ -212,10 +259,10 @@ function createAyah(ayah) {
       createElement('custom', { class: `latin ${SETTINGS.showLatin ? '' : 'hidden'}` }, [latin]),
       createElement('p', { class: `translation ${SETTINGS.showTranslation ? '' : 'hidden'}` }, [translation]),
     ]),
-    audioComponent,
+    // audioComponent,
   ])
 
-  AUDIOS.push(audioComponent)
+  AUDIOS.push(audio)
 
   function optionsMenuClick(e) {
     document.querySelectorAll('.options-menu').forEach((menu) => menu.classList.add('hidden'))
@@ -226,7 +273,9 @@ function createAyah(ayah) {
   }
 
   function playAudioClick(e) {
-    let index = e.target.getAttribute('ayah')
+    let index = Number(e.target.getAttribute('ayah'))
+    AUDIO_PLAYER.classList.remove('hidden')
+    AUDIO_PLAYER_SURAH.textContent = `${SURAH.name} · ${index + 1}/${SURAH.numberOfAyahs}`
     playAudio(index)
   }
 
@@ -319,19 +368,35 @@ function toArabic(number) {
   return numberArabic
 }
 
+function formatTime(time) {
+  const minutes = Math.floor(time / 60)
+  const seconds = Math.floor(time % 60)
+  return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+}
+
 function playAudio(index) {
-  if (Number(index) < AUDIOS.length) {
-    AUDIOS.forEach((audio, i) => {
-      if (i !== Number(index)) {
-        audio.pause()
-        audio.currentTime = 0
-      }
-    })
+  if (index < AUDIOS.length) {
+    AUDIO_PLAYER_SURAH.textContent = `${SURAH.name} · ${index + 1}/${SURAH.numberOfAyahs}`
+    // Hentikan pemutaran sebelumnya
+    AUDIO.pause()
+    AUDIO.currentTime = 0
 
-    AUDIOS[index].play()
+    // Atur sumber audio baru
+    AUDIO.src = AUDIOS[index]
 
-    AUDIOS[index].addEventListener('ended', () => {
-      playAudio(Number(index) + 1)
-    })
+    // Tunggu hingga audio siap diputar
+    AUDIO.oncanplaythrough = () => {
+      AUDIO.play().catch((error) => {
+        console.error('Error saat memutar audio:', error)
+      })
+    }
+
+    // Event untuk memutar audio berikutnya setelah selesai
+    AUDIO.onended = () => {
+      playAudio(index + 1)
+    }
+  } else {
+    // Reset audio jika indeks melebihi panjang array
+    AUDIO.src = ''
   }
 }
