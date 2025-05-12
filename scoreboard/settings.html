@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard Control Panel</title>
+    <style>
+        :root {
+            --primary-color: #0e2f56;
+            --secondary-color: #1e5799;
+            --accent-color: #f8c300;
+            --text-color: #ffffff;
+            --button-color: #2ecc71;
+            --button-hover: #27ae60;
+            --button-danger: #e74c3c;
+            --button-danger-hover: #c0392b;
+            --var-color: #ff0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .control-section {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--button-color);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex: 1;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        button.danger {
+            background-color: var(--button-danger);
+        }
+
+        button.danger:hover {
+            background-color: var(--button-danger-hover);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .timer-display {
+            font-size: 32px;
+            text-align: center;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .score-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .team-score-control {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .score-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .preview-section {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .preview-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .preview-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .preview-team {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .preview-score {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .preview-time {
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-controls {
+                flex-direction: column;
+            }
+        }
+
+        .open-display-btn {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 15px;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* VAR Control Styles */
+        .var-control {
+            background-color: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .var-title {
+            color: var(--var-color);
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .var-title::before {
+            content: "VAR";
+            background-color: var(--var-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .var-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .var-decision-btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        .var-decision-btn.goal {
+            background-color: #2ecc71;
+        }
+
+        .var-decision-btn.goal:hover {
+            background-color: #27ae60;
+        }
+
+        .var-decision-btn.no-goal {
+            background-color: #e74c3c;
+        }
+
+        .var-decision-btn.no-goal:hover {
+            background-color: #c0392b;
+        }
+
+        .var-decision-btn.red-card {
+            background-color: #e74c3c;
+        }
+
+        .var-decision-btn.red-card:hover {
+            background-color: #c0392b;
+        }
+
+        .var-decision-btn.no-card {
+            background-color: #3498db;
+        }
+
+        .var-decision-btn.no-card:hover {
+            background-color: #2980b9;
+        }
+
+        .var-control.active {
+            animation: var-pulse 2s infinite;
+        }
+
+        @keyframes var-pulse {
+            0% { background-color: rgba(255, 0, 0, 0.1); }
+            50% { background-color: rgba(255, 0, 0, 0.3); }
+            100% { background-color: rgba(255, 0, 0, 0.1); }
+        }
+
+        /* Hide/show decision buttons based on VAR type */
+        .goal-decisions, .red-card-decisions {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .goal-decisions button, .red-card-decisions button {
+            flex: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Stoppage Time Styles */
+        .stoppage-time-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .stoppage-time-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .stoppage-time-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stoppage-time-display {
+            font-size: 24px;
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .stoppage-time-display span {
+            color: var(--accent-color);
+        }
+
+        /* Status Change Animation Control */
+        .status-animation-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .status-animation-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .status-animation-button {
+            background-color: #3498db;
+            margin-top: 10px;
+        }
+
+        .status-animation-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            Scoreboard Control Panel
+        </div>
+        
+        <div class="control-section">
+            <div class="section-title">Match Information</div>
+            <div class="form-group">
+                <label for="match-info">Match Description</label>
+                <input type="text" id="match-info" placeholder="e.g. Friendly Match, League Match, etc.">
+            </div>
+            
+            <div class="grid">
+                <div class="form-group">
+                    <label for="home-team">Home Team</label>
+                    <input type="text" id="home-team" placeholder="Home Team Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="away-team">Away Team</label>
+                    <input type="text" id="away-team" placeholder="Away Team Name">
+                </div>
+            </div>
+            
+            <button id="update-teams" class="update-btn">Update Teams</button>
+        </div>
+        
+        <div class="control-section">
+            <div class="section-title">Score Management</div>
+            
+            <div class="score-controls">
+                <div class="team-score-control">
+                    <label>Home Team Score</label>
+                    <div class="timer-display" id="home-score-display">0</div>
+                    <div class="score-buttons">
+                        <button id="home-score-plus" class="score-btn">+1</button>
+                        <button id="home-score-minus" class="score-btn danger">-1</button>
+                    </div>
+                </div>
+                
+                <div class="team-score-control">
+                    <label>Away Team Score</label>
+                    <div class="timer-display" id="away-score-display">0</div>
+                    <div class="score-buttons">
+                        <button id="away-score-plus" class="score-btn">+1</button>
+                        <button id="away-score-minus" class="score-btn danger">-1</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VAR Control Section -->
+            <div class="var-control">
+                <div class="var-title">Video Assistant Referee</div>
+                <div class="form-group">
+                    <label for="var-team">Team Under Review</label>
+                    <select id="var-team">
+                        <option value="home">Home Team</option>
+                        <option value="away">Away Team</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="var-check">Checking For</label>
+                    <select id="var-check">
+                        <option value="goal" data-type="goal">Possible Offside</option>
+                        <option value="goal" data-type="goal">Possible Handball</option>
+                        <option value="goal" data-type="goal">Possible Foul in Build-up</option>
+                        <option value="goal" data-type="goal">Goal Line Check</option>
+                        <option value="goal" data-type="goal">Possible Penalty</option>
+                        <option value="red-card" data-type="red-card">Possible Red Card</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="var-reason">Reason for Decision</label>
+                    <input type="text" id="var-reason" placeholder="e.g. Player was offside">
+                </div>
+                <div class="var-options">
+                    <button id="var-start" class="var-decision-btn">Start VAR Review</button>
+                </div>
+                <div class="var-options">
+                    <div class="goal-decisions">
+                        <button id="var-goal" class="var-decision-btn goal" disabled>Goal</button>
+                        <button id="var-no-goal" class="var-decision-btn no-goal" disabled>No Goal</button>
+                    </div>
+                    <div class="red-card-decisions hidden">
+                        <button id="var-red-card" class="var-decision-btn red-card" disabled>Red Card</button>
+                        <button id="var-no-card" class="var-decision-btn no-card" disabled>No Card</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-section">
+            <div class="section-title">Timer Control</div>
+            
+            <div class="form-group">
+                <label for="match-status">Match Status</label>
+                <select id="match-status">
+                    <option value="Not Started">Not Started</option>
+                    <option value="First Half">First Half</option>
+                    <option value="Half Time">Half Time</option>
+                    <option value="Second Half">Second Half</option>
+                    <option value="Extra Time">Extra Time</option>
+                    <option value="Penalties">Penalties</option>
+                    <option value="Full Time">Full Time</option>
+                </select>
+            </div>
+            
+            <div class="timer-display" id="timer-display">00:00</div>
+            
+            <div class="timer-controls">
+                <button id="start-timer" class="timer-btn">Start</button>
+                <button id="pause-timer" class="timer-btn">Pause</button>
+                <button id="reset-timer" class="timer-btn danger">Reset</button>
+            </div>
+            
+            <div class="form-group" style="margin-top: 15px;">
+                <label for="manual-time">Set Time Manually (MM:SS)</label>
+                <input type="text" id="manual-time" placeholder="e.g. 45:00">
+                <button id="set-manual-time" style="margin-top: 10px;">Set Time</button>
+            </div>
+
+            <!-- Stoppage Time Control -->
+            <div class="stoppage-time-control">
+                <div class="stoppage-time-title">Stoppage Time</div>
+                <div class="form-group">
+                    <label for="stoppage-time-input">Set Stoppage Time (minutes)</label>
+                    <input type="number" id="stoppage-time-input" min="0" max="15" value="0" placeholder="Enter minutes">
+                </div>
+                <div class="stoppage-time-buttons">
+                    <button id="set-stoppage-time" class="stoppage-time-btn">Set Stoppage Time</button>
+                    <button id="stoppage-time-reset" class="stoppage-time-btn danger">Reset</button>
+                </div>
+                <div class="stoppage-time-display">Current: +<span id="stoppage-time-display">0</span></div>
+            </div>
+
+            <!-- Status Animation Control -->
+            <div class="status-animation-control">
+                <div class="status-animation-title">Status Change Animation</div>
+                <div class="form-group">
+                    <label for="show-status-animation">Show animation when status changes</label>
+                    <select id="show-status-animation">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <button id="trigger-status-animation" class="status-animation-button">Trigger Status Animation Now</button>
+            </div>
+        </div>
+        
+        <div class="control-section">
+            <div class="section-title">Preview</div>
+            
+            <div class="preview-section">
+                <div class="preview-title">Current Scoreboard</div>
+                <div class="preview-content">
+                    <div class="preview-team" id="preview-home-team">Home Team</div>
+                    <div class="preview-score">
+                        <span id="preview-home-score">0</span>
+                        :
+                        <span id="preview-away-score">0</span>
+                    </div>
+                    <div class="preview-team" id="preview-away-team">Away Team</div>
+                    <div class="preview-time" id="preview-time">00:00</div>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                    <span id="preview-status">Not Started</span> | 
+                    <span id="preview-match-info">Friendly Match</span>
+                </div>
+                <div style="text-align: center; margin-top: 5px;" id="preview-stoppage-time-container" class="hidden">
+                    Stoppage Time: +<span id="preview-stoppage-time">0</span>
+                </div>
+            </div>
+            
+            <button id="open-display" class="open-display-btn">Open Scoreboard Display</button>
+        </div>
+        
+        <div class="control-section">
+            <div class="section-title">Reset All</div>
+            <button id="reset-all" class="danger">Reset All Data</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the Broadcast Channel for real-time updates
+        const scoreChannel = new BroadcastChannel('soccer_scoreboard');
+        
+        // Elements
+        const homeTeamInput = document.getElementById('home-team');
+        const awayTeamInput = document.getElementById('away-team');
+        const matchInfoInput = document.getElementById('match-info');
+        const updateTeamsBtn = document.getElementById('update-teams');
+        
+        const homeScoreDisplay = document.getElementById('home-score-display');
+        const awayScoreDisplay = document.getElementById('away-score-display');
+        const homeScorePlus = document.getElementById('home-score-plus');
+        const homeScoreMinus = document.getElementById('home-score-minus');
+        const awayScorePlus = document.getElementById('away-score-plus');
+        const awayScoreMinus = document.getElementById('away-score-minus');
+        
+        const timerDisplay = document.getElementById('timer-display');
+        const startTimerBtn = document.getElementById('start-timer');
+        const pauseTimerBtn = document.getElementById('pause-timer');
+        const resetTimerBtn = document.getElementById('reset-timer');
+        const manualTimeInput = document.getElementById('manual-time');
+        const setManualTimeBtn = document.getElementById('set-manual-time');
+        
+        const matchStatusSelect = document.getElementById('match-status');
+        
+        const previewHomeTeam = document.getElementById('preview-home-team');
+        const previewAwayTeam = document.getElementById('preview-away-team');
+        const previewHomeScore = document.getElementById('preview-home-score');
+        const previewAwayScore = document.getElementById('preview-away-score');
+        const previewTime = document.getElementById('preview-time');
+        const previewStatus = document.getElementById('preview-status');
+        const previewMatchInfo = document.getElementById('preview-match-info');
+        const previewStoppageTimeContainer = document.getElementById('preview-stoppage-time-container');
+        const previewStoppageTime = document.getElementById('preview-stoppage-time');
+        
+        const openDisplayBtn = document.getElementById('open-display');
+        const resetAllBtn = document.getElementById('reset-all');
+        
+        // VAR Elements
+        const varTeamSelect = document.getElementById('var-team');
+        const varCheckSelect = document.getElementById('var-check');
+        const varReasonInput = document.getElementById('var-reason');
+        const varStartBtn = document.getElementById('var-start');
+        const varGoalBtn = document.getElementById('var-goal');
+        const varNoGoalBtn = document.getElementById('var-no-goal');
+        const varRedCardBtn = document.getElementById('var-red-card');
+        const varNoCardBtn = document.getElementById('var-no-card');
+        const goalDecisions = document.querySelector('.goal-decisions');
+        const redCardDecisions = document.querySelector('.red-card-decisions');
+        
+        // Stoppage Time Elements
+        const stoppageTimeDisplay = document.getElementById('stoppage-time-display');
+        const stoppageTimeInput = document.getElementById('stoppage-time-input');
+        const setStoppageTimeBtn = document.getElementById('set-stoppage-time');
+        const stoppageTimeReset = document.getElementById('stoppage-time-reset');
+        
+        // Status Animation Elements
+        const showStatusAnimation = document.getElementById('show-status-animation');
+        const triggerStatusAnimation = document.getElementById('trigger-status-animation');
+        
+        // State
+        let homeTeam = 'Home Team';
+        let awayTeam = 'Away Team';
+        let homeScore = 0;
+        let awayScore = 0;
+        let matchTime = '00:00';
+        let matchStatus = 'Not Started';
+        let matchInfo = 'Friendly Match';
+        let timerInterval = null;
+        let timerRunning = false;
+        let seconds = 0;
+        let varInProgress = false;
+        let currentVarType = 'goal'; // 'goal' or 'red-card'
+        let stoppageTime = 0;
+        let showStatusAnimations = true;
+        let previousMatchStatus = 'Not Started';
+        
+        // Load saved data if available
+        function loadSavedData() {
+            const savedData = localStorage.getItem('scoreboard_data');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                homeTeam = data.homeTeam || 'Home Team';
+                awayTeam = data.awayTeam || 'Away Team';
+                homeScore = data.homeScore || 0;
+                awayScore = data.awayScore || 0;
+                matchTime = data.matchTime || '00:00';
+                matchStatus = data.matchStatus || 'Not Started';
+                matchInfo = data.matchInfo || 'Friendly Match';
+                seconds = data.seconds || 0;
+                stoppageTime = data.stoppageTime || 0;
+                showStatusAnimations = data.showStatusAnimations !== undefined ? data.showStatusAnimations : true;
+                previousMatchStatus = data.previousMatchStatus || 'Not Started';
+                
+                // Update UI
+                homeTeamInput.value = homeTeam;
+                awayTeamInput.value = awayTeam;
+                matchInfoInput.value = matchInfo;
+                homeScoreDisplay.textContent = homeScore;
+                awayScoreDisplay.textContent = awayScore;
+                timerDisplay.textContent = matchTime;
+                matchStatusSelect.value = matchStatus;
+                stoppageTimeDisplay.textContent = stoppageTime;
+                showStatusAnimation.value = showStatusAnimations ? 'yes' : 'no';
+                
+                // Update preview
+                updatePreview();
+            }
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            const data = {
+                homeTeam,
+                awayTeam,
+                homeScore,
+                awayScore,
+                matchTime,
+                matchStatus,
+                matchInfo,
+                seconds,
+                stoppageTime,
+                showStatusAnimations,
+                previousMatchStatus
+            };
+            
+            localStorage.setItem('scoreboard_data', JSON.stringify(data));
+        }
+        
+        // Update preview section
+        function updatePreview() {
+            previewHomeTeam.textContent = homeTeam;
+            previewAwayTeam.textContent = awayTeam;
+            previewHomeScore.textContent = homeScore;
+            previewAwayScore.textContent = awayScore;
+            previewTime.textContent = matchTime;
+            previewStatus.textContent = matchStatus;
+            previewMatchInfo.textContent = matchInfo;
+            
+            // Update stoppage time preview
+            if (stoppageTime > 0) {
+                previewStoppageTimeContainer.classList.remove('hidden');
+                previewStoppageTime.textContent = stoppageTime;
+            } else {
+                previewStoppageTimeContainer.classList.add('hidden');
+            }
+        }
+        
+        // Broadcast updates to the display
+        function broadcastUpdate(data = {}) {
+            const updateData = {
+                ...data
+            };
+            
+            scoreChannel.postMessage(updateData);
+            saveData();
+        }
+        
+        // Format time (seconds to MM:SS)
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Timer functions
+        function startTimer() {
+            if (timerRunning) return;
+            
+            timerRunning = true;
+            timerInterval = setInterval(() => {
+                seconds++;
+                matchTime = formatTime(seconds);
+                timerDisplay.textContent = matchTime;
+                previewTime.textContent = matchTime;
+                
+                broadcastUpdate({ matchTime });
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            if (!timerRunning) return;
+            
+            timerRunning = false;
+            clearInterval(timerInterval);
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            seconds = 0;
+            matchTime = '00:00';
+            timerDisplay.textContent = matchTime;
+            previewTime.textContent = matchTime;
+            
+            broadcastUpdate({ matchTime });
+        }
+        
+        // Update VAR decision buttons based on selected check type
+        function updateVarDecisionButtons() {
+            const selectedOption = varCheckSelect.options[varCheckSelect.selectedIndex];
+            currentVarType = selectedOption.getAttribute('data-type');
+            
+            if (currentVarType === 'goal') {
+                goalDecisions.classList.remove('hidden');
+                redCardDecisions.classList.add('hidden');
+            } else if (currentVarType === 'red-card') {
+                goalDecisions.classList.add('hidden');
+                redCardDecisions.classList.remove('hidden');
+            }
+        }
+        
+        // VAR functions
+        function startVarReview() {
+            if (varInProgress) return;
+            varInProgress = true;
+            
+            // Disable score buttons during VAR
+            homeScorePlus.disabled = true;
+            homeScoreMinus.disabled = true;
+            awayScorePlus.disabled = true;
+            awayScoreMinus.disabled = true;
+            
+            // Enable appropriate decision buttons based on VAR type
+            if (currentVarType === 'goal') {
+                varGoalBtn.disabled = false;
+                varNoGoalBtn.disabled = false;
+            } else if (currentVarType === 'red-card') {
+                varRedCardBtn.disabled = false;
+                varNoCardBtn.disabled = false;
+            }
+            
+            // Disable VAR start button
+            varStartBtn.disabled = true;
+            
+            // Get selected team and check reason
+            const team = varTeamSelect.value === 'home' ? homeTeam : awayTeam;
+            const selectedOption = varCheckSelect.options[varCheckSelect.selectedIndex];
+            const checkingFor = selectedOption.text;
+            
+            // Send VAR review data to scoreboard
+            broadcastUpdate({
+                varReview: {
+                    team: team,
+                    checkingFor: `Checking for ${checkingFor.toLowerCase()}...`,
+                    varType: currentVarType
+                }
+            });
+
+            document.querySelector('.var-control').classList.add('active');
+        }
+        
+        function completeVarReview(decision, decisionType) {
+            if (!varInProgress) return;
+            
+            document.querySelector('.var-control').classList.remove('active');
+
+            // Get selected team and reason
+            const teamType = varTeamSelect.value;
+            const team = teamType === 'home' ? homeTeam : awayTeam;
+            const reason = varReasonInput.value || getDefaultReason(decision, decisionType);
+            
+            // Send VAR decision to scoreboard
+            broadcastUpdate({
+                varReview: {
+                    team: team,
+                    checkingFor: varCheckSelect.options[varCheckSelect.selectedIndex].text,
+                    decision: decision,
+                    decisionType: decisionType,
+                    reason: reason,
+                    varType: currentVarType
+                }
+            });
+            
+            // If goal is confirmed, update score
+            if (decisionType === 'goal' && decision === 'confirmed') {
+                setTimeout(() => {
+                    if (teamType === 'home') {
+                        homeScore++;
+                        homeScoreDisplay.textContent = homeScore;
+                        previewHomeScore.textContent = homeScore;
+                    } else {
+                        awayScore++;
+                        awayScoreDisplay.textContent = awayScore;
+                        previewAwayScore.textContent = awayScore;
+                    }
+                    
+                    broadcastUpdate({ 
+                        homeScore: homeScore,
+                        awayScore: awayScore
+                    });
+                }, 5000); // Delay to allow VAR animation to complete
+            }
+            
+            // Re-enable buttons
+            setTimeout(() => {
+                homeScorePlus.disabled = false;
+                homeScoreMinus.disabled = false;
+                awayScorePlus.disabled = false;
+                awayScoreMinus.disabled = false;
+                varStartBtn.disabled = false;
+                varGoalBtn.disabled = true;
+                varNoGoalBtn.disabled = true;
+                varRedCardBtn.disabled = true;
+                varNoCardBtn.disabled = true;
+                varInProgress = false;
+            }, 10000); // Longer delay to ensure all animations complete
+        }
+        
+        function getDefaultReason(decision, decisionType) {
+            if (decisionType === 'goal') {
+                return decision === 'confirmed' ? 'Goal confirmed' : 'Goal disallowed';
+            } else if (decisionType === 'red-card') {
+                return decision === 'confirmed' ? 'Red card confirmed' : 'No card given';
+            }
+            return '';
+        }
+        
+        // Stoppage Time functions
+        function updateStoppageTime(value) {
+            stoppageTime = value;
+            stoppageTimeDisplay.textContent = stoppageTime;
+            
+            // Update preview
+            if (stoppageTime > 0) {
+                previewStoppageTimeContainer.classList.remove('hidden');
+                previewStoppageTime.textContent = stoppageTime;
+            } else {
+                previewStoppageTimeContainer.classList.add('hidden');
+            }
+            
+            // Broadcast update with animation flag
+            broadcastUpdate({ 
+                stoppageTime,
+                stoppageTimeAnimation: true
+            });
+        }
+        
+        // Status Animation functions
+        function triggerStatusChangeAnimation() {
+            broadcastUpdate({ 
+                statusAnimation: {
+                    status: matchStatus,
+                    show: true
+                }
+            });
+        }
+        
+        // Event Listeners
+        updateTeamsBtn.addEventListener('click', () => {
+            homeTeam = homeTeamInput.value || 'Home Team';
+            awayTeam = awayTeamInput.value || 'Away Team';
+            matchInfo = matchInfoInput.value || 'Friendly Match';
+            
+            updatePreview();
+            broadcastUpdate({ homeTeam, awayTeam, matchInfo });
+        });
+        
+        homeScorePlus.addEventListener('click', () => {
+            homeScore++;
+            homeScoreDisplay.textContent = homeScore;
+            previewHomeScore.textContent = homeScore;
+            
+            broadcastUpdate({ homeScore });
+        });
+        
+        homeScoreMinus.addEventListener('click', () => {
+            if (homeScore > 0) {
+                homeScore--;
+                homeScoreDisplay.textContent = homeScore;
+                previewHomeScore.textContent = homeScore;
+                
+                broadcastUpdate({ homeScore });
+            }
+        });
+        
+        awayScorePlus.addEventListener('click', () => {
+            awayScore++;
+            awayScoreDisplay.textContent = awayScore;
+            previewAwayScore.textContent = awayScore;
+            
+            broadcastUpdate({ awayScore });
+        });
+        
+        awayScoreMinus.addEventListener('click', () => {
+            if (awayScore > 0) {
+                awayScore--;
+                awayScoreDisplay.textContent = awayScore;
+                previewAwayScore.textContent = awayScore;
+                
+                broadcastUpdate({ awayScore });
+            }
+        });
+        
+        startTimerBtn.addEventListener('click', startTimer);
+        pauseTimerBtn.addEventListener('click', pauseTimer);
+        resetTimerBtn.addEventListener('click', resetTimer);
+        
+        setManualTimeBtn.addEventListener('click', () => {
+            const timePattern = /^(\d{1,2}):(\d{2})$/;
+            const timeInput = manualTimeInput.value;
+            
+            if (timePattern.test(timeInput)) {
+                const [, minutesStr, secondsStr] = timeInput.match(timePattern);
+                const minutes = parseInt(minutesStr, 10);
+                const secs = parseInt(secondsStr, 10);
+                
+                if (secs < 60) {
+                    seconds = minutes * 60 + secs;
+                    matchTime = formatTime(seconds);
+                    timerDisplay.textContent = matchTime;
+                    previewTime.textContent = matchTime;
+                    
+                    broadcastUpdate({ matchTime });
+                } else {
+                    alert('Seconds must be less than 60');
+                }
+            } else {
+                alert('Please enter time in MM:SS format');
+            }
+        });
+        
+        matchStatusSelect.addEventListener('change', () => {
+            previousMatchStatus = matchStatus;
+            matchStatus = matchStatusSelect.value;
+            previewStatus.textContent = matchStatus;
+            
+            // Trigger status animation if enabled
+            if (showStatusAnimations && showStatusAnimation.value === 'yes') {
+                triggerStatusChangeAnimation();
+            }
+            
+            broadcastUpdate({ 
+                matchStatus,
+                previousMatchStatus
+            });
+        });
+        
+        // VAR Event Listeners
+        varCheckSelect.addEventListener('change', updateVarDecisionButtons);
+        varStartBtn.addEventListener('click', startVarReview);
+        varGoalBtn.addEventListener('click', () => completeVarReview('confirmed', 'goal'));
+        varNoGoalBtn.addEventListener('click', () => completeVarReview('rejected', 'goal'));
+        varRedCardBtn.addEventListener('click', () => completeVarReview('confirmed', 'red-card'));
+        varNoCardBtn.addEventListener('click', () => completeVarReview('rejected', 'red-card'));
+        
+        // Stoppage Time Event Listeners
+        setStoppageTimeBtn.addEventListener('click', () => {
+            const value = parseInt(stoppageTimeInput.value) || 0;
+            if (value >= 0 && value <= 15) {
+                updateStoppageTime(value);
+            } else {
+                alert('Please enter a valid stoppage time between 0 and 15 minutes');
+                stoppageTimeInput.value = stoppageTime;
+            }
+        });
+
+        stoppageTimeReset.addEventListener('click', () => {
+            stoppageTimeInput.value = 0;
+            updateStoppageTime(0);
+        });
+        
+        // Status Animation Event Listeners
+        showStatusAnimation.addEventListener('change', () => {
+            showStatusAnimations = showStatusAnimation.value === 'yes';
+            broadcastUpdate({ showStatusAnimations });
+        });
+        
+        triggerStatusAnimation.addEventListener('click', triggerStatusChangeAnimation);
+        
+        openDisplayBtn.addEventListener('click', () => {
+            window.open('index.html', '_blank');
+        });
+        
+        resetAllBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all data?')) {
+                homeTeam = 'Home Team';
+                awayTeam = 'Away Team';
+                homeScore = 0;
+                awayScore = 0;
+                matchTime = '00:00';
+                matchStatus = 'Not Started';
+                matchInfo = 'Friendly Match';
+                seconds = 0;
+                stoppageTime = 0;
+                showStatusAnimations = true;
+                previousMatchStatus = 'Not Started';
+                
+                homeTeamInput.value = homeTeam;
+                awayTeamInput.value = awayTeam;
+                matchInfoInput.value = matchInfo;
+                homeScoreDisplay.textContent = homeScore;
+                awayScoreDisplay.textContent = awayScore;
+                timerDisplay.textContent = matchTime;
+                matchStatusSelect.value = matchStatus;
+                stoppageTimeDisplay.textContent = stoppageTime;
+                showStatusAnimation.value = 'yes';
+                
+                updatePreview();
+                pauseTimer();
+                
+                broadcastUpdate({
+                    homeTeam,
+                    awayTeam,
+                    homeScore,
+                    awayScore,
+                    matchTime,
+                    matchStatus,
+                    matchInfo,
+                    stoppageTime,
+                    showStatusAnimations,
+                    previousMatchStatus
+                });
+                
+                localStorage.removeItem('scoreboard_data');
+            }
+        });
+        
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            updateVarDecisionButtons();
+        });
+    </script>
+</body>
+</html>
