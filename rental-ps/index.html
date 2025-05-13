@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayStation Rental - TV View</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PlayStation Rental Management</h1>
+            <nav>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="tv.html" class="active">TV View</a>
+            </nav>
+        </header>
+
+    <div class="section-header">
+        <h2>TV yang Sedang Disewa</h2>
+    </div>
+    <div class="tv-grid" id="rented-tv-grid">
+        <!-- TV-Console cards yang sedang disewa akan ditampilkan di sini -->
+    </div>
+
+    <div class="section-header">
+        <h2>TV yang Tersedia</h2>
+    </div>
+    <div class="tv-grid" id="available-tv-grid">
+        <!-- TV-Console cards yang tersedia akan ditampilkan di sini -->
+    </div>
+</div>
+
+    <!-- Modal for payment confirmation -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Konfirmasi Pembayaran</h2>
+            <div class="payment-details">
+                <p><strong>TV:</strong> <span id="modal-tv"></span></p>
+                <p><strong>Konsol:</strong> <span id="modal-console"></span></p>
+                <p><strong>Waktu Mulai:</strong> <span id="modal-start-time"></span></p>
+                <p><strong>Waktu Selesai:</strong> <span id="modal-end-time"></span></p>
+                <p><strong>Total Durasi:</strong> <span id="modal-duration"></span></p>
+                <p><strong>Total Biaya:</strong> <span id="modal-cost"></span></p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn secondary" id="cancel-payment">Batal</button>
+                <button class="btn primary" id="confirm-payment">Konfirmasi Pembayaran</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="tv.js"></script>
+</body>
+</html>
