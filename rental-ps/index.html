@@ -51,6 +51,44 @@
         </div>
     </div>
 
+    <!-- Modal for rental confirmation -->
+    <div class="modal" id="rental-confirmation-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Konfirmasi Penyewaan</h2>
+            <div class="rental-confirmation-details">
+                <p><strong>TV:</strong> <span id="confirm-tv"></span></p>
+                <p><strong>Konsol:</strong> <span id="confirm-console"></span></p>
+                <p><strong>Durasi:</strong> <span id="confirm-duration"></span></p>
+                <p><strong>Biaya:</strong> <span id="confirm-cost"></span></p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn secondary" id="cancel-rental">Batal</button>
+                <button class="btn primary" id="confirm-rental">Mulai Sewa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for add time confirmation -->
+    <div class="modal" id="add-time-confirmation-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Konfirmasi Tambah Waktu</h2>
+            <div class="add-time-confirmation-details">
+                <p><strong>TV:</strong> <span id="add-time-confirm-tv"></span></p>
+                <p><strong>Konsol:</strong> <span id="add-time-confirm-console"></span></p>
+                <p><strong>Tambah Durasi:</strong> <span id="add-time-confirm-duration"></span></p>
+                <p><strong>Tambah Biaya:</strong> <span id="add-time-confirm-cost"></span></p>
+                <p><strong>Total Durasi:</strong> <span id="add-time-confirm-total-duration"></span></p>
+                <p><strong>Total Biaya:</strong> <span id="add-time-confirm-total-cost"></span></p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn secondary" id="cancel-add-time">Batal</button>
+                <button class="btn primary" id="confirm-add-time">Tambah Waktu</button>
+            </div>
+        </div>
+    </div>
+
     <script src="tv.js"></script>
 </body>
 </html>

@@ -32,6 +32,10 @@ const activeChannels = {}
 // Store active timers
 const activeTimers = {}
 
+// Temporary storage for rental confirmation
+let pendingRental = null
+let pendingAddTime = null
+
 // Storage functions
 const Storage = {
   /**
@@ -445,21 +449,33 @@ function createTVConsoleCard(item) {
             </div>
             <div class="rental-controls">
                 <div class="rental-form">
-                    <input type="number" id="add-time-${item.id}" min="30" step="30" value="30" placeholder="Menit">
-                    <button class="btn warning add-time" data-id="${item.id}">Tambah Waktu</button>
+                    <div class="time-shortcuts">
+                        <button class="add-time-shortcut" data-id="${item.id}" data-minutes="30">+30 Menit</button>
+                        <button class="add-time-shortcut" data-id="${item.id}" data-minutes="60">+1 Jam</button>
+                        <button class="add-time-shortcut" data-id="${item.id}" data-minutes="120">+2 Jam</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="add-time-${item.id}" min="30" step="30" value="30" placeholder="Menit">
+                        <button class="btn warning add-time" data-id="${item.id}">Tambah Waktu</button>
+                    </div>
                 </div>
                 <button class="btn success pay-rental" data-id="${item.id}">Bayar</button>
             </div>
         `
   } else {
-    // Show rental form for available TV
+    // Show rental form for available TV with shortcuts
     cardContent += `
             <div class="rental-controls">
                 <div class="rental-form">
-                    <input type="number" id="rental-duration-${
-                      item.id
-                    }" min="30" step="30" value="60" placeholder="Menit">
-                    <button class="btn primary start-rental" data-id="${item.id}">Mulai Sewa</button>
+                    <div class="time-shortcuts">
+                        <button class="time-shortcut" data-id="${item.id}" data-minutes="60">1 Jam</button>
+                        <button class="time-shortcut" data-id="${item.id}" data-minutes="120">2 Jam</button>
+                        <button class="time-shortcut" data-id="${item.id}" data-minutes="240">4 Jam</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="rental-duration-${item.id}" min="30" step="30" value="60" placeholder="Menit">
+                        <button class="btn primary start-rental" data-id="${item.id}">Mulai Sewa</button>
+                    </div>
                 </div>
             </div>
         `
@@ -469,17 +485,59 @@ function createTVConsoleCard(item) {
 
   // Add event listeners
   if (isRented) {
-    card.querySelector(".add-time").addEventListener("click", handleAddTime)
+    card.querySelector(".add-time").addEventListener("click", handleAddTimeClick)
     card.querySelector(".pay-rental").addEventListener("click", handlePayRental)
+
+    // Add event listeners for add time shortcuts
+    card.querySelectorAll(".add-time-shortcut").forEach((button) => {
+      button.addEventListener("click", handleAddTimeShortcut)
+    })
   } else {
-    card.querySelector(".start-rental").addEventListener("click", handleStartRental)
+    card.querySelector(".start-rental").addEventListener("click", handleStartRentalClick)
+
+    // Add event listeners for time shortcuts
+    card.querySelectorAll(".time-shortcut").forEach((button) => {
+      button.addEventListener("click", handleTimeShortcut)
+    })
   }
 
   return card
 }
 
-// Ubah fungsi handleStartRental() untuk memindahkan kartu TV langsung ke bagian yang sesuai
-function handleStartRental(event) {
+/**
+ * Handle time shortcut click
+ */
+function handleTimeShortcut(event) {
+  const id = event.target.getAttribute("data-id")
+  const minutes = Number.parseInt(event.target.getAttribute("data-minutes"))
+
+  // Set the input value to the shortcut minutes
+  const durationInput = document.getElementById(`rental-duration-${id}`)
+  durationInput.value = minutes
+
+  // Show rental confirmation
+  showRentalConfirmation(id, minutes)
+}
+
+/**
+ * Handle add time shortcut click
+ */
+function handleAddTimeShortcut(event) {
+  const id = event.target.getAttribute("data-id")
+  const minutes = Number.parseInt(event.target.getAttribute("data-minutes"))
+
+  // Set the input value to the shortcut minutes
+  const timeInput = document.getElementById(`add-time-${id}`)
+  timeInput.value = minutes
+
+  // Show add time confirmation
+  showAddTimeConfirmation(id, minutes)
+}
+
+/**
+ * Handle start rental button click
+ */
+function handleStartRentalClick(event) {
   const id = event.target.getAttribute("data-id")
   const durationInput = document.getElementById(`rental-duration-${id}`)
   const duration = Number.parseInt(durationInput.value)
@@ -488,6 +546,105 @@ function handleStartRental(event) {
     alert("Durasi minimal 30 menit")
     return
   }
+
+  // Show rental confirmation
+  showRentalConfirmation(id, duration)
+}
+
+/**
+ * Show rental confirmation modal
+ */
+function showRentalConfirmation(id, duration) {
+  const tvConsoles = Storage.getTVConsoles()
+  const tvConsole = tvConsoles.find((item) => item.id === id)
+
+  if (!tvConsole) return
+
+  const prices = Storage.getConsolePrices()
+  const pricePerHalfHour = prices[tvConsole.console] || 0
+  const cost = pricePerHalfHour * (duration / 30)
+
+  // Set confirmation modal content
+  document.getElementById("confirm-tv").textContent = tvConsole.tv
+  document.getElementById("confirm-console").textContent = tvConsole.console
+  document.getElementById("confirm-duration").textContent = formatDuration(duration)
+  document.getElementById("confirm-cost").textContent = `Rp ${cost.toLocaleString()}`
+
+  // Store pending rental info
+  pendingRental = {
+    id,
+    duration,
+  }
+
+  // Show modal
+  const modal = document.getElementById("rental-confirmation-modal")
+  modal.classList.add("active")
+}
+
+/**
+ * Handle add time button click
+ */
+function handleAddTimeClick(event) {
+  const id = event.target.getAttribute("data-id")
+  const timeInput = document.getElementById(`add-time-${id}`)
+  const additionalMinutes = Number.parseInt(timeInput.value)
+
+  if (!additionalMinutes || additionalMinutes < 30) {
+    alert("Waktu tambahan minimal 30 menit")
+    return
+  }
+
+  // Show add time confirmation
+  showAddTimeConfirmation(id, additionalMinutes)
+}
+
+/**
+ * Show add time confirmation modal
+ */
+function showAddTimeConfirmation(id, additionalMinutes) {
+  const tvConsoles = Storage.getTVConsoles()
+  const tvConsole = tvConsoles.find((item) => item.id === id)
+
+  if (!tvConsole || tvConsole.status !== "rented") {
+    alert("TV tidak dalam status disewa")
+    return
+  }
+
+  const prices = Storage.getConsolePrices()
+  const pricePerHalfHour = prices[tvConsole.console] || 0
+  const additionalCost = pricePerHalfHour * (additionalMinutes / 30)
+
+  const currentDuration = tvConsole.rentalInfo.duration
+  const currentCost = tvConsole.rentalInfo.price
+  const totalDuration = currentDuration + additionalMinutes
+  const totalCost = currentCost + additionalCost
+
+  // Set confirmation modal content
+  document.getElementById("add-time-confirm-tv").textContent = tvConsole.tv
+  document.getElementById("add-time-confirm-console").textContent = tvConsole.console
+  document.getElementById("add-time-confirm-duration").textContent = formatDuration(additionalMinutes)
+  document.getElementById("add-time-confirm-cost").textContent = `Rp ${additionalCost.toLocaleString()}`
+  document.getElementById("add-time-confirm-total-duration").textContent = formatDuration(totalDuration)
+  document.getElementById("add-time-confirm-total-cost").textContent = `Rp ${totalCost.toLocaleString()}`
+
+  // Store pending add time info
+  pendingAddTime = {
+    id,
+    additionalMinutes,
+  }
+
+  // Show modal
+  const modal = document.getElementById("add-time-confirmation-modal")
+  modal.classList.add("active")
+}
+
+/**
+ * Handle confirming rental
+ */
+function confirmRental() {
+  if (!pendingRental) return
+
+  const { id, duration } = pendingRental
 
   const updatedTVConsole = Storage.startRental(id, duration)
   if (updatedTVConsole) {
@@ -523,20 +680,18 @@ function handleStartRental(event) {
     // Start the timer
     startTimer(id)
   }
+
+  // Reset pending rental
+  pendingRental = null
 }
 
 /**
- * Handle adding time to a rental
+ * Handle confirming add time
  */
-function handleAddTime(event) {
-  const id = event.target.getAttribute("data-id")
-  const timeInput = document.getElementById(`add-time-${id}`)
-  const additionalMinutes = Number.parseInt(timeInput.value)
+function confirmAddTime() {
+  if (!pendingAddTime) return
 
-  if (!additionalMinutes || additionalMinutes < 30) {
-    alert("Waktu tambahan minimal 30 menit")
-    return
-  }
+  const { id, additionalMinutes } = pendingAddTime
 
   const updatedTVConsole = Storage.addRentalTime(id, additionalMinutes)
   if (updatedTVConsole) {
@@ -546,11 +701,15 @@ function handleAddTime(event) {
     updateTimerDisplay(id)
 
     // Reset the input
+    const timeInput = document.getElementById(`add-time-${id}`)
     timeInput.value = 30
 
     // Show notification
     alert(`Berhasil menambah waktu ${formatDuration(additionalMinutes)}`)
   }
+
+  // Reset pending add time
+  pendingAddTime = null
 }
 
 /**
@@ -596,7 +755,10 @@ function showPaymentModal(tvConsole) {
   modal.classList.add("active")
 }
 
-// Ubah fungsi completeRentalPayment() untuk memindahkan kartu TV langsung ke bagian yang sesuai
+/**
+ * Complete a rental payment
+ * @param {String} id - TV-Console ID
+ */
 function completeRentalPayment(id) {
   // Stop the timer
   stopTimer(id)
@@ -645,38 +807,6 @@ function completeRentalPayment(id) {
     alert("Pembayaran berhasil")
   }
 }
-
-/**
- * Complete a rental payment
- * @param {String} id - TV-Console ID
- */
-/*function completeRentalPayment(id) {
-  // Stop the timer
-  stopTimer(id)
-
-  // Complete the rental in storage
-  const transaction = Storage.completeRental(id)
-  if (transaction) {
-    // Broadcast the transaction
-    Broadcast.transactionAdded(transaction)
-
-    // Update the TV card
-    const tvConsoles = Storage.getTVConsoles()
-    const updatedTVConsole = tvConsoles.find((item) => item.id === id)
-
-    if (updatedTVConsole) {
-      Broadcast.tvConsoleUpdated(updatedTVConsole)
-
-      // Replace the card
-      const oldCard = document.querySelector(`.tv-card[data-id="${id}"]`)
-      const newCard = createTVConsoleCard(updatedTVConsole)
-      oldCard.parentNode.replaceChild(newCard, oldCard)
-    }
-
-    // Show success message
-    alert("Pembayaran berhasil")
-  }
-}*/
 
 /**
  * Start a timer for a rented TV
@@ -778,7 +908,9 @@ function updateTimerDisplay(id) {
   }
 }
 
-// Ubah juga setupBroadcastListeners() untuk menangani perpindahan TV antar bagian
+/**
+ * Set up broadcast listeners
+ */
 function setupBroadcastListeners() {
   // Listen for TV-Console updates
   Broadcast.listenForTVConsoleUpdates((event) => {
@@ -913,89 +1045,90 @@ function setupBroadcastListeners() {
 }
 
 /**
- * Set up broadcast listeners
- */
-/*function setupBroadcastListeners() {
-  // Listen for TV-Console updates
-  Broadcast.listenForTVConsoleUpdates((event) => {
-    const { type, data } = event.data
-
-    if (type === BroadcastEvents.TV_CONSOLE_ADDED) {
-      // Reload all cards when a new TV is added
-      loadTVConsoleCards()
-    } else if (type === BroadcastEvents.TV_CONSOLE_DELETED) {
-      // Reload all cards when a TV is deleted
-      loadTVConsoleCards()
-    } else if (type === BroadcastEvents.TV_CONSOLE_UPDATED) {
-      // Update TV-Console card
-      const tvConsole = data
-      const oldCard = document.querySelector(`.tv-card[data-id="${tvConsole.id}"]`)
-
-      if (oldCard) {
-        // Jika status berubah, reload semua kartu untuk memindahkan ke bagian yang benar
-        if (
-          (oldCard.querySelector(".status").classList.contains("available") && tvConsole.status === "rented") ||
-          (oldCard.querySelector(".status").classList.contains("rented") && tvConsole.status === "available")
-        ) {
-          loadTVConsoleCards()
-        } else {
-          // Jika status tidak berubah, cukup update kartu
-          const newCard = createTVConsoleCard(tvConsole)
-          oldCard.parentNode.replaceChild(newCard, oldCard)
-
-          // Restart timer if TV is rented
-          if (tvConsole.status === "rented") {
-            startTimer(tvConsole.id)
-          }
-        }
-      } else {
-        // Jika kartu tidak ditemukan, reload semua
-        loadTVConsoleCards()
-      }
-    }
-  })
-
-  // Listen for price updates
-  Broadcast.listenForPriceUpdates((event) => {
-    const { type, data } = event.data
-
-    if (type === BroadcastEvents.PRICES_UPDATED) {
-      // Reload all cards to update prices
-      loadTVConsoleCards()
-    }
-  })
-}*/
-
-/**
  * Set up modal event listeners
  */
 function setupModalListeners() {
-  const modal = document.getElementById("payment-modal")
-  const closeBtn = document.querySelector(".close-modal")
-  const cancelBtn = document.getElementById("cancel-payment")
-  const confirmBtn = document.getElementById("confirm-payment")
+  // Payment modal
+  const paymentModal = document.getElementById("payment-modal")
+  const paymentCloseBtn = paymentModal.querySelector(".close-modal")
+  const cancelPaymentBtn = document.getElementById("cancel-payment")
+  const confirmPaymentBtn = document.getElementById("confirm-payment")
 
-  // Close modal when clicking the X button
-  closeBtn.addEventListener("click", () => {
-    modal.classList.remove("active")
+  // Close payment modal when clicking the X button
+  paymentCloseBtn.addEventListener("click", () => {
+    paymentModal.classList.remove("active")
   })
 
-  // Close modal when clicking the Cancel button
-  cancelBtn.addEventListener("click", () => {
-    modal.classList.remove("active")
+  // Close payment modal when clicking the Cancel button
+  cancelPaymentBtn.addEventListener("click", () => {
+    paymentModal.classList.remove("active")
   })
 
   // Confirm payment
-  confirmBtn.addEventListener("click", () => {
-    const id = confirmBtn.getAttribute("data-id")
+  confirmPaymentBtn.addEventListener("click", () => {
+    const id = confirmPaymentBtn.getAttribute("data-id")
     completeRentalPayment(id)
-    modal.classList.remove("active")
+    paymentModal.classList.remove("active")
   })
 
-  // Close modal when clicking outside
+  // Rental confirmation modal
+  const rentalConfirmationModal = document.getElementById("rental-confirmation-modal")
+  const rentalCloseBtn = rentalConfirmationModal.querySelector(".close-modal")
+  const cancelRentalBtn = document.getElementById("cancel-rental")
+  const confirmRentalBtn = document.getElementById("confirm-rental")
+
+  // Close rental confirmation modal when clicking the X button
+  rentalCloseBtn.addEventListener("click", () => {
+    rentalConfirmationModal.classList.remove("active")
+    pendingRental = null
+  })
+
+  // Close rental confirmation modal when clicking the Cancel button
+  cancelRentalBtn.addEventListener("click", () => {
+    rentalConfirmationModal.classList.remove("active")
+    pendingRental = null
+  })
+
+  // Confirm rental
+  confirmRentalBtn.addEventListener("click", () => {
+    confirmRental()
+    rentalConfirmationModal.classList.remove("active")
+  })
+
+  // Add time confirmation modal
+  const addTimeConfirmationModal = document.getElementById("add-time-confirmation-modal")
+  const addTimeCloseBtn = addTimeConfirmationModal.querySelector(".close-modal")
+  const cancelAddTimeBtn = document.getElementById("cancel-add-time")
+  const confirmAddTimeBtn = document.getElementById("confirm-add-time")
+
+  // Close add time confirmation modal when clicking the X button
+  addTimeCloseBtn.addEventListener("click", () => {
+    addTimeConfirmationModal.classList.remove("active")
+    pendingAddTime = null
+  })
+
+  // Close add time confirmation modal when clicking the Cancel button
+  cancelAddTimeBtn.addEventListener("click", () => {
+    addTimeConfirmationModal.classList.remove("active")
+    pendingAddTime = null
+  })
+
+  // Confirm add time
+  confirmAddTimeBtn.addEventListener("click", () => {
+    confirmAddTime()
+    addTimeConfirmationModal.classList.remove("active")
+  })
+
+  // Close modals when clicking outside
   window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      modal.classList.remove("active")
+    if (event.target === paymentModal) {
+      paymentModal.classList.remove("active")
+    } else if (event.target === rentalConfirmationModal) {
+      rentalConfirmationModal.classList.remove("active")
+      pendingRental = null
+    } else if (event.target === addTimeConfirmationModal) {
+      addTimeConfirmationModal.classList.remove("active")
+      pendingAddTime = null
     }
   })
 }
