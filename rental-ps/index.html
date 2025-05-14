@@ -1,94 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayStation Rental - TV View</title>
-    <link rel="stylesheet" href="styles.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>PlayStation Rental - TV View</title>
+   <link rel="stylesheet" href="styles.css">
+   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>PlayStation Rental Management</h1>
-            <nav>
-                <a href="dashboard.html">Dashboard</a>
-                <a href="tv.html" class="active">TV View</a>
-            </nav>
-        </header>
+   <div class="container">
+       <header>
+           <h1>PlayStation Rental Management</h1>
+           <nav>
+               <a href="dashboard.html">Dashboard</a>
+               <a href="index.html" class="active">TV View</a>
+               <div class="theme-toggle">
+                   <span class="theme-toggle-icon">☀️</span>
+                   <label class="theme-toggle-label">
+                       <input type="checkbox" class="theme-toggle-input" id="theme-toggle">
+                       <span class="theme-toggle-slider"></span>
+                   </label>
+                   <span class="theme-toggle-icon">🌙</span>
+               </div>
+           </nav>
+       </header>
 
-    <div class="section-header">
-        <h2>TV yang Sedang Disewa</h2>
-    </div>
-    <div class="tv-grid" id="rented-tv-grid">
-        <!-- TV-Console cards yang sedang disewa akan ditampilkan di sini -->
-    </div>
+   <div class="section-header">
+       <h2>TV yang Sedang Disewa</h2>
+   </div>
+   <div class="tv-grid" id="rented-tv-grid">
+       <!-- TV-Console cards yang sedang disewa akan ditampilkan di sini -->
+   </div>
 
-    <div class="section-header">
-        <h2>TV yang Tersedia</h2>
-    </div>
-    <div class="tv-grid" id="available-tv-grid">
-        <!-- TV-Console cards yang tersedia akan ditampilkan di sini -->
-    </div>
+   <div class="section-header">
+       <h2>TV yang Tersedia</h2>
+   </div>
+   <div class="tv-grid" id="available-tv-grid">
+       <!-- TV-Console cards yang tersedia akan ditampilkan di sini -->
+   </div>
 </div>
 
-    <!-- Modal for payment confirmation -->
-    <div class="modal" id="payment-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Konfirmasi Pembayaran</h2>
-            <div class="payment-details">
-                <p><strong>TV:</strong> <span id="modal-tv"></span></p>
-                <p><strong>Konsol:</strong> <span id="modal-console"></span></p>
-                <p><strong>Waktu Mulai:</strong> <span id="modal-start-time"></span></p>
-                <p><strong>Waktu Selesai:</strong> <span id="modal-end-time"></span></p>
-                <p><strong>Total Durasi:</strong> <span id="modal-duration"></span></p>
-                <p><strong>Total Biaya:</strong> <span id="modal-cost"></span></p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn secondary" id="cancel-payment">Batal</button>
-                <button class="btn primary" id="confirm-payment">Konfirmasi Pembayaran</button>
-            </div>
-        </div>
-    </div>
+   <!-- Modal for payment confirmation -->
+   <div class="modal" id="payment-modal">
+       <div class="modal-content">
+           <span class="close-modal">&times;</span>
+           <h2>Konfirmasi Pembayaran</h2>
+           <div class="payment-details">
+               <p><strong>TV:</strong> <span id="modal-tv"></span></p>
+               <p><strong>Konsol:</strong> <span id="modal-console"></span></p>
+               <p><strong>Waktu Mulai:</strong> <span id="modal-start-time"></span></p>
+               <p><strong>Waktu Selesai:</strong> <span id="modal-end-time"></span></p>
+               <p><strong>Total Durasi:</strong> <span id="modal-duration"></span></p>
+               <p><strong>Total Biaya:</strong> <span id="modal-cost"></span></p>
+           </div>
+           <div class="modal-actions">
+               <button class="btn secondary" id="cancel-payment">Batal</button>
+               <button class="btn primary" id="confirm-payment">Konfirmasi Pembayaran</button>
+           </div>
+       </div>
+   </div>
 
-    <!-- Modal for rental confirmation -->
-    <div class="modal" id="rental-confirmation-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Konfirmasi Penyewaan</h2>
-            <div class="rental-confirmation-details">
-                <p><strong>TV:</strong> <span id="confirm-tv"></span></p>
-                <p><strong>Konsol:</strong> <span id="confirm-console"></span></p>
-                <p><strong>Durasi:</strong> <span id="confirm-duration"></span></p>
-                <p><strong>Biaya:</strong> <span id="confirm-cost"></span></p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn secondary" id="cancel-rental">Batal</button>
-                <button class="btn primary" id="confirm-rental">Mulai Sewa</button>
-            </div>
-        </div>
-    </div>
+   <!-- Modal for rental confirmation -->
+   <div class="modal" id="rental-confirmation-modal">
+       <div class="modal-content">
+           <span class="close-modal">&times;</span>
+           <h2>Konfirmasi Penyewaan</h2>
+           <div class="rental-confirmation-details">
+               <p><strong>TV:</strong> <span id="confirm-tv"></span></p>
+               <p><strong>Konsol:</strong> <span id="confirm-console"></span></p>
+               <p><strong>Durasi:</strong> <span id="confirm-duration"></span></p>
+               <p><strong>Biaya:</strong> <span id="confirm-cost"></span></p>
+           </div>
+           <div class="modal-actions">
+               <button class="btn secondary" id="cancel-rental">Batal</button>
+               <button class="btn primary" id="confirm-rental">Mulai Sewa</button>
+           </div>
+       </div>
+   </div>
 
-    <!-- Modal for add time confirmation -->
-    <div class="modal" id="add-time-confirmation-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Konfirmasi Tambah Waktu</h2>
-            <div class="add-time-confirmation-details">
-                <p><strong>TV:</strong> <span id="add-time-confirm-tv"></span></p>
-                <p><strong>Konsol:</strong> <span id="add-time-confirm-console"></span></p>
-                <p><strong>Tambah Durasi:</strong> <span id="add-time-confirm-duration"></span></p>
-                <p><strong>Tambah Biaya:</strong> <span id="add-time-confirm-cost"></span></p>
-                <p><strong>Total Durasi:</strong> <span id="add-time-confirm-total-duration"></span></p>
-                <p><strong>Total Biaya:</strong> <span id="add-time-confirm-total-cost"></span></p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn secondary" id="cancel-add-time">Batal</button>
-                <button class="btn primary" id="confirm-add-time">Tambah Waktu</button>
-            </div>
-        </div>
-    </div>
+   <!-- Modal for add time confirmation -->
+   <div class="modal" id="add-time-confirmation-modal">
+       <div class="modal-content">
+           <span class="close-modal">&times;</span>
+           <h2>Konfirmasi Tambah Waktu</h2>
+           <div class="add-time-confirmation-details">
+               <p><strong>TV:</strong> <span id="add-time-confirm-tv"></span></p>
+               <p><strong>Konsol:</strong> <span id="add-time-confirm-console"></span></p>
+               <p><strong>Tambah Durasi:</strong> <span id="add-time-confirm-duration"></span></p>
+               <p><strong>Tambah Biaya:</strong> <span id="add-time-confirm-cost"></span></p>
+               <p><strong>Total Durasi:</strong> <span id="add-time-confirm-total-duration"></span></p>
+               <p><strong>Total Biaya:</strong> <span id="add-time-confirm-total-cost"></span></p>
+           </div>
+           <div class="modal-actions">
+               <button class="btn secondary" id="cancel-add-time">Batal</button>
+               <button class="btn primary" id="confirm-add-time">Tambah Waktu</button>
+           </div>
+       </div>
+   </div>
 
-    <script src="tv.js"></script>
+   <script src="theme.js"></script>
+   <script src="tv.js"></script>
 </body>
 </html>

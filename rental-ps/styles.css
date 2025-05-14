@@ -7,7 +7,7 @@
 }
 
 :root {
-  /* Neobrutalism Blue Color Palette */
+  /* Neobrutalism Blue Color Palette - Light Theme */
   --primary-color: #2563eb;
   --primary-dark: #1d4ed8;
   --primary-light: #60a5fa;
@@ -21,21 +21,46 @@
   --gray-color: #64748b;
   --border-color: #94a3b8;
   --background-color: #f1f5f9;
+  --card-background: white;
+  --text-color: #0f172a;
+  --text-secondary: #64748b;
+  --shadow-color: rgba(15, 23, 42, 0.8);
 
   /* Neobrutalism Styling */
   --shadow-offset: 4px;
   --border-width: 3px;
   --border-radius: 4px;
-  --shadow-color: rgba(15, 23, 42, 0.8);
   --shadow-neobrutalism: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-color);
+}
+
+/* Dark Theme */
+.dark-theme {
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --primary-light: #93c5fd;
+  --secondary-color: #38bdf8;
+  --accent-color: #f0abfc;
+  --success-color: #4ade80;
+  --danger-color: #f87171;
+  --warning-color: #fbbf24;
+  --light-color: #1e293b;
+  --dark-color: #f8fafc;
+  --gray-color: #94a3b8;
+  --border-color: #475569;
+  --background-color: #0f172a;
+  --card-background: #1e293b;
+  --text-color: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --shadow-color: rgba(15, 23, 42, 0.8);
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap");
 
 body {
   background-color: var(--background-color);
-  color: var(--dark-color);
+  color: var(--text-color);
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -65,18 +90,19 @@ header h1 {
 nav {
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 
 nav a {
   text-decoration: none;
-  color: var(--dark-color);
+  color: var(--text-color);
   font-weight: 700;
   padding: 10px 16px;
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
-  background-color: white;
+  background-color: var(--card-background);
   box-shadow: var(--shadow-neobrutalism);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
   text-transform: uppercase;
   font-size: 14px;
 }
@@ -91,14 +117,77 @@ nav a.active {
   color: white;
 }
 
+/* Theme Toggle */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.theme-toggle-label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.theme-toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--light-color);
+  border: var(--border-width) solid var(--primary-color);
+  transition: 0.4s;
+  border-radius: 34px;
+  box-shadow: var(--shadow-neobrutalism);
+}
+
+.theme-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 3px;
+  background-color: var(--primary-color);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.theme-toggle-input:checked + .theme-toggle-slider {
+  background-color: var(--dark-color);
+}
+
+.theme-toggle-input:checked + .theme-toggle-slider:before {
+  transform: translateX(28px);
+  background-color: var(--primary-light);
+}
+
+.theme-toggle-icon {
+  margin-right: 5px;
+  font-size: 18px;
+  color: var(--primary-color);
+}
+
 /* Card Styles */
 .card {
-  background-color: white;
+  background-color: var(--card-background);
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-neobrutalism);
   padding: 20px;
   margin-bottom: 25px;
+  transition: background-color 0.3s ease;
 }
 
 .card h2 {
@@ -118,9 +207,10 @@ nav a.active {
   display: block;
   margin-bottom: 8px;
   font-weight: 700;
-  color: var(--dark-color);
+  color: var(--text-color);
   text-transform: uppercase;
   font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .form-group input,
@@ -130,8 +220,10 @@ nav a.active {
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
   font-size: 16px;
-  background-color: white;
+  background-color: var(--card-background);
+  color: var(--text-color);
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .form-group input:focus,
@@ -157,10 +249,10 @@ nav a.active {
   font-weight: 700;
   font-size: 16px;
   text-transform: uppercase;
-  background-color: white;
-  color: var(--dark-color);
+  background-color: var(--card-background);
+  color: var(--text-color);
   box-shadow: var(--shadow-neobrutalism);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn:hover {
@@ -184,7 +276,7 @@ nav a.active {
 }
 
 .btn.secondary {
-  background-color: white;
+  background-color: var(--card-background);
   color: var(--primary-color);
   border-color: var(--primary-color);
 }
@@ -228,18 +320,19 @@ nav a.active {
 
 .tab-btn {
   padding: 12px 20px;
-  background: white;
+  background: var(--card-background);
   border: var(--border-width) solid var(--primary-color);
   border-bottom: none;
   cursor: pointer;
   font-weight: 700;
-  color: var(--dark-color);
+  color: var(--text-color);
   position: relative;
   margin-right: 5px;
   border-radius: var(--border-radius) var(--border-radius) 0 0;
   text-transform: uppercase;
   font-size: 14px;
   box-shadow: var(--shadow-offset) calc(var(--shadow-offset) * -1) 0 0 var(--shadow-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .tab-btn:hover {
@@ -267,7 +360,8 @@ nav a.active {
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-neobrutalism);
-  background-color: white;
+  background-color: var(--card-background);
+  transition: background-color 0.3s ease;
 }
 
 table {
@@ -280,6 +374,8 @@ table td {
   padding: 15px;
   text-align: left;
   border-bottom: 2px solid var(--primary-light);
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 table th {
@@ -325,13 +421,13 @@ table tr:hover {
 }
 
 .tv-card {
-  background-color: white;
+  background-color: var(--card-background);
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-neobrutalism);
   padding: 20px;
   position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
 }
 
 .tv-card:hover {
@@ -362,6 +458,8 @@ table tr:hover {
   display: flex;
   justify-content: space-between;
   font-size: 16px;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 .tv-card .details p strong {
@@ -384,12 +482,13 @@ table tr:hover {
 
 .tv-card .rental-form .input-group {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
 .tv-card .rental-form input {
-  flex: 1;
+  width: 100%;
   padding: 12px;
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
@@ -397,7 +496,9 @@ table tr:hover {
   text-align: center;
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-color);
   font-weight: 700;
-  width: 100px;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .tv-card .rental-form input:focus {
@@ -410,18 +511,20 @@ table tr:hover {
   display: flex;
   gap: 10px;
   margin-bottom: 5px;
+  flex-wrap: wrap;
 }
 
 .tv-card .rental-form .time-shortcuts button {
   flex: 1;
+  min-width: 80px;
   padding: 10px;
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
-  background-color: white;
+  background-color: var(--card-background);
   color: var(--primary-color);
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease, background-color 0.3s ease, color 0.3s ease;
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-color);
   text-transform: uppercase;
   font-size: 14px;
@@ -454,6 +557,7 @@ table tr:hover {
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-color);
+  transition: background-color 0.3s ease;
 }
 
 .tv-card .timer h4 {
@@ -486,10 +590,11 @@ table tr:hover {
   justify-content: space-between;
   margin-top: 10px;
   font-size: 14px;
-  color: var(--gray-color);
+  color: var(--text-secondary);
   font-weight: 700;
   border-top: 2px solid var(--primary-light);
   padding-top: 10px;
+  transition: color 0.3s ease;
 }
 
 /* Section Header Styles */
@@ -509,13 +614,14 @@ table tr:hover {
 
 /* Empty Section Message */
 .empty-section-message {
-  background-color: white;
+  background-color: var(--card-background);
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-neobrutalism);
   padding: 30px 20px;
   text-align: center;
   grid-column: 1 / -1;
+  transition: background-color 0.3s ease;
 }
 
 .empty-section-message h3 {
@@ -527,8 +633,9 @@ table tr:hover {
 }
 
 .empty-section-message p {
-  color: var(--gray-color);
+  color: var(--text-secondary);
   font-size: 16px;
+  transition: color 0.3s ease;
 }
 
 /* Modal Styles */
@@ -550,7 +657,7 @@ table tr:hover {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: var(--card-background);
   border: var(--border-width) solid var(--primary-color);
   border-radius: var(--border-radius);
   box-shadow: calc(var(--shadow-offset) * 2) calc(var(--shadow-offset) * 2) 0 0 var(--shadow-color);
@@ -559,6 +666,7 @@ table tr:hover {
   max-width: 500px;
   position: relative;
   animation: modalFadeIn 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 @keyframes modalFadeIn {
@@ -605,6 +713,7 @@ table tr:hover {
   padding: 15px;
   border: 2px solid var(--primary-light);
   border-radius: var(--border-radius);
+  transition: background-color 0.3s ease;
 }
 
 .payment-details p,
@@ -616,6 +725,8 @@ table tr:hover {
   justify-content: space-between;
   border-bottom: 1px solid var(--primary-light);
   padding-bottom: 8px;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 .payment-details p:last-child,
@@ -659,6 +770,9 @@ table tr:hover {
   border-radius: var(--border-radius);
   font-size: 16px;
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-color);
+  background-color: var(--card-background);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .search-box input:focus {
@@ -696,6 +810,10 @@ table tr:hover {
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
+  }
+
+  nav {
+    flex-wrap: wrap;
   }
 
   .price-inputs {

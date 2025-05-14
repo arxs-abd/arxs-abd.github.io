@@ -1,121 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayStation Rental - Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>PlayStation Rental - Dashboard</title>
+   <link rel="stylesheet" href="styles.css">
+   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>PlayStation Rental Management</h1>
-            <nav>
-                <a href="dashboard.html" class="active">Dashboard</a>
-                <a href="index.html">TV View</a>
-            </nav>
-        </header>
+   <div class="container">
+       <header>
+           <h1>PlayStation Rental Management</h1>
+           <nav>
+               <a href="dashboard.html" class="active">Dashboard</a>
+               <a href="index.html">TV View</a>
+               <div class="theme-toggle">
+                   <span class="theme-toggle-icon">☀️</span>
+                   <label class="theme-toggle-label">
+                       <input type="checkbox" class="theme-toggle-input" id="theme-toggle">
+                       <span class="theme-toggle-slider"></span>
+                   </label>
+                   <span class="theme-toggle-icon">🌙</span>
+               </div>
+           </nav>
+       </header>
 
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="settings">Pengaturan</button>
-            <button class="tab-btn" data-tab="history">Riwayat Transaksi</button>
-        </div>
+       <div class="tabs">
+           <button class="tab-btn active" data-tab="settings">Pengaturan</button>
+           <button class="tab-btn" data-tab="history">Riwayat Transaksi</button>
+       </div>
 
-        <div class="tab-content active" id="settings">
-            <div class="card">
-                <h2>Tambah TV dan Konsol</h2>
-                <form id="add-tv-console-form">
-                    <div class="form-group">
-                        <label for="tv-name">Nama TV</label>
-                        <input type="text" id="tv-name" required placeholder="Contoh: TV1">
-                    </div>
-                    <div class="form-group">
-                        <label for="console-type">Jenis Konsol</label>
-                        <select id="console-type" required>
-                            <option value="">Pilih Konsol</option>
-                            <option value="PS1">PlayStation 1</option>
-                            <option value="PS2">PlayStation 2</option>
-                            <option value="PS3">PlayStation 3</option>
-                            <option value="PS4">PlayStation 4</option>
-                            <option value="PS5">PlayStation 5</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn primary">Tambah</button>
-                </form>
-            </div>
+       <div class="tab-content active" id="settings">
+           <div class="card">
+               <h2>Tambah TV dan Konsol</h2>
+               <form id="add-tv-console-form">
+                   <div class="form-group">
+                       <label for="tv-name">Nama TV</label>
+                       <input type="text" id="tv-name" required placeholder="Contoh: TV1">
+                   </div>
+                   <div class="form-group">
+                       <label for="console-type">Jenis Konsol</label>
+                       <select id="console-type" required>
+                           <option value="">Pilih Konsol</option>
+                           <option value="PS1">PlayStation 1</option>
+                           <option value="PS2">PlayStation 2</option>
+                           <option value="PS3">PlayStation 3</option>
+                           <option value="PS4">PlayStation 4</option>
+                           <option value="PS5">PlayStation 5</option>
+                       </select>
+                   </div>
+                   <button type="submit" class="btn primary">Tambah</button>
+               </form>
+           </div>
 
-            <div class="card">
-                <h2>Daftar TV dan Konsol</h2>
-                <div class="table-container">
-                    <table id="tv-console-table">
-                        <thead>
-                            <tr>
-                                <th>Nama TV</th>
-                                <th>Jenis Konsol</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+           <div class="card">
+               <h2>Daftar TV dan Konsol</h2>
+               <div class="table-container">
+                   <table id="tv-console-table">
+                       <thead>
+                           <tr>
+                               <th>Nama TV</th>
+                               <th>Jenis Konsol</th>
+                               <th>Status</th>
+                               <th>Aksi</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <!-- Data will be populated by JavaScript -->
+                       </tbody>
+                   </table>
+               </div>
+           </div>
 
-            <div class="card">
-                <h2>Pengaturan Harga</h2>
-                <form id="price-settings-form">
-                    <div class="price-inputs">
-                        <div class="form-group">
-                            <label for="ps1-price">PlayStation 1 (per 30 menit)</label>
-                            <input type="number" id="ps1-price" min="0" placeholder="Rp">
-                        </div>
-                        <div class="form-group">
-                            <label for="ps2-price">PlayStation 2 (per 30 menit)</label>
-                            <input type="number" id="ps2-price" min="0" placeholder="Rp">
-                        </div>
-                        <div class="form-group">
-                            <label for="ps3-price">PlayStation 3 (per 30 menit)</label>
-                            <input type="number" id="ps3-price" min="0" placeholder="Rp">
-                        </div>
-                        <div class="form-group">
-                            <label for="ps4-price">PlayStation 4 (per 30 menit)</label>
-                            <input type="number" id="ps4-price" min="0" placeholder="Rp">
-                        </div>
-                        <div class="form-group">
-                            <label for="ps5-price">PlayStation 5 (per 30 menit)</label>
-                            <input type="number" id="ps5-price" min="0" placeholder="Rp">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn primary">Simpan Harga</button>
-                </form>
-            </div>
-        </div>
+           <div class="card">
+               <h2>Pengaturan Harga</h2>
+               <form id="price-settings-form">
+                   <div class="price-inputs">
+                       <div class="form-group">
+                           <label for="ps1-price">PlayStation 1 (per 30 menit)</label>
+                           <input type="number" id="ps1-price" min="0" placeholder="Rp">
+                       </div>
+                       <div class="form-group">
+                           <label for="ps2-price">PlayStation 2 (per 30 menit)</label>
+                           <input type="number" id="ps2-price" min="0" placeholder="Rp">
+                       </div>
+                       <div class="form-group">
+                           <label for="ps3-price">PlayStation 3 (per 30 menit)</label>
+                           <input type="number" id="ps3-price" min="0" placeholder="Rp">
+                       </div>
+                       <div class="form-group">
+                           <label for="ps4-price">PlayStation 4 (per 30 menit)</label>
+                           <input type="number" id="ps4-price" min="0" placeholder="Rp">
+                       </div>
+                       <div class="form-group">
+                           <label for="ps5-price">PlayStation 5 (per 30 menit)</label>
+                           <input type="number" id="ps5-price" min="0" placeholder="Rp">
+                       </div>
+                   </div>
+                   <button type="submit" class="btn primary">Simpan Harga</button>
+               </form>
+           </div>
+       </div>
 
-        <div class="tab-content" id="history">
-            <div class="card">
-                <h2>Riwayat Transaksi</h2>
-                <div class="table-container">
-                    <table id="transaction-table">
-                        <thead>
-                            <tr>
-                                <th>TV</th>
-                                <th>Konsol</th>
-                                <th>Waktu Mulai</th>
-                                <th>Waktu Selesai</th>
-                                <th>Durasi</th>
-                                <th>Total Biaya</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="dashboard.js"></script>
+       <div class="tab-content" id="history">
+           <div class="card">
+               <h2>Riwayat Transaksi</h2>
+               <div class="search-box">
+                   <input type="text" id="transaction-search" placeholder="Cari berdasarkan TV, konsol, atau tanggal...">
+                   <button id="search-button">Cari</button>
+               </div>
+               <div class="table-container">
+                   <table id="transaction-table">
+                       <thead>
+                           <tr>
+                               <th>TV</th>
+                               <th>Konsol</th>
+                               <th>Waktu Mulai</th>
+                               <th>Waktu Selesai</th>
+                               <th>Durasi</th>
+                               <th>Total Biaya</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <!-- Data will be populated by JavaScript -->
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <script src="theme.js"></script>
+   <script src="dashboard.js"></script>
 </body>
 </html>
