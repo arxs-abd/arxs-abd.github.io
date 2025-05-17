@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game - ARXS Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="memory-game.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="theme-default light-mode">
+    <div class="noise"></div>
+    
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-box">A</div>
+                <h1>MEMORY GAME</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Back to Portfolio</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="theme-controls">
+            <div class="color-picker-container">
+                <button id="color-picker-toggle" class="color-btn active" data-theme="default"></button>
+                <div class="color-picker-dropdown">
+                    <div class="color-picker-scroll">
+                        <button class="color-btn" data-theme="default" style="--color: #ff5470"></button>
+                        <button class="color-btn" data-theme="blue" style="--color: #5271ff"></button>
+                        <button class="color-btn" data-theme="green" style="--color: #0cca4a"></button>
+                        <button class="color-btn" data-theme="purple" style="--color: #9e15ff"></button>
+                        <button class="color-btn" data-theme="orange" style="--color: #ff8e3c"></button>
+                        <button class="color-btn" data-theme="pink" style="--color: #f78fb3"></button>
+                        <button class="color-btn" data-theme="mint" style="--color: #a8e6cf"></button>
+                        <button class="color-btn" data-theme="sky" style="--color: #89c9f9"></button>
+                        <button class="color-btn" data-theme="lavender" style="--color: #b39ddb"></button>
+                        <button class="color-btn" data-theme="peach" style="--color: #ffc1a1"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="game-section">
+            <div class="section-header">
+                <h2>MEMORY GAME</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="game-controls">
+                <div class="game-info">
+                    <div class="game-stat">
+                        <span>Moves:</span>
+                        <span id="moves-count">0</span>
+                    </div>
+                    <div class="game-stat">
+                        <span>Time:</span>
+                        <span id="time">00:00</span>
+                    </div>
+                </div>
+                <div class="game-buttons">
+                    <button id="start-btn" class="btn btn-primary">Start Game</button>
+                    <button id="restart-btn" class="btn btn-secondary">Restart</button>
+                    <button id="view-high-scores-btn" class="btn btn-secondary">High Scores</button>
+                </div>
+                <div class="difficulty-controls">
+                    <button class="difficulty-btn active" data-grid="4" data-difficulty="easy">Easy</button>
+                    <button class="difficulty-btn" data-grid="6" data-difficulty="medium">Medium</button>
+                    <button class="difficulty-btn" data-grid="8" data-difficulty="hard">Hard</button>
+                </div>
+            </div>
+            
+            <div class="game-container">
+                <div id="game-board" class="game-board"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Game Result Modal -->
+    <div id="game-result" class="game-result">
+        <div class="result-content">
+            <h3>Congratulations!</h3>
+            <p>You completed the game in <span id="result-time">00:00</span> with <span id="result-moves">0</span> moves.</p>
+            <div class="result-score">
+                Score: <span id="result-score">0</span>
+            </div>
+            <div class="player-name-input">
+                <label for="player-name">Enter your name:</label>
+                <input type="text" id="player-name" placeholder="Your Name" maxlength="20">
+            </div>
+            <div class="result-buttons">
+                <button id="save-score-btn" class="btn btn-primary">Save Score</button>
+                <button id="show-high-scores-btn" class="btn btn-secondary">High Scores</button>
+                <button id="play-again-btn" class="btn btn-secondary">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- High Scores Panel -->
+    <div id="high-scores-panel" class="high-scores-panel">
+        <div class="high-scores-content">
+            <h3>HIGH SCORES</h3>
+            <ul id="high-scores-list" class="high-scores-list">
+                <!-- High scores will be populated here -->
+            </ul>
+            <button id="close-high-scores-btn" class="btn btn-primary close-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Match Notification -->
+    <div id="match-notification">Match Found!</div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <div class="logo-box">P</div>
+                        <p>PORTFOLIO</p>
+                    </div>
+                    <p class="footer-tagline">I Code What Users Don’t See — But Always Rely On.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Let's Connect</h3>
+                    <div class="footer-social">
+                        <a href="https://github.com/arxs-abd" class="footer-social-link">GitHub</a>
+                        <a href="https://www.linkedin.com/in/aris-akhyar-758947202/" class="footer-social-link">LinkedIn</a>
+                        <a href="https://www.facebook.com/profile.php?id=100000053025926" class="footer-social-link">Facebook</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 All Rights Reserved</p>
+                </div>
+                <div class="footer-shapes">
+                    <div class="footer-shape footer-shape-1"></div>
+                    <div class="footer-shape footer-shape-2"></div>
+                    <div class="footer-shape footer-shape-3"></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Dark Mode Toggle -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <script src="script-game.js"></script>
+    <script src="memory-game.js"></script>
+</body>
+</html>

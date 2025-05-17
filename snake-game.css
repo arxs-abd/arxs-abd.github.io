@@ -1,0 +1,363 @@
+/* Snake Game Specific Styles */
+.game-section {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.game-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 2rem;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--card-bg);
+    padding: 1rem 2rem;
+    border: 3px solid var(--border);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--shadow-color);
+}
+
+.game-stat {
+    display: flex;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.game-buttons .btn {
+    min-width: 120px;
+}
+
+.difficulty-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.difficulty-btn {
+    padding: 0.5rem 1.5rem;
+    background-color: var(--card-bg);
+    border: 2px solid var(--border);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--foreground);
+}
+
+.difficulty-btn:hover, .difficulty-btn.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.snake-board {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--card-bg);
+    border: 3px solid var(--border);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--shadow-color);
+}
+
+/* Mobile Controls */
+.mobile-controls {
+    display: none;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.mobile-controls-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.direction-btn {
+    width: 60px;
+    height: 60px;
+    border: 3px solid var(--border);
+    background-color: var(--card-bg);
+    color: var(--foreground);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--shadow-color);
+}
+
+.direction-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--shadow-color);
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Game Instructions */
+.game-instructions {
+    margin-top: 2rem;
+    text-align: center;
+    max-width: 500px;
+}
+
+.game-instructions h3 {
+    margin-bottom: 1rem;
+}
+
+.keyboard-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.key-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.key {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0.5rem;
+}
+
+.key-cap {
+    width: 40px;
+    height: 40px;
+    background-color: var(--card-bg);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    box-shadow: 2px 2px 0 var(--shadow-color);
+}
+
+/* Game Modal (Game Over and High Scores) */
+.game-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.game-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--background);
+    padding: 2rem;
+    border: 3px solid var(--border);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--shadow-color);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal-content h3 {
+    color: var(--primary);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.result-score {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 1rem 0;
+}
+
+.player-name-input {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.player-name-input label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.player-name-input input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border);
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-main);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* High Scores List */
+.high-scores-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.high-score-header {
+    font-weight: 700;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr;
+    gap: 1rem;
+    text-align: left;
+}
+
+.high-score-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--card-bg);
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    text-align: left;
+}
+
+.high-score-item:nth-child(even) {
+    background-color: var(--card-bg);
+}
+
+.score-rank {
+    text-align: center;
+    font-weight: 700;
+}
+
+.score-value {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.close-btn {
+    margin-top: 1.5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1002;
+    display: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .game-info {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    
+    .game-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .game-buttons .btn {
+        width: 100%;
+    }
+    
+    .difficulty-controls {
+        flex-wrap: wrap;
+    }
+    
+    .difficulty-btn {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem;
+    }
+    
+    .mobile-controls {
+        display: block;
+    }
+    
+    .game-instructions .keyboard-controls {
+        display: none;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+    }
+    
+    .modal-buttons .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .snake-board {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    
+    .direction-btn {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .high-score-header, .high-score-item {
+        grid-template-columns: 0.5fr 1.5fr 1fr;
+        font-size: 0.9rem;
+    }
+    
+    .score-difficulty {
+        display: none;
+    }
+}

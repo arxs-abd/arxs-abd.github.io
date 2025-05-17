@@ -175,59 +175,6 @@ filterButtons.forEach(button => {
     });
 });
 
-// Display Projects Function - Updated for text-only cards
-function displayProjects(filter) {
-    // Clear projects container
-    projectsContainer.innerHTML = '';
-    
-    // Filter projects based on category
-    const filteredProjects = filter === 'all' 
-        ? projects 
-        : projects.filter(project => project.category === filter);
-    
-    // Create project cards
-    filteredProjects.forEach(project => {
-        const projectCard = document.createElement('div');
-        projectCard.className = 'project-card';
-        
-        // Create tags HTML
-        const tagsHTML = project.tags.map(tag => 
-            `<span class="project-tag">${tag}</span>`
-        ).join('');
-        
-        // Format project number with leading zeros
-        const formattedNumber = project.id.toString().padStart(2, '0');
-        
-        // Set project card HTML - no image
-        projectCard.innerHTML = `
-            <div class="project-number">${formattedNumber}</div>
-            <div class="project-tags">
-                ${tagsHTML}
-            </div>
-            <h3 class="project-title">${project.title}</h3>
-            <p class="project-description">${project.description}</p>
-            <div class="project-links">
-                <a href="${project.demoLink}" class="project-link" target="_blank" rel="noopener noreferrer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    Demo
-                </a>
-            </div>
-        `;
-        
-        // Add project card to container
-        projectsContainer.appendChild(projectCard);
-    });
-    
-    // Show message if no projects match the filter
-    if (filteredProjects.length === 0) {
-        projectsContainer.innerHTML = `
-            <div class="no-projects">
-                <p>No projects found in this category.</p>
-            </div>
-        `;
-    }
-}
-
 // Custom Cursor
 function initCustomCursor() {
     document.addEventListener('mousemove', (e) => {
