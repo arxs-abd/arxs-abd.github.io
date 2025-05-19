@@ -5,7 +5,7 @@ const projectsData = [
         description: "A minimalist website for show minimarket without pay to parking.",
         category: "web",
         tags: ["Node.js", "Express", "PostgreSQL"],
-        demoLink: "https://noparkemart.my.id/", 
+        demoLink: "https://noparkeemart.my.id/", 
     },
     {
         title: "ARXS Phone",
