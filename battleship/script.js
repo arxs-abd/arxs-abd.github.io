@@ -24,8 +24,8 @@ let socket_id
 
 
 const BASEURL = isProduction() 
-? 'https://zany-puce-lamb-cap.cyclic.app/battleship/api' 
-: 'http://localhost:3001/battleship/api'
+? 'https://api.noparkeemart.my.id/phones-app/battleship' 
+: 'http://localhost:3104/battleship'
 
 const button = document.querySelectorAll('.c-ship')
 const ship = {
