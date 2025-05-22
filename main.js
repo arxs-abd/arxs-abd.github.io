@@ -62,6 +62,13 @@ const projectsData = [
         category: "website",
         tags: ["HTML", "CSS", "JavaScript"],
         demoLink: "https://arxs-abd.github.io/scoreboard/settings.html",
+    },
+    {
+        title: "Battleship Game",
+        description: "A simple battleship game for two players.",
+        category: "game",
+        tags: ["HTML", "CSS", "JavaScript", "Pusher"],
+        demoLink: "https://arxs-abd.github.io/battleship/",
     }
 ];
 const projects = projectsData.map((project, index) => {
