@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Login Page -->
+    <div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <!-- Theme Toggle -->
+            <div class="flex justify-end mb-6">
+                <button id="themeToggle" class="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <svg class="w-5 h-5 text-gray-600 dark:text-gray-300 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                    </svg>
+                    <svg class="w-5 h-5 text-gray-600 dark:text-gray-300 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-8">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-primary-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Enter your name to start chatting</p>
+                </div>
+
+                <form id="loginForm" class="space-y-6">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Name</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                            placeholder="Enter your name"
+                        >
+                    </div>
+                    <button 
+                        type="submit"
+                        class="w-full bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                    >
+                        Start Chatting
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Page -->
+    <div id="chatPage" class="hidden h-screen flex overflow-hidden">
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-full md:w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+            <!-- Sidebar Header -->
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-lg font-semibold text-gray-900 dark:text-white">Chats</h1>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="chatThemeToggle" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <svg class="w-4 h-4 text-gray-600 dark:text-gray-300 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="w-4 h-4 text-gray-600 dark:text-gray-300 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <button id="logoutBtn" class="px-2 py-1 text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Welcome, <span id="displayUsername"></span></p>
+            </div>
+
+            <!-- Contacts List -->
+            <div class="flex-1 overflow-y-auto">
+                <div id="contactsList" class="p-2 space-y-1">
+                    <!-- Contacts will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chatArea" class="hidden md:flex flex-1 flex-col bg-gray-50 dark:bg-gray-900">
+            <!-- Chat Header -->
+            <div id="chatHeader" class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4">
+                <div class="flex items-center">
+                    <!-- Back button for mobile -->
+                    <button id="backBtn" class="md:hidden mr-3 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <div id="activeContactAvatar" class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-semibold text-sm"></span>
+                        </div>
+                        <div>
+                            <h2 id="activeContactName" class="text-lg font-semibold text-gray-900 dark:text-white">Select a contact</h2>
+                            <p id="activeContactStatus" class="text-sm text-gray-500 dark:text-gray-400">Online</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Container -->
+            <div class="flex-1 overflow-hidden flex flex-col">
+                <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
+                    <!-- Welcome message -->
+                    <div class="flex justify-center">
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-2 max-w-sm text-center">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Select a contact to start chatting</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div id="messageInputArea" class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
+                <form id="messageForm" class="flex space-x-3">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Type your message..."
+                        class="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                        disabled
+                    >
+                    <button 
+                        type="submit"
+                        id="sendBtn"
+                        disabled
+                        class="bg-primary-500 hover:bg-primary-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white p-3 rounded-xl transition-all duration-200 transform hover:scale-105 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let currentUser = '';
+        let activeContact = null;
+        let contacts = {};
+        let messages = {};
+
+        // Sample contacts with different avatars
+        const sampleContacts = [
+            { id: 'alice', name: 'Alice Johnson', status: 'Online', avatar: 'AJ' },
+            { id: 'bob', name: 'Bob Smith', status: 'Online', avatar: 'BS' },
+            { id: 'charlie', name: 'Charlie Brown', status: 'Away', avatar: 'CB' },
+            { id: 'diana', name: 'Diana Wilson', status: 'Online', avatar: 'DW' },
+            { id: 'evan', name: 'Evan Davis', status: 'Offline', avatar: 'ED' }
+        ];
+
+        // Theme management
+        function initTheme() {
+            const theme = getStoredTheme();
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        }
+
+        function getStoredTheme() {
+            return window.currentTheme || 'light';
+        }
+
+        function setTheme(theme) {
+            window.currentTheme = theme;
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = getStoredTheme();
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        }
+
+        // DOM elements
+        const loginPage = document.getElementById('loginPage');
+        const chatPage = document.getElementById('chatPage');
+        const sidebar = document.getElementById('sidebar');
+        const chatArea = document.getElementById('chatArea');
+        const loginForm = document.getElementById('loginForm');
+        const messageForm = document.getElementById('messageForm');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const displayUsername = document.getElementById('displayUsername');
+        const contactsList = document.getElementById('contactsList');
+        const activeContactName = document.getElementById('activeContactName');
+        const activeContactStatus = document.getElementById('activeContactStatus');
+        const activeContactAvatar = document.getElementById('activeContactAvatar');
+        const backBtn = document.getElementById('backBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        const chatThemeToggle = document.getElementById('chatThemeToggle');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Event listeners
+        themeToggle.addEventListener('click', toggleTheme);
+        chatThemeToggle.addEventListener('click', toggleTheme);
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            if (username) {
+                currentUser = username;
+                displayUsername.textContent = username;
+                initContacts();
+                showChatPage();
+            }
+        });
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!activeContact) return;
+            
+            const message = messageInput.value.trim();
+            if (message) {
+                addMessage(activeContact.id, currentUser, message, true);
+                messageInput.value = '';
+                updateContactLastMessage(activeContact.id, message, true);
+                
+                // Simulate a response after a short delay
+                setTimeout(() => {
+                    const responses = [
+                        "That's interesting!",
+                        "I see what you mean.",
+                        "Thanks for sharing!",
+                        "How's your day going?",
+                        "That sounds great!",
+                        "Tell me more about that.",
+                        "I agree with you.",
+                        "That's a good point!",
+                        "Nice to hear from you!",
+                        "Hope you're doing well!"
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(activeContact.id, activeContact.name, randomResponse, false);
+                    updateContactLastMessage(activeContact.id, randomResponse, false);
+                }, 1000 + Math.random() * 2000);
+            }
+        });
+
+        backBtn.addEventListener('click', () => {
+            showSidebar();
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            showLoginPage();
+            resetApp();
+        });
+
+        // Functions
+        function initContacts() {
+            contacts = {};
+            messages = {};
+            
+            sampleContacts.forEach(contact => {
+                contacts[contact.id] = contact;
+                messages[contact.id] = [];
+            });
+            
+            renderContacts();
+        }
+
+        function renderContacts() {
+            contactsList.innerHTML = '';
+            
+            Object.values(contacts).forEach(contact => {
+                const contactElement = createContactElement(contact);
+                contactsList.appendChild(contactElement);
+            });
+        }
+
+        function createContactElement(contact) {
+            const contactDiv = document.createElement('div');
+            contactDiv.className = 'p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors border-2 border-transparent hover:border-primary-100 dark:hover:border-primary-900';
+            contactDiv.onclick = () => selectContact(contact);
+            
+            const lastMessage = getLastMessage(contact.id);
+            const statusColor = contact.status === 'Online' ? 'bg-green-500' : contact.status === 'Away' ? 'bg-yellow-500' : 'bg-gray-400';
+            
+            contactDiv.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="relative">
+                        <div class="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-semibold text-sm">${contact.avatar}</span>
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-4 h-4 ${statusColor} rounded-full border-2 border-white dark:border-gray-800"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-medium text-gray-900 dark:text-white truncate">${contact.name}</h3>
+                            ${lastMessage ? `<span class="text-xs text-gray-500 dark:text-gray-400">${formatTime(lastMessage.timestamp)}</span>` : ''}
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate mt-1">
+                            ${lastMessage ? (lastMessage.isCurrentUser ? 'You: ' : '') + lastMessage.text : 'No messages yet'}
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            return contactDiv;
+        }
+
+        function selectContact(contact) {
+            activeContact = contact;
+            activeContactName.textContent = contact.name;
+            activeContactStatus.textContent = contact.status;
+            activeContactAvatar.querySelector('span').textContent = contact.avatar;
+            
+            // Enable message input
+            messageInput.disabled = false;
+            sendBtn.disabled = false;
+            messageInput.placeholder = `Message ${contact.name}...`;
+            
+            // Load messages for this contact
+            loadMessages(contact.id);
+            
+            // Show chat area on mobile
+            showChatArea();
+            
+            // Focus on message input
+            messageInput.focus();
+            
+            // Update active contact styling
+            updateActiveContactStyling(contact.id);
+        }
+
+        function updateActiveContactStyling(contactId) {
+            // Remove active styling from all contacts
+            document.querySelectorAll('#contactsList > div').forEach(el => {
+                el.className = el.className.replace('border-primary-500 bg-primary-50 dark:bg-primary-950', 'border-transparent');
+            });
+            
+            // Add active styling to selected contact
+            const activeElement = document.querySelector(`#contactsList > div:nth-child(${Object.keys(contacts).indexOf(contactId) + 1})`);
+            if (activeElement) {
+                activeElement.className = activeElement.className.replace('border-transparent', 'border-primary-500 bg-primary-50 dark:bg-primary-950');
+            }
+        }
+
+        function loadMessages(contactId) {
+            messagesContainer.innerHTML = '';
+            
+            if (!messages[contactId] || messages[contactId].length === 0) {
+                const welcomeDiv = document.createElement('div');
+                welcomeDiv.className = 'flex justify-center';
+                welcomeDiv.innerHTML = `
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-2 max-w-sm text-center">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Start a conversation with ${contacts[contactId].name}</p>
+                    </div>
+                `;
+                messagesContainer.appendChild(welcomeDiv);
+                return;
+            }
+            
+            messages[contactId].forEach(message => {
+                renderMessage(message);
+            });
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addMessage(contactId, sender, text, isCurrentUser = false) {
+            if (!messages[contactId]) {
+                messages[contactId] = [];
+            }
+            
+            const message = {
+                sender,
+                text,
+                isCurrentUser,
+                timestamp: new Date()
+            };
+            
+            messages[contactId].push(message);
+            
+            // If this is the active contact, render the message
+            if (activeContact && activeContact.id === contactId) {
+                renderMessage(message);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+
+        function renderMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${message.isCurrentUser ? 'justify-end' : 'justify-start'}`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = `max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
+                message.isCurrentUser 
+                    ? 'bg-primary-500 text-white ml-4' 
+                    : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-600 mr-4'
+            }`;
+            
+            if (!message.isCurrentUser) {
+                const senderName = document.createElement('div');
+                senderName.className = 'text-xs font-medium text-gray-500 dark:text-gray-400 mb-1';
+                senderName.textContent = message.sender;
+                messageContent.appendChild(senderName);
+            }
+            
+            const messageText = document.createElement('div');
+            messageText.className = 'text-sm';
+            messageText.textContent = message.text;
+            messageContent.appendChild(messageText);
+            
+            const timestamp = document.createElement('div');
+            timestamp.className = `text-xs mt-1 ${
+                message.isCurrentUser 
+                    ? 'text-primary-100' 
+                    : 'text-gray-400 dark:text-gray-500'
+            }`;
+            timestamp.textContent = formatTime(message.timestamp);
+            messageContent.appendChild(timestamp);
+            
+            messageDiv.appendChild(messageContent);
+            messagesContainer.appendChild(messageDiv);
+        }
+
+        function updateContactLastMessage(contactId, text, isCurrentUser) {
+            // Re-render contacts to update last message
+            renderContacts();
+            // Restore active contact styling
+            if (activeContact) {
+                updateActiveContactStyling(activeContact.id);
+            }
+        }
+
+        function getLastMessage(contactId) {
+            if (!messages[contactId] || messages[contactId].length === 0) {
+                return null;
+            }
+            return messages[contactId][messages[contactId].length - 1];
+        }
+
+        function formatTime(date) {
+            return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        function showChatPage() {
+            loginPage.classList.add('hidden');
+            chatPage.classList.remove('hidden');
+            
+            // On mobile, show sidebar first
+            if (window.innerWidth < 768) {
+                showSidebar();
+            } else {
+                sidebar.classList.remove('hidden');
+                chatArea.classList.remove('hidden');
+            }
+        }
+
+        function showSidebar() {
+            if (window.innerWidth < 768) {
+                sidebar.classList.remove('hidden');
+                chatArea.classList.add('hidden');
+            }
+        }
+
+        function showChatArea() {
+            if (window.innerWidth < 768) {
+                sidebar.classList.add('hidden');
+                chatArea.classList.remove('hidden');
+            }
+        }
+
+        function showLoginPage() {
+            chatPage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+            document.getElementById('username').value = '';
+        }
+
+        function resetApp() {
+            contacts = {};
+            messages = {};
+            activeContact = null;
+            currentUser = '';
+            contactsList.innerHTML = '';
+            messagesContainer.innerHTML = '';
+            messageInput.disabled = true;
+            sendBtn.disabled = true;
+            messageInput.placeholder = 'Type your message...';
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('hidden');
+                chatArea.classList.remove('hidden');
+            } else if (activeContact) {
+                showChatArea();
+            } else {
+                showSidebar();
+            }
+        });
+
+        // Initialize theme on load
+        initTheme();
+
+        // Focus on username input when page loads
+        document.getElementById('username').focus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembagi Kelompok</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pembagi Kelompok</h1>
+
+        <div class="input-area">
+            <label for="peserta">Daftar Peserta (pisahkan dengan enter):</label>
+            <textarea id="peserta" rows="10" placeholder="Nama Peserta 1&#10;Nama Peserta 2&#10;..."></textarea>
+        </div>
+
+        <div class="input-area">
+            <label for="jumlahKelompok">Jumlah Kelompok:</label>
+            <input type="number" id="jumlahKelompok" min="1" value="2">
+        </div>
+
+        <button id="bagiKelompok">Bagi Kelompok</button>
+
+        <div id="hasil">
+            <!-- Hasil akan ditampilkan di sini -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

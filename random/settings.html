@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Scoreboard Sepakbola</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .settings-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+        }
+
+        .section {
+            background-color: var(--background-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-control {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-control button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-control button:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <div class="section">
+            <h2>Pengaturan Tim</h2>
+            <div class="form-group">
+                <label for="homeTeamName">Nama Tim Tuan Rumah</label>
+                <input type="text" id="homeTeamName" placeholder="Nama Tim Tuan Rumah">
+            </div>
+            <div class="form-group">
+                <label for="awayTeamName">Nama Tim Tamu</label>
+                <input type="text" id="awayTeamName" placeholder="Nama Tim Tamu">
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Kontrol Pertandingan</h2>
+            <div class="form-group">
+                <label for="matchDuration">Durasi Babak (menit)</label>
+                <select id="matchDuration">
+                    <option value="45">45 Menit (Standar)</option>
+                    <option value="30">30 Menit (Mini)</option>
+                    <option value="60">60 Menit (Ekstensi)</option>
+                </select>
+            </div>
+            <div class="btn-control">
+                <button id="startTimer">Mulai</button>
+                <button id="pauseTimer">Pause</button>
+                <button id="resetTimer">Reset</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Kontrol Skor</h2>
+            <div class="btn-control">
+                <button id="homeScorePlus">+1 Home</button>
+                <button id="homeScoreMinus">-1 Home</button>
+                <button id="awayScorePlus">+1 Away</button>
+                <button id="awayScoreMinus">-1 Away</button>
+            </div>
+        </div>
+
+        <button class="btn" id="updateScoreboard">Terapkan Perubahan</button>
+    </div>
+
+    <script>
+        // Broadcast Channel untuk komunikasi
+        const broadcastChannel = new BroadcastChannel('football-scoreboard');
+
+        // Variabel penyimpanan state
+        let matchTime = 45 * 60; // Default 45 menit
+        let isTimerRunning = false;
+        let timerInterval;
+        let currentPeriod = 'Babak 1';
+        let homeScore = 0;
+        let awayScore = 0;
+
+        // Elemen DOM untuk kontrol
+        const homeTeamNameInput = document.getElementById('homeTeamName');
+        const awayTeamNameInput = document.getElementById('awayTeamName');
+        const matchDurationSelect = document.getElementById('matchDuration');
+
+        const startTimerBtn = document.getElementById('startTimer');
+        const pauseTimerBtn = document.getElementById('pauseTimer');
+        const resetTimerBtn = document.getElementById('resetTimer');
+
+        const homeScorePlusBtn = document.getElementById('homeScorePlus');
+        const homeScoreMinusBtn = document.getElementById('homeScoreMinus');
+        const awayScorePlusBtn = document.getElementById('awayScorePlus');
+        const awayScoreMinusBtn = document.getElementById('awayScoreMinus');
+
+        const updateScoreboardBtn = document.getElementById('updateScoreboard');
+
+        // Fungsi format waktu
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        // Fungsi update timer
+        function updateTimer() {
+            if (matchTime > 0) {
+                matchTime--;
+                
+                // Kirim update timer
+                broadcastChannel.postMessage({
+                    type: 'scoreboard-update',
+                    data: { 
+                        matchTimer: formatTime(matchTime),
+                        matchPeriod: currentPeriod
+                    }
+                });
+
+                // Ganti babak
+                if (matchTime === 0) {
+                    if (currentPeriod === 'Babak 1') {
+                        currentPeriod = 'Babak 2';
+                        matchTime = parseInt(matchDurationSelect.value) * 60;
+                        
+                        // Kirim update periode
+                        broadcastChannel.postMessage({
+                            type: 'scoreboard-update',
+                            data: { 
+                                matchTimer: formatTime(matchTime),
+                                matchPeriod: currentPeriod
+                            }
+                        });
+                    } else {
+                        stopTimer();
+                    }
+                }
+            }
+        }
+
+        // Kontrol Timer
+        function startTimer() {
+            if (!isTimerRunning) {
+                timerInterval = setInterval(updateTimer, 1000);
+                isTimerRunning = true;
+            }
+        }
+
+        function pauseTimer() {
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            currentPeriod = 'Babak 1';
+            matchTime = parseInt(matchDurationSelect.value) * 60;
+
+            // Kirim update reset
+            broadcastChannel.postMessage({
+                type: 'scoreboard-update',
+                data: { 
+                    matchTimer: formatTime(matchTime),
+                    matchPeriod: currentPeriod
+                }
+            });
+        }
+
+        // Kontrol Skor
+        function updateScore(team, operation) {
+            if (team === 'home') {
+                if (operation === 'plus') {
+                    homeScore++;
+                } else if (operation === 'minus' && homeScore > 0) {
+                    homeScore--;
+                }
+
+                // Kirim update skor home
+                broadcastChannel.postMessage({
+                    type: 'scoreboard-update',
+                    data: { homeTeamScore: homeScore }
+                });
+            } else if (team === 'away') {
+                if (operation === 'plus') {
+                    awayScore++;
+                } else if (operation === 'minus' && awayScore > 0) {
+                    awayScore--;
+                }
+
+                // Kirim update skor away
+                broadcastChannel.postMessage({
+                    type: 'scoreboard-update',
+                    data: { awayTeamScore: awayScore }
+                });
+            }
+        }
+
+        // Event Listeners untuk Kontrol Skor
+        homeScorePlusBtn.addEventListener('click', () => updateScore('home', 'plus'));
+        homeScoreMinusBtn.addEventListener('click', () => updateScore('home', 'minus'));
+        awayScorePlusBtn.addEventListener('click', () => updateScore('away', 'plus'));
+        awayScoreMinusBtn.addEventListener('click', () => updateScore('away', 'minus'));
+
+        // Event Listeners untuk Kontrol Timer
+        startTimerBtn.addEventListener('click', startTimer);
+        pauseTimerBtn.addEventListener('click', pauseTimer);
+        resetTimerBtn.addEventListener('click', resetTimer);
+
+        // Tombol Terapkan Perubahan
+        updateScoreboardBtn.addEventListener('click', () => {
+            // Ambil data dari input
+            const homeTeamName = homeTeamNameInput.value || 'Home';
+            const awayTeamName = awayTeamNameInput.value || 'Away';
+            const matchDuration = parseInt(matchDurationSelect.value);
+
+            // Update durasi pertandingan
+            matchTime = matchDuration * 60;
+
+            // Kirim update ke scoreboard
+            broadcastChannel.postMessage({
+                type: 'scoreboard-update',
+                data: {
+                    homeTeamName: homeTeamName,
+                    awayTeamName: awayTeamName,
+                    matchTimer: formatTime(matchTime),
+                    matchPeriod: 'Babak 1',
+                    homeTeamScore: 0,
+                    awayTeamScore: 0
+                }
+            });
+
+            // Reset variabel lokal
+            currentPeriod = 'Babak 1';
+            homeScore = 0;
+            awayScore = 0;
+
+            // Beri feedback
+            alert('Pengaturan berhasil diperbarui!');
+        });
+
+        // Inisialisasi awal
+        matchTime = parseInt(matchDurationSelect.value) * 60;
+    </script>
+</body>
+</html>

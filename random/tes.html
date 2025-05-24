@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Cosmic Name Picker 🌌</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(45deg, #120136, #035aa6, #40bad5, #def4f0);
+            background-size: 400% 400%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        #nameDisplay {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #nameInput {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        #nameInput::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .button {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(37, 117, 252, 0.5);
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+    <div class="container">
+        <h1 style="color: white; margin-bottom: 20px;">🌠 Cosmic Name Picker 🌠</h1>
+        <input type="text" id="nameInput" placeholder="Masukkan nama-nama (pisahkan dengan koma)">
+        <div id="nameDisplay"></div>
+        <button class="button" onclick="pickRandomName()">Pilih Nama Acak</button>
+        <button class="button" onclick="clearNames()">Hapus Semua</button>
+    </div>
+
+    <script>
+        let names = [];
+        const nameDisplay = document.getElementById('nameDisplay');
+        const nameInput = document.getElementById('nameInput');
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Ukuran kanvas
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Partikel kosmik
+        class CosmicParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = (Math.random() - 0.5) * 2;
+                this.color = `rgba(255, 255, 255, ${Math.random() * 0.8})`;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Pantulan di tepi layar
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+        }
+
+        // Buat partikel
+        const particles = [];
+        for (let i = 0; i < 200; i++) {
+            particles.push(new CosmicParticle());
+        }
+
+        // Animasi partikel
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Fungsi pemilihan nama acak
+        function pickRandomName() {
+            // Ambil nama dari input
+            const inputNames = nameInput.value.split(',').map(name => name.trim()).filter(name => name !== '');
+            
+            if (inputNames.length === 0) {
+                nameDisplay.innerHTML = '<span style="color: orange;">Masukkan nama terlebih dahulu!</span>';
+                return;
+            }
+
+            // Pilih nama secara acak
+            const randomIndex = Math.floor(Math.random() * inputNames.length);
+            const selectedName = inputNames[randomIndex];
+
+            // Animasi nama
+            nameDisplay.innerHTML = '';
+            let i = 0;
+            const typeWriter = setInterval(() => {
+                if (i < selectedName.length) {
+                    nameDisplay.innerHTML += selectedName.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(typeWriter);
+                }
+            }, 100);
+        }
+
+        // Fungsi hapus nama
+        function clearNames() {
+            nameInput.value = '';
+            nameDisplay.innerHTML = '';
+        }
+
+        // Responsif
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

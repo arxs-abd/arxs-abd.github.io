@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manajemen Proyek - Kanban</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar Project -->
+    <div class="sidebar">
+      <h2>Proyek</h2>
+      <!-- <div class="project-list" id="projectList">
+        <div class="project" onclick="selectProject(this, 'Website Redesign')" data-project-id="1">
+          <span class="project-name">Website Redesign</span>
+          <span class="delete-project" onclick="confirmDeleteProject(event, this)"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="project" onclick="selectProject(this, 'Marketing Plan')" data-project-id="2">
+          <span class="project-name">Marketing Plan</span>
+          <span class="delete-project" onclick="confirmDeleteProject(event, this)"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="project" onclick="selectProject(this, 'Aplikasi Mobile')" data-project-id="3">
+          <span class="project-name">Aplikasi Mobile</span>
+          <span class="delete-project" onclick="confirmDeleteProject(event, this)"><i class="fas fa-times"></i></span>
+        </div>
+      </div> -->
+      <div class="add-project-btn" onclick="showModal('projectModal')">+ Tambah Proyek</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main" id="mainContent">
+      <div class="kanban-header">
+        <h2>Kanban Board: <span id="currentProject">Website Redesign</span></h2>
+        <div class="add-task-btn" onclick="showModal('taskModal')">+ Tambah Task</div>
+      </div>
+
+      <div class="kanban-board">
+        <div class="column">
+          <h3>To Do <span class="task-count">(2)</span></h3>
+          <div class="task" onclick="showTaskDetails(this)" data-task-name="Desain Homepage" data-task-desc="Membuat desain UI/UX untuk halaman utama" data-created-at="15 Mei 2025" data-in-progress-at="" data-done-at="">
+            <div class="task-content">Desain Homepage</div>
+            <span class="delete-task" onclick="confirmDeleteTask(event, this)"><i class="fas fa-times"></i></span>
+          </div>
+          <div class="task" onclick="showTaskDetails(this)" data-task-name="Buat Wireframe" data-task-desc="Membuat wireframe untuk semua halaman" data-created-at="16 Mei 2025" data-in-progress-at="" data-done-at="">
+            <div class="task-content">Buat Wireframe</div>
+            <span class="delete-task" onclick="confirmDeleteTask(event, this)"><i class="fas fa-times"></i></span>
+          </div>
+        </div>
+        <div class="column">
+          <h3>In Progress <span class="task-count">(1)</span></h3>
+          <div class="task" onclick="showTaskDetails(this)" data-task-name="Coding Landing Page" data-task-desc="Implementasi HTML, CSS dan JS untuk landing page" data-created-at="14 Mei 2025" data-in-progress-at="17 Mei 2025" data-done-at="">
+            <div class="task-content">Coding Landing Page</div>
+            <span class="delete-task" onclick="confirmDeleteTask(event, this)"><i class="fas fa-times"></i></span>
+          </div>
+        </div>
+        <div class="column">
+          <h3>Done <span class="task-count">(1)</span></h3>
+          <div class="task" onclick="showTaskDetails(this)" data-task-name="Analisa User" data-task-desc="Melakukan riset dan analisa kebutuhan pengguna" data-created-at="10 Mei 2025" data-in-progress-at="12 Mei 2025" data-done-at="15 Mei 2025">
+            <div class="task-content">Analisa User</div>
+            <span class="delete-task" onclick="confirmDeleteTask(event, this)"><i class="fas fa-times"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State View -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state-content">
+        <div class="empty-illustration">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h2>Belum Ada Proyek</h2>
+        <p>Mulai perjalanan produktivitas Anda dengan membuat proyek pertama!</p>
+        <div class="bounce-btn" onclick="showModal('projectModal')">+ Buat Proyek Sekarang</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Tambah Proyek -->
+  <div class="modal" id="projectModal">
+    <div class="modal-content">
+      <h3>Tambah Proyek</h3>
+      <input type="text" id="newProjectName" placeholder="Nama Proyek" />
+      <button onclick="addProject()">Tambah</button>
+      <button class="close-btn" onclick="hideModal('projectModal')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Modal Tambah Task -->
+  <div class="modal" id="taskModal">
+    <div class="modal-content">
+      <h3>Tambah Task</h3>
+      <input type="text" id="newTaskName" placeholder="Nama Task" />
+      <textarea id="newTaskDesc" placeholder="Deskripsi (Opsional)"></textarea>
+      <button onclick="addTask()">Tambah</button>
+      <button class="close-btn" onclick="hideModal('taskModal')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Modal Edit Task -->
+  <div class="modal" id="editTaskModal">
+    <div class="modal-content">
+      <h3>Edit Task</h3>
+      <input type="text" id="editTaskName" placeholder="Nama Task" />
+      <textarea id="editTaskDesc" placeholder="Deskripsi (Opsional)"></textarea>
+      <div class="status-selector">
+        <div class="status-label">Status:</div>
+        <div class="status-options">
+          <label class="status-option">
+            <input type="radio" name="taskStatus" value="todo"> To Do
+          </label>
+          <label class="status-option">
+            <input type="radio" name="taskStatus" value="inProgress"> In Progress
+          </label>
+          <label class="status-option">
+            <input type="radio" name="taskStatus" value="done"> Done
+          </label>
+        </div>
+      </div>
+      <button onclick="saveTaskEdit()">Simpan Perubahan</button>
+      <button class="close-btn" onclick="hideModal('editTaskModal')">Batal</button>
+    </div>
+  </div>
+
+  <!-- Modal Detail Task -->
+  <div class="modal" id="taskDetailModal">
+    <div class="modal-content task-detail-content">
+      <h3 id="task-detail-title">Detail Task</h3>
+      
+      <div class="detail-row">
+        <div class="detail-label">Nama Task:</div>
+        <div id="task-detail-name" class="detail-value"></div>
+      </div>
+      
+      <div class="detail-row" id="description-container">
+        <div class="detail-label">Deskripsi:</div>
+        <div id="task-detail-desc" class="detail-value"></div>
+      </div>
+      
+      <div class="detail-row">
+        <div class="detail-label">Dibuat pada:</div>
+        <div id="task-detail-created" class="detail-value"></div>
+      </div>
+      
+      <div class="detail-row" id="in-progress-container">
+        <div class="detail-label">Mulai dikerjakan:</div>
+        <div id="task-detail-in-progress" class="detail-value"></div>
+      </div>
+      
+      <div class="detail-row" id="done-container">
+        <div class="detail-label">Selesai pada:</div>
+        <div id="task-detail-done" class="detail-value"></div>
+      </div>
+      
+      <div class="task-detail-actions">
+        <button class="edit-btn" onclick="editTask()">Edit Task</button>
+        <button class="delete-btn" onclick="deleteCurrentTask()">Hapus Task</button>
+      </div>
+      
+      <button class="close-btn" onclick="hideModal('taskDetailModal')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal" id="deleteConfirmModal">
+    <div class="modal-content delete-confirm-modal">
+      <h3 id="delete-confirm-title">Konfirmasi Hapus</h3>
+      <p id="delete-confirm-message">Apakah Anda yakin ingin menghapus item ini?</p>
+      
+      <div class="confirm-actions">
+        <button class="delete-confirm-btn" onclick="confirmDelete()">Hapus</button>
+        <button class="cancel-btn" onclick="hideModal('deleteConfirmModal')">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

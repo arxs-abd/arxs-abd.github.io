@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard Sepakbola</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .scoreboard {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .team {
+            flex: 1;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .team-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .score {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        /* Goal Animation Styles */
+        .goal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 215, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+
+        .goal-overlay.active {
+            opacity: 1;
+        }
+
+        .goal-content {
+            text-align: center;
+            transform: scale(0);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .goal-overlay.active .goal-content {
+            transform: scale(1);
+        }
+
+        .goal-text {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .goal-team {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-top: 10px;
+        }
+
+        /* Score Bump Animation */
+        .score.goal-bump {
+            animation: score-bump 0.3s ease-in-out;
+        }
+
+        @keyframes score-bump {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @media (max-width: 600px) {
+            .scoreboard {
+                padding: 15px;
+            }
+
+            .team-name {
+                font-size: 1.5rem;
+            }
+
+            .score {
+                font-size: 3rem;
+            }
+
+            .timer {
+                font-size: 2rem;
+            }
+
+            .goal-text {
+                font-size: 2.5rem;
+            }
+
+            .goal-team {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scoreboard">
+        <!-- Goal Overlay -->
+        <div class="goal-overlay" id="goalOverlay">
+            <div class="goal-content">
+                <div class="goal-text">GOAL!</div>
+                <div class="goal-team" id="goalTeamName"></div>
+            </div>
+        </div>
+        
+        <div class="match-info">
+            <div id="matchPeriod">Babak 1</div>
+            <div id="matchDate"></div>
+        </div>
+
+        <div class="timer" id="matchTimer">45:00</div>
+
+        <div class="score-container">
+            <div class="team home-team">
+                <div class="team-name" id="homeTeamName">Home</div>
+                <div class="score" id="homeTeamScore">0</div>
+            </div>
+            <div class="team away-team">
+                <div class="team-name" id="awayTeamName">Away</div>
+                <div class="score" id="awayTeamScore">0</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Broadcast Channel untuk komunikasi
+        const broadcastChannel = new BroadcastChannel('football-scoreboard');
+
+        // Elemen DOM
+        const homeTeamNameDisplay = document.getElementById('homeTeamName');
+        const awayTeamNameDisplay = document.getElementById('awayTeamName');
+        const timerDisplay = document.getElementById('matchTimer');
+        const matchPeriodDisplay = document.getElementById('matchPeriod');
+        const homeScoreDisplay = document.getElementById('homeTeamScore');
+        const awayScoreDisplay = document.getElementById('awayTeamScore');
+        const matchDateDisplay = document.getElementById('matchDate');
+        const goalOverlay = document.getElementById('goalOverlay');
+        const goalTeamName = document.getElementById('goalTeamName');
+
+        // Fungsi animasi goal
+        function triggerGoalAnimation(team) {
+            const teamName = team === 'home' ? homeTeamNameDisplay.textContent : awayTeamNameDisplay.textContent;
+            
+            // Set team name in goal overlay
+            goalTeamName.textContent = teamName;
+            
+            // Tampilkan overlay goal
+            goalOverlay.classList.add('active');
+            
+            // Tambahkan bump ke skor tim yang mencetak gol
+            const scoreElement = team === 'home' ? homeScoreDisplay : awayScoreDisplay;
+            scoreElement.classList.add('goal-bump');
+
+            // Sembunyikan overlay setelah beberapa saat
+            setTimeout(() => {
+                goalOverlay.classList.remove('active');
+                scoreElement.classList.remove('goal-bump');
+            }, 2000);
+        }
+
+        // Fungsi update tampilan
+        function updateScoreboard(data) {
+            // Update nama tim
+            if (data.homeTeamName) {
+                homeTeamNameDisplay.textContent = data.homeTeamName;
+            }
+            if (data.awayTeamName) {
+                awayTeamNameDisplay.textContent = data.awayTeamName;
+            }
+
+            // Update skor dengan animasi
+            if (data.homeTeamScore !== undefined) {
+                const prevScore = parseInt(homeScoreDisplay.textContent);
+                homeScoreDisplay.textContent = data.homeTeamScore;
+                
+                // Trigger animasi goal jika skor bertambah
+                if (data.homeTeamScore > prevScore) {
+                    triggerGoalAnimation('home');
+                }
+            }
+            if (data.awayTeamScore !== undefined) {
+                const prevScore = parseInt(awayScoreDisplay.textContent);
+                awayScoreDisplay.textContent = data.awayTeamScore;
+                
+                // Trigger animasi goal jika skor bertambah
+                if (data.awayTeamScore > prevScore) {
+                    triggerGoalAnimation('away');
+                }
+            }
+
+            // Update timer
+            if (data.matchTimer) {
+                timerDisplay.textContent = data.matchTimer;
+            }
+
+            // Update periode
+            if (data.matchPeriod) {
+                matchPeriodDisplay.textContent = data.matchPeriod;
+            }
+        }
+
+        // Listener untuk menerima pembaruan
+        broadcastChannel.onmessage = (event) => {
+            if (event.data.type === 'scoreboard-update') {
+                updateScoreboard(event.data.data);
+            }
+        };
+
+        // Set tanggal otomatis
+        function updateDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            matchDateDisplay.textContent = now.toLocaleDateString('id-ID', options);
+        }
+        updateDate();
+    </script>
+</body>
+</html>
