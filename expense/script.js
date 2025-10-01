@@ -168,48 +168,6 @@ class ExpenseTracker {
         this.currentDate = new Date(today);
     }
 
-    loadExpensesForDatex(date) {
-        const dateStr = this.formatDate(date);
-        document.getElementById('selectedDate').textContent = dateStr;
-        
-        const dayExpenses = this.getExpensesForDate(date);
-        const expenseList = document.getElementById('expenseList');
-        
-        if (dayExpenses.length === 0) {
-            expenseList.innerHTML = `
-                <div class="text-muted text-center py-4">
-                    <i class="bi bi-inbox fs-2 mb-3 d-block"></i>
-                    Tidak ada pengeluaran pada tanggal ini
-                </div>
-            `;
-            return;
-        }
-
-        const total = dayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-        expenseList.innerHTML = `
-            <div class="mb-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-muted">Total pengeluaran:</span>
-                    <span class="h5 mb-0 expense-amount">${this.formatCurrency(total)}</span>
-                </div>
-                <hr>
-            </div>
-            ${dayExpenses.map(expense => `
-                <div class="expense-item mb-3">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="mb-1">${expense.description}</h6>
-                            <small class="text-muted">
-                                <i class="bi bi-tag me-1"></i>${expense.category}
-                            </small>
-                        </div>
-                        <span class="expense-amount">${this.formatCurrency(expense.amount)}</span>
-                    </div>
-                </div>
-            `).join('')}
-        `;
-    }
-
     loadExpensesForDate(date) {
         const dateStr = this.formatDate(date);
         document.getElementById('selectedDate').textContent = dateStr;
@@ -257,55 +215,9 @@ class ExpenseTracker {
         `;
     }
 
-    getExpensesForDatex(date) {
-        const dateStr = date.toISOString().split('T')[0];
-        return this.expenses.filter(expense => expense.date === dateStr);
-    }
-
     getExpensesForDate(date) {
         const dateStr = date.toLocaleDateString('id-ID').split(' ')[0]; // Format tanggal lokal
         return this.expenses.filter(expense => expense.date === dateStr);
-    }
-
-
-    saveExpensex() {
-        const description = document.getElementById('expenseDescription').value;
-        const amount = parseFloat(document.getElementById('expenseAmount').value);
-        const category = document.getElementById('expenseCategory').value;
-        const date = document.getElementById('expenseDate').value;
-
-        if (!description || !amount || !category || !date) {
-            alert('Semua field harus diisi!');
-            return;
-        }
-
-        const expense = {
-            id: Date.now(),
-            description,
-            amount,
-            category,
-            date,
-            timestamp: new Date().toISOString()
-        };
-
-        this.expenses.push(expense);
-        localStorage.setItem('expenses', JSON.stringify(this.expenses));
-
-        // Reset form
-        document.getElementById('expenseForm').reset();
-        document.getElementById('expenseDate').valueAsDate = new Date();
-
-        // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addExpenseModal'));
-        modal.hide();
-
-        // Update displays
-        this.generateCalendar();
-        this.loadExpensesForDate(this.selectedDate);
-        this.updateDashboard();
-
-        // Show success message
-        this.showToast('Expense berhasil ditambahkan!', 'success');
     }
 
     saveExpense() {
@@ -423,7 +335,7 @@ class ExpenseTracker {
                     <div>
                         <h6 class="mb-1">${expense.description}</h6>
                         <small class="text-muted">
-                            <i class="bi bi-tag me-1"></i>${expense.category} • ${this.formatDate(new Date(expense.date))}
+                            <i class="bi bi-tag me-1"></i>${expense.category} • ${this.formatDate(new Date(this.swapDate(expense.date)))}
                         </small>
                     </div>
                     <span class="expense-amount">${this.formatCurrency(expense.amount)}</span>
