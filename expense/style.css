@@ -1,0 +1,126 @@
+
+        body {
+            background-color: #0d1117;
+            color: #e6edf3;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #30363d;
+        }
+        
+        .calendar-day {
+            background-color: #161b22;
+            padding: 8px;
+            min-height: 80px;
+            border: none;
+            color: #e6edf3;
+            position: relative;
+            transition: all 0.2s;
+        }
+        
+        .calendar-day:hover {
+            background-color: #21262d;
+        }
+        
+        .calendar-day.selected {
+            background-color: #0969da;
+        }
+        
+        .calendar-day.other-month {
+            color: #656d76;
+        }
+        
+        .expense-badge {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background-color: #238636;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .expense-item {
+            border-left: 4px solid #238636;
+            padding-left: 12px;
+        }
+        
+        .expense-amount {
+            color: #f85149;
+            font-weight: 600;
+        }
+        
+        .dashboard-card {
+            border-left: 4px solid #0969da;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #161b22 0%, #21262d 100%);
+        }
+        
+        .btn-primary {
+            background-color: #238636;
+            border-color: #238636;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2ea043;
+            border-color: #2ea043;
+        }
+        
+        .calendar-header {
+            background-color: #21262d;
+            color: #e6edf3;
+            padding: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .page-transition {
+            display: none;
+        }
+        
+        .page-transition.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .expense-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-day {
+                min-height: 60px;
+                padding: 4px;
+            }
+            
+            .expense-badge {
+                font-size: 0.6rem;
+                padding: 1px 3px;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+        }

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARXS Expense Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#" id="brandLink">
+                <i class="bi bi-wallet2 me-2"></i>ARXS Expense Tracker
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="dashboardNav">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="trackerNav">
+                            <i class="bi bi-calendar-event me-1"></i>Tracker
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="page-transition active">
+        <div class="container mt-4">
+            <h2 class="mb-4">
+                <i class="bi bi-speedometer2 me-2"></i>Dashboard Overview
+            </h2>
+            
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="card stat-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-currency-dollar text-success fs-2 mb-2"></i>
+                            <h5 class="card-title">Total Pengeluaran</h5>
+                            <h3 class="text-success" id="totalExpense">Rp 0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card stat-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-calendar-month text-info fs-2 mb-2"></i>
+                            <h5 class="card-title">Bulan Ini</h5>
+                            <h3 class="text-info" id="monthlyExpense">Rp 0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card stat-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-calendar-day text-warning fs-2 mb-2"></i>
+                            <h5 class="card-title">Hari Ini</h5>
+                            <h3 class="text-warning" id="todayExpense">Rp 0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card stat-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-bar-chart text-primary fs-2 mb-2"></i>
+                            <h5 class="card-title">Rata-rata/Hari</h5>
+                            <h3 class="text-primary" id="avgExpense">Rp 0</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Expenses -->
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                    <div class="card dashboard-card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-clock-history me-2"></i>Pengeluaran Terbaru
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="recentExpenses">
+                                <div class="text-muted text-center py-4">
+                                    <i class="bi bi-inbox fs-1 mb-3 d-block"></i>
+                                    Belum ada pengeluaran yang tercatat
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card dashboard-card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-pie-chart me-2"></i>Kategori Teratas
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="topCategories">
+                                <div class="text-muted text-center py-4">
+                                    <i class="bi bi-tags fs-1 mb-3 d-block"></i>
+                                    Data belum tersedia
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tracker Page -->
+    <div id="trackerPage" class="page-transition">
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <!-- Left Panel -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="bi bi-wallet2 me-2"></i>ARXS Expense Tracker
+                            </h5>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+                                <i class="bi bi-plus-circle me-1"></i>Tambah Expense
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="text-muted mb-3">
+                                Pengeluaran untuk tanggal: <span id="selectedDate" class="text-info">Hari ini</span>
+                            </h6>
+                            <div class="expense-list" id="expenseList">
+                                <div class="text-muted text-center py-4">
+                                    <i class="bi bi-inbox fs-2 mb-3 d-block"></i>
+                                    Pilih tanggal di kalender untuk melihat pengeluaran
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel - Calendar -->
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <button class="btn btn-outline-secondary btn-sm" id="prevMonth">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <h5 class="mb-0" id="currentMonth">Januari 2024</h5>
+                            <button class="btn btn-outline-secondary btn-sm" id="nextMonth">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Calendar Header -->
+                            <div class="calendar-grid">
+                                <div class="calendar-header">Min</div>
+                                <div class="calendar-header">Sen</div>
+                                <div class="calendar-header">Sel</div>
+                                <div class="calendar-header">Rab</div>
+                                <div class="calendar-header">Kam</div>
+                                <div class="calendar-header">Jum</div>
+                                <div class="calendar-header">Sab</div>
+                            </div>
+                            <!-- Calendar Days -->
+                            <div class="calendar-grid" id="calendarDays">
+                                <!-- Calendar days will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Expense Modal -->
+    <div class="modal fade" id="addExpenseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-plus-circle me-2"></i>Tambah Expense Baru
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="expenseForm">
+                        <div class="mb-3">
+                            <label for="expenseCategory" class="form-label">Kategori</label>
+                            <select class="form-select bg-dark text-light" id="expenseCategory" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="Makanan">Makanan</option>
+                                <option value="Minuman">Minuman</option>
+                                <option value="Transportasi">Transportasi</option>
+                                <option value="Belanja">Belanja</option>
+                                <option value="Hiburan">Hiburan</option>
+                                <option value="Kesehatan">Kesehatan</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="expenseDescription" class="form-label">Deskripsi</label>
+                            <input type="text" class="form-control bg-dark text-light" id="expenseDescription" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="expenseAmount" class="form-label">Jumlah (Rp)</label>
+                            <input type="text" class="form-control bg-dark text-light" id="expenseAmount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="expenseDate" class="form-label">Tanggal</label>
+                            <input type="date" class="form-control bg-dark text-light" id="expenseDate" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="saveExpense">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
