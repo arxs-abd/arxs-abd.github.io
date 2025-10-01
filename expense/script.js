@@ -155,6 +155,7 @@ class ExpenseTracker {
                 button.classList.add('selected');
                 this.selectedDate = new Date(date);
                 this.loadExpensesForDate(date);
+                this.updateDate(date);
             });
         }
 
@@ -324,7 +325,7 @@ class ExpenseTracker {
             description,
             amount,
             category,
-            date: new Date().toLocaleDateString('id-ID').split(' ')[0], // Simpan tanggal dalam format lokal
+            date: new Date(date).toLocaleDateString('id-ID').split(' ')[0], 
             timestamp: new Date().toISOString()
         };
 
@@ -378,7 +379,7 @@ class ExpenseTracker {
         const totalExpense = this.expenses.reduce((sum, expense) => sum + expense.amount, 0);
         
         const monthlyExpenses = this.expenses.filter(expense => {
-            const expenseDate = new Date(expense.date);
+            const expenseDate = new Date(this.swapDate(expense.date));
             return expenseDate >= thisMonth;
         });
         const monthlyTotal = monthlyExpenses.reduce((sum, expense) => sum + expense.amount, 0);
@@ -510,6 +511,19 @@ class ExpenseTracker {
         setTimeout(() => {
             toast.remove();
         }, 3000);
+    }
+
+    swapDate(date) {
+        const [d, m, y] = date.split('/');
+        return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+    }
+
+    updateDate(dateStr) {
+        const dt = new Date(dateStr);
+        const yyyy = dt.getFullYear();
+        const mm = String(dt.getMonth() + 1).padStart(2, '0');
+        const dd = String(dt.getDate()).padStart(2, '0');
+        document.getElementById('expenseDate').value = `${yyyy}-${mm}-${dd}`;
     }
 }
 
