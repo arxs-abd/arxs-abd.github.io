@@ -2,100 +2,787 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Jawaban TTS Otomatis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cari Jawaban TTS MU</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --accent: #000000;
+            --hover: #f3f4f6;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border: #404040;
+            --accent: #ffffff;
+            --hover: #333333;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            background-color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background 0.3s, color 0.3s;
         }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 48px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
         h1 {
-            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
-        input, button {
-            padding: 10px;
-            font-size: 16px;
-            margin-right: 10px;
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
         }
+
+        .icon-btn {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: var(--hover);
+        }
+
+        .history-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #kwInput {
+            width: 100%;
+            padding: 14px 18px;
+            padding-right: 45px;
+            font-size: 15px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        #kwInput:focus {
+            border-color: var(--accent);
+        }
+
+        #kwInput::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .clear-input-btn {
+            position: absolute;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--hover);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .clear-input-btn:hover {
+            background: var(--border);
+            color: var(--text-primary);
+        }
+
+        .clear-input-btn.visible {
+            display: flex;
+        }
+
+        button#searchBtn {
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 500;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button#searchBtn:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        button#searchBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            border: 2px solid var(--border);
+            border-top: 2px solid var(--accent);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         #results {
-            margin-top: 20px;
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
+            max-height: 500px;
+            overflow-y: auto;
         }
+
+        #results::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #results::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #results::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        #results::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
         .result-item {
-            border-bottom: 1px solid #ddd;
-            padding: 8px 0;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s;
         }
+
+        .result-item:first-child {
+            padding-top: 0;
+        }
+
         .result-item:last-child {
             border-bottom: none;
+            padding-bottom: 0;
         }
+
+        .jawaban-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+            gap: 16px;
+        }
+
         .jawaban {
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .stars {
+            font-size: 13px;
+            white-space: nowrap;
+            opacity: 0.6;
+        }
+
+        .petunjuk {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-size: 20px;
+        }
+
+        .close-btn:hover {
+            background: var(--hover);
+        }
+
+        .modal-body {
+            padding: 16px 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .history-item {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .history-item:hover {
+            background: var(--hover);
+            border-color: var(--accent);
+        }
+
+        .history-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-keyword {
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .delete-history-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .delete-history-btn:hover {
+            background: #fee;
+            color: #ef4444;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .clear-all-btn {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .clear-all-btn:hover {
+            background: #fee;
+            border-color: #ef4444;
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-history-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 24px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            button#searchBtn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Pencari Jawaban TTS</h1>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="toggleHistory()" aria-label="History">
+                    <span>🕐</span>
+                    <span class="history-badge" id="historyBadge" style="display: none;">0</span>
+                </button>
+                <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
 
-    <h1>🔍 Pencari Jawaban TTS</h1>
+        <div class="search-box">
+            <div class="input-wrapper">
+                <input 
+                    type="text" 
+                    id="kwInput" 
+                    placeholder="Masukkan kata kunci..."
+                    autocomplete="off"
+                >
+                <button class="clear-input-btn" id="clearInputBtn" onclick="clearInput()" aria-label="Clear input">×</button>
+            </div>
+            <button id="searchBtn" onclick="cariTTS()">Cari</button>
+        </div>
 
-    <input type="text" id="kwInput" placeholder="Masukkan kata kunci (KW)">
-    <button onclick="cariTTS()">Cari</button>
+        <div id="results">
+            <div class="empty-state">
+                <div class="empty-state-icon">📝</div>
+                <p>Mulai dengan memasukkan kata kunci</p>
+            </div>
+        </div>
+    </div>
 
-    <div id="results"></div>
+    <!-- History Modal -->
+    <div class="modal-overlay" id="historyModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Riwayat Pencarian</h2>
+                <button class="close-btn" onclick="toggleHistory()">×</button>
+            </div>
+            <div class="modal-body" id="historyList">
+                <!-- History items will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button class="clear-all-btn" onclick="clearAllHistory()">Hapus Semua Riwayat</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-    async function cariTTS() {
-    const kw = document.getElementById('kwInput').value.trim();
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '';
+        const kwInput = document.getElementById('kwInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultsDiv = document.getElementById('results');
+        const themeIcon = document.querySelector('.theme-icon');
+        const historyModal = document.getElementById('historyModal');
+        const historyList = document.getElementById('historyList');
+        const historyBadge = document.getElementById('historyBadge');
+        const clearInputBtn = document.getElementById('clearInputBtn');
 
-    if (!kw) {
-        resultsDiv.innerHTML = '<p style="color:red;">❗ Masukkan kata kunci dulu.</p>';
-        return;
-    }
+        // Load theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
 
-    const url = `https://api.noparkeemart.my.id/phones-app/battleship/tts/answer?keyword=${encodeURIComponent(kw)}`;
+        // Load and update history badge
+        updateHistoryBadge();
 
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-        const list = data.results;
-
-        if (!list || list.length === 0) {
-            resultsDiv.innerHTML = '<p>❌ Tidak ada hasil ditemukan.</p>';
-            return;
-        }
-
-        list.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'result-item';
-
-            const bintangPenuh = '⭐'.repeat(item.star || 0);
-            const bintangKosong = '🌟'.repeat(5 - (item.star || 0));
-
-            div.innerHTML = `
-                <div class="jawaban-line">
-                    <span class="jawaban">${item.jawaban}</span>
-                    <span class="stars">${bintangPenuh}${bintangKosong}</span>
-                </div>
-                <div class="petunjuk">${item.petunjuk}</div>
-            `;
-
-            resultsDiv.appendChild(div);
+        // Show/hide clear button based on input
+        kwInput.addEventListener('input', function() {
+            if (this.value.trim()) {
+                clearInputBtn.classList.add('visible');
+            } else {
+                clearInputBtn.classList.remove('visible');
+            }
         });
 
-    } catch (err) {
-        resultsDiv.innerHTML = `<p style="color:red;">❌ Gagal mengambil data: ${err.message}</p>`;
-    }
-}
+        // Enable Enter key to search
+        kwInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                cariTTS();
+            }
+        });
 
-</script>
+        function clearInput() {
+            kwInput.value = '';
+            clearInputBtn.classList.remove('visible');
+            kwInput.focus();
+        }
 
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
 
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Enable Enter key to search
+        kwInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                cariTTS();
+            }
+        });
+
+        function toggleHistory() {
+            historyModal.classList.toggle('active');
+            if (historyModal.classList.contains('active')) {
+                loadHistory();
+            }
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target === historyModal) {
+                toggleHistory();
+            }
+        }
+
+        function getHistory() {
+            const history = localStorage.getItem('ttsHistory');
+            return history ? JSON.parse(history) : [];
+        }
+
+        function saveToHistory(keyword) {
+            let history = getHistory();
+            
+            // Remove duplicate if exists
+            history = history.filter(item => item.keyword.toLowerCase() !== keyword.toLowerCase());
+            
+            // Add new item to beginning
+            history.unshift({
+                keyword: keyword,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Keep only last 20 items
+            if (history.length > 20) {
+                history = history.slice(0, 20);
+            }
+            
+            localStorage.setItem('ttsHistory', JSON.stringify(history));
+            updateHistoryBadge();
+        }
+
+        function deleteHistoryItem(keyword) {
+            let history = getHistory();
+            history = history.filter(item => item.keyword !== keyword);
+            localStorage.setItem('ttsHistory', JSON.stringify(history));
+            loadHistory();
+            updateHistoryBadge();
+        }
+
+        function clearAllHistory() {
+            if (confirm('Hapus semua riwayat pencarian?')) {
+                localStorage.removeItem('ttsHistory');
+                loadHistory();
+                updateHistoryBadge();
+            }
+        }
+
+        function updateHistoryBadge() {
+            const history = getHistory();
+            if (history.length > 0) {
+                historyBadge.textContent = history.length;
+                historyBadge.style.display = 'block';
+            } else {
+                historyBadge.style.display = 'none';
+            }
+        }
+
+        function formatTimeAgo(timestamp) {
+            const now = new Date();
+            const past = new Date(timestamp);
+            const diffInSeconds = Math.floor((now - past) / 1000);
+            
+            if (diffInSeconds < 60) return 'Baru saja';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} menit lalu`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} jam lalu`;
+            if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} hari lalu`;
+            
+            return past.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function loadHistory() {
+            const history = getHistory();
+            
+            if (history.length === 0) {
+                historyList.innerHTML = `
+                    <div class="empty-history">
+                        <div class="empty-history-icon">📭</div>
+                        <p>Belum ada riwayat pencarian</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            historyList.innerHTML = '';
+            
+            history.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `
+                    <div class="history-content" onclick="searchFromHistory('${item.keyword.replace(/'/g, "\\'")}')">
+                        <div class="history-keyword">${item.keyword}</div>
+                        <div class="history-time">${formatTimeAgo(item.timestamp)}</div>
+                    </div>
+                    <button class="delete-history-btn" onclick="event.stopPropagation(); deleteHistoryItem('${item.keyword.replace(/'/g, "\\'")}')">🗑️</button>
+                `;
+                historyList.appendChild(div);
+            });
+        }
+
+        function searchFromHistory(keyword) {
+            kwInput.value = keyword;
+            toggleHistory();
+            cariTTS();
+        }
+
+        // Enable Enter key to search
+        kwInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                cariTTS();
+            }
+        });
+
+        async function cariTTS() {
+            const kw = kwInput.value.trim();
+
+            if (!kw) {
+                resultsDiv.innerHTML = '<p class="message error">Masukkan kata kunci terlebih dahulu</p>';
+                return;
+            }
+
+            // Show loading
+            searchBtn.disabled = true;
+            resultsDiv.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Mencari...</p>
+                </div>
+            `;
+
+            const url = `https://api.noparkeemart.my.id/phones-app/battleship/tts/answer?keyword=${encodeURIComponent(kw)}`;
+
+            try {
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                const list = data.results;
+
+                if (!list || list.length === 0) {
+                    resultsDiv.innerHTML = '<p class="message">Tidak ada hasil ditemukan</p>';
+                    return;
+                }
+
+                // Save to history on successful search
+                saveToHistory(kw);
+
+                // Clear and display results
+                resultsDiv.innerHTML = '';
+
+                list.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+
+                    const bintangPenuh = '●'.repeat(item.star || 0);
+                    const bintangKosong = '○'.repeat(5 - (item.star || 0));
+
+                    div.innerHTML = `
+                        <div class="jawaban-line">
+                            <span class="jawaban">${item.jawaban}</span>
+                            <span class="stars">${bintangPenuh}${bintangKosong}</span>
+                        </div>
+                        <div class="petunjuk">${item.petunjuk}</div>
+                    `;
+
+                    resultsDiv.appendChild(div);
+                });
+
+            } catch (err) {
+                resultsDiv.innerHTML = `<p class="message error">Gagal mengambil data: ${err.message}</p>`;
+            } finally {
+                searchBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>
