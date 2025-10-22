@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Jawaban TTS Otomatis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        #results {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .result-item {
+            border-bottom: 1px solid #ddd;
+            padding: 8px 0;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .jawaban {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🔍 Pencari Jawaban TTS</h1>
+
+    <input type="text" id="kwInput" placeholder="Masukkan kata kunci (KW)">
+    <button onclick="cariTTS()">Cari</button>
+
+    <div id="results"></div>
+
+    <script>
+    async function cariTTS() {
+    const kw = document.getElementById('kwInput').value.trim();
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+
+    if (!kw) {
+        resultsDiv.innerHTML = '<p style="color:red;">❗ Masukkan kata kunci dulu.</p>';
+        return;
+    }
+
+    const url = `https://api.noparkeemart.my.id/phones-app/battleship/tts/answer?keyword=${encodeURIComponent(kw)}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const list = data.results;
+
+        if (!list || list.length === 0) {
+            resultsDiv.innerHTML = '<p>❌ Tidak ada hasil ditemukan.</p>';
+            return;
+        }
+
+        list.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+
+            const bintangPenuh = '⭐'.repeat(item.star || 0);
+            const bintangKosong = '🌟'.repeat(5 - (item.star || 0));
+
+            div.innerHTML = `
+                <div class="jawaban-line">
+                    <span class="jawaban">${item.jawaban}</span>
+                    <span class="stars">${bintangPenuh}${bintangKosong}</span>
+                </div>
+                <div class="petunjuk">${item.petunjuk}</div>
+            `;
+
+            resultsDiv.appendChild(div);
+        });
+
+    } catch (err) {
+        resultsDiv.innerHTML = `<p style="color:red;">❌ Gagal mengambil data: ${err.message}</p>`;
+    }
+}
+
+</script>
+
+
+</body>
+</html>
