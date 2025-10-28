@@ -1,12 +1,12 @@
 // Project Data - Stored in an array as requested
 const projectsData = [
-    // {
-    //     title: "NoParkeeMart",
-    //     description: "A minimalist website for show minimarket without pay to parking.",
-    //     category: "web",
-    //     tags: ["Node.js", "Express", "PostgreSQL"],
-    //     demoLink: "https://noparkeemart.my.id/", 
-    // },
+    {
+        title: "NoParkeeMart",
+        description: "A minimalist website for show minimarket without pay to parking.",
+        category: "web",
+        tags: ["Node.js", "Express", "PostgreSQL"],
+        demoLink: "https://noparkeemart.my.id/", 
+    },
     {
         title: "ARXS Phone",
         description: "A stylish and modern phone app for show the phone. This website is inspired by GSM Arena",
@@ -69,6 +69,13 @@ const projectsData = [
         category: "game",
         tags: ["HTML", "CSS", "JavaScript", "Pusher"],
         demoLink: "https://arxs-abd.github.io/battleship/",
+    },
+    {
+        title: "Jawab TTS",
+        description: "A website for get answer from TTS",
+        category: "web",
+        tags: ["HTML", "CSS", "JavaScript"],
+        demoLink: "https://arxs-abd.github.io/tts/",
     }
 ];
 const projects = projectsData.map((project, index) => {
