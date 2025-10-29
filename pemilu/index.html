@@ -139,6 +139,8 @@
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
     <script>
       const BASE_URL = 'https://api.noparkeemart.my.id/phones-app/battleship/pemilu';
 
@@ -150,6 +152,7 @@
       let WARD = '';
       let RT = '';
       let RW = '';
+
       $(document).ready(function () {
         // Inisialisasi Select2
         $('.select2').select2({
@@ -159,91 +162,66 @@
           allowClear: true,
         });
 
+        // --- Event Change Dropdowns ---
         $('#province').on('change', async function () {
-          const province = $(this).val();
-          PROVINCE = province;
-          const response = await fetch(`${BASE_URL}/city?province=${province}`);
+          PROVINCE = $(this).val();
+          const response = await fetch(`${BASE_URL}/city?province=${PROVINCE}`);
           const { data } = await response.json();
-          $('#city').empty();
-          $('#city').append('<option value="">Pilih Kabupaten/Kota</option>');
-          data.forEach((d) => {
-            $('#city').append(`<option value="${d.city}">${d.city}</option>`);
-          });
-
-          if (CITY) {
-            $('#city').empty();
-            CITY = '';
-          }
-          if (SUBDISTRICT) {
-            $('#subdistrict').empty();
-            SUBDISTRICT = '';
-          }
-          if (WARD) {
-            $('#ward').empty();
-            WARD = '';
-          }
+          $('#city').empty().append('<option value="">Pilih Kabupaten/Kota</option>');
+          data.forEach((d) => $('#city').append(`<option value="${d.city}">${d.city}</option>`));
+          CITY = SUBDISTRICT = WARD = '';
+          $('#subdistrict, #ward').empty();
         });
 
         $('#city').on('change', async function () {
-          const city = $(this).val();
-          CITY = city;
-          const response = await fetch(`${BASE_URL}/subdistrict?province=${PROVINCE}&city=${city}`);
+          CITY = $(this).val();
+          const response = await fetch(`${BASE_URL}/subdistrict?province=${PROVINCE}&city=${CITY}`);
           const { data } = await response.json();
-          $('#subdistrict').empty();
-          $('#subdistrict').append('<option value="">Pilih Kecamatan</option>');
-          data.forEach((d) => {
-            $('#subdistrict').append(`<option value="${d.subdistrict}">${d.subdistrict}</option>`);
-          });
-
-          if (SUBDISTRICT) {
-            $('#subdistrict').empty();
-            SUBDISTRICT = '';
-          }
-          if (WARD) {
-            $('#ward').empty();
-            WARD = '';
-          }
+          $('#subdistrict').empty().append('<option value="">Pilih Kecamatan</option>');
+          data.forEach((d) => $('#subdistrict').append(`<option value="${d.subdistrict}">${d.subdistrict}</option>`));
+          SUBDISTRICT = WARD = '';
+          $('#ward').empty();
         });
 
         $('#subdistrict').on('change', async function () {
-          const subdistrict = $(this).val();
-          console.log('subdistrict:', subdistrict);
-          SUBDISTRICT = subdistrict;
-          const response = await fetch(`${BASE_URL}/ward?province=${PROVINCE}&city=${CITY}&subdistrict=${subdistrict}`);
+          SUBDISTRICT = $(this).val();
+          const response = await fetch(`${BASE_URL}/ward?province=${PROVINCE}&city=${CITY}&subdistrict=${SUBDISTRICT}`);
           const { data } = await response.json();
-          $('#ward').empty();
-          $('#ward').append('<option value="">Pilih Kelurahan</option>');
-          data.forEach((d) => {
-            $('#ward').append(`<option value="${d.ward}">${d.ward}</option>`);
-          });
-
-          if (WARD) {
-            $('#ward').empty();
-            WARD = '';
-          }
+          $('#ward').empty().append('<option value="">Pilih Kelurahan</option>');
+          data.forEach((d) => $('#ward').append(`<option value="${d.ward}">${d.ward}</option>`));
+          WARD = '';
         });
 
-        $('#ward').on('change', async function () {
-          const ward = $(this).val();
-          console.log('ward:', ward);
-          WARD = ward;
-        });
+        $('#ward').on('change', () => (WARD = $('#ward').val()));
+        $('#rt').on('change', () => (RT = $('#rt').val()));
+        $('#rw').on('change', () => (RW = $('#rw').val()));
 
-        $('#rt').on('change', async function () {
-          const rt = $(this).val();
-          console.log('rt:', rt);
-          RT = rt;
-        });
-
-        $('#rw').on('change', async function () {
-          const rw = $(this).val();
-          console.log('rw:', rw);
-          RW = rw;
-        });
-
-        // Inisialisasi DataTable
+        // --- DataTables: Server-side mode ---
         const table = $('#resultTable').DataTable({
-          data: [],
+          serverSide: true,
+          processing: true,
+          searching: false,
+          ajax: {
+            url: `${BASE_URL}/data-new`,
+            type: 'GET',
+            data: function (d) {
+              d.name = NAME;
+              d.nik = NIK;
+              d.province = PROVINCE;
+              d.city = CITY;
+              d.subdistrict = SUBDISTRICT;
+              d.ward = WARD;
+              d.rt = RT;
+              d.rw = RW;
+            },
+            dataSrc: function (json) {
+              console.log('Response JSON:', json);
+              return json.data || [];
+            },
+            error: function (xhr) {
+              console.error('Error:', xhr);
+            },
+          },
           columns: [
             { data: 'name' },
             { data: 'status' },
@@ -260,36 +238,36 @@
             { data: 'rt' },
             { data: 'rw' },
             { data: 'group' },
-            { data: 'reg_date' },
+            {
+              data: 'reg_date',
+              render: function (data) {
+                return moment(data).format('DD-MM-YYYY');
+              },
+            },
           ],
-          searching: false,
+          lengthMenu: [
+            [5, 10, 20, 50, 100],
+            [5, 10, 20, 50, 100],
+          ],
+          pageLength: 10,
+          // deferLoading: 0,
         });
 
-        // Tangani submit form
-        $('#searchForm').on('submit', async function (e) {
+        // --- Handle form search ---
+        $('#searchForm').on('submit', function (e) {
           e.preventDefault();
-
-          // Get Data
           NAME = $('#name').val();
           NIK = $('#nik').val();
-          const result = await fetch(
-            `${BASE_URL}/data?name=${NAME}&nik=${NIK}&province=${PROVINCE}&city=${CITY}&subdistrict=${SUBDISTRICT}&ward=${WARD}&rt=${RT}&rw=${RW}`
-          );
-          const { data } = await result.json();
-          console.log('data:', data);
 
-          // Update tabel
-          table.clear().rows.add(data).draw();
+          table.ajax.reload();
         });
 
+        // --- Get Province on load ---
         async function getProvinces() {
           const response = await fetch(`${BASE_URL}/province`);
           const { data } = await response.json();
-          $('#province').empty();
-          $('#province').append('<option value="">Pilih Provinsi</option>');
-          data.forEach((d) => {
-            $('#province').append(`<option value="${d.province}">${d.province}</option>`);
-          });
+          $('#province').empty().append('<option value="">Pilih Provinsi</option>');
+          data.forEach((d) => $('#province').append(`<option value="${d.province}">${d.province}</option>`));
         }
         getProvinces();
       });
