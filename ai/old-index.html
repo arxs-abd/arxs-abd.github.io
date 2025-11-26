@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemesni</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <style>
+      :root {
+        --bg-body: #131314;
+        --bg-sidebar: #1e1f20;
+        --bg-surface: #1e1f20;
+        --bg-surface-hover: #28292a;
+        --text-main: #e3e3e3;
+        --text-muted: #c4c7c5;
+        --accent-blue: #a8c7fa;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Outfit', sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        height: 100vh;
+        display: flex;
+        overflow: hidden;
+      }
+
+      /* --- Sidebar --- */
+      .sidebar {
+        width: 0;
+        background-color: var(--bg-body);
+        display: flex;
+        flex-direction: column;
+        transition: width 0.3s ease;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .sidebar.open {
+        width: 260px;
+        padding-right: 1px;
+      }
+
+      .sidebar-header {
+        padding: 20px;
+      }
+
+      .new-chat-btn {
+        background-color: #1a1b1e;
+        color: #c4c7c5;
+        border: 1px solid transparent;
+        border-radius: 20px;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.2s;
+        width: 140px;
+        white-space: nowrap;
+      }
+      .new-chat-btn:hover {
+        background-color: #28292a;
+      }
+
+      .history-list {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+      }
+      .history-list::-webkit-scrollbar {
+        width: 0;
+      }
+
+      /* 🚀 FIX: HISTORY ITEM DENGAN TOMBOL HAPUS */
+      .history-item {
+        padding: 10px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+        background-color: transparent;
+      }
+      .history-item:hover,
+      .history-item.active {
+        background-color: var(--bg-surface-hover);
+        color: var(--text-main);
+      }
+      .chat-title {
+        flex-grow: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .delete-chat-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        opacity: 0; /* Sembunyikan secara default */
+        transition: opacity 0.2s, background 0.2s;
+        flex-shrink: 0;
+        margin-left: 10px;
+      }
+      .delete-chat-btn:hover {
+        background-color: #333537;
+        color: var(--text-main);
+      }
+      .history-item:hover .delete-chat-btn,
+      .history-item.active .delete-chat-btn {
+        opacity: 1; /* Tampilkan saat item di-hover atau aktif */
+      }
+      /* --- End Sidebar Fix --- */
+
+      /* --- Main Content --- */
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        height: 100%;
+      }
+
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        z-index: 10;
+      }
+
+      .top-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: var(--text-muted);
+      }
+
+      .menu-icon {
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .menu-icon:hover {
+        background-color: #28292a;
+      }
+
+      .model-selector {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #e3e3e3;
+        cursor: pointer;
+      }
+
+      .user-profile {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(45deg, #ffcc00, #ff6666);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: #000;
+      }
+
+      /* Chat Area */
+      .chat-area {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 140px;
+        scroll-behavior: smooth;
+      }
+
+      .chat-area::-webkit-scrollbar {
+        width: 8px;
+      }
+      .chat-area::-webkit-scrollbar-thumb {
+        background: #444746;
+        border-radius: 4px;
+      }
+      .chat-area::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      /* Welcome Screen */
+      .welcome-view {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100%;
+        width: 100%;
+        max-width: 800px;
+        padding: 0 20px;
+      }
+
+      .gradient-text {
+        font-size: 3.5rem;
+        font-weight: 600;
+        line-height: 1.2;
+        background: linear-gradient(to right, #4285f4, #9b72cb, #d96570);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+      }
+
+      .sub-text {
+        font-size: 3.5rem;
+        font-weight: 600;
+        color: #444746;
+        margin-bottom: 40px;
+      }
+
+      /* Messages */
+      .messages-container {
+        width: 100%;
+        max-width: 830px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .msg-row {
+        display: flex;
+        gap: 16px;
+        line-height: 1.6;
+      }
+      .msg-row.user {
+        flex-direction: row-reverse;
+      }
+
+      .msg-bubble {
+        max-width: 80%;
+      }
+      .msg-bubble pre {
+        /* 🚀 FIX: TAMBAH PADDING ATAS UNTUK TOMBOL COPY */
+        padding: 30px 10px 10px 10px;
+        border-radius: 8px;
+        overflow-x: auto;
+        background-color: #282c34;
+        position: relative; /* Penting untuk tombol copy */
+      }
+
+      .msg-bubble pre,
+      .msg-bubble code {
+        font-family: 'Fira Code', monospace !important;
+        font-size: 0.95rem;
+      }
+
+      /* 🚀 FIX: TOMBOL COPY CODE */
+      .copy-code-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: #38393b; /* Lebih gelap, mirip latar belakang blok kode tapi sedikit beda */
+        color: var(--text-main);
+        border: none;
+        border-radius: 4px;
+        padding: 3px 8px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: background-color 0.2s;
+      }
+      .copy-code-btn:hover {
+        background-color: #444746; /* Sedikit lebih terang saat hover */
+      }
+      /* --- End Copy Code Fix --- */
+
+      .msg-bubble p,
+      .msg-bubble ul,
+      .msg-bubble ol,
+      .msg-bubble pre {
+        margin-bottom: 1em;
+      }
+      .msg-bubble ul,
+      .msg-bubble ol {
+        margin-left: 20px;
+      }
+
+      .user .msg-bubble {
+        background-color: #2e2f31;
+        padding: 12px 20px;
+        border-radius: 20px;
+      }
+      .ai .msg-bubble {
+        padding-top: 2px;
+      }
+
+      .avatar-icon {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234285f4"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-top: 4px;
+      }
+
+      /* --- BOTTOM INPUT AREA --- */
+      .bottom-area {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-body);
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .input-container {
+        background-color: #1e1f20;
+        width: 90%;
+        max-width: 830px;
+        border-radius: 32px;
+        display: flex;
+        align-items: flex-end;
+        padding: 10px 12px;
+        transition: background 0.2s;
+        min-height: 56px;
+      }
+
+      .input-container:focus-within {
+        background-color: #28292a;
+      }
+
+      .action-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        color: var(--text-main);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background 0.2s;
+        margin-bottom: 0px;
+      }
+      .action-btn:hover {
+        background-color: #333537;
+      }
+      .action-btn span {
+        font-size: 24px;
+      }
+
+      textarea {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--text-main);
+        font-size: 1rem;
+        resize: none;
+        outline: none;
+        max-height: 200px;
+        line-height: 1.5;
+        padding: 10px 8px;
+        margin-bottom: 2px;
+        height: 44px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      textarea::-webkit-scrollbar {
+        display: none;
+      }
+
+      .disclaimer {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+      .spin {
+        animation: spin 1s linear infinite;
+      }
+      /* Styling untuk Tabel */
+      .msg-bubble table {
+        width: 100%;
+        border-collapse: collapse; /* Penting untuk garis tabel yang rapi */
+        margin-bottom: 1em;
+        font-size: 0.95rem; /* Ukuran font tabel yang konsisten */
+        line-height: 1.5;
+      }
+
+      .msg-bubble th,
+      .msg-bubble td {
+        border: 1px solid #444746; /* Warna border yang terlihat jelas */
+        padding: 8px 12px;
+        text-align: left;
+      }
+
+      .msg-bubble th {
+        background-color: #28292a; /* Latar belakang header tabel */
+        font-weight: 500;
+      }
+
+      .msg-bubble tr:nth-child(even) {
+        background-color: #1e1f20; /* Warna latar belakang baris genap (opsional, untuk kontras) */
+      }
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar open" id="sidebar">
+      <div class="sidebar-header">
+        <div class="menu-icon" onclick="toggleSidebar()">
+          <span class="material-symbols-outlined" style="color: #c4c7c5">menu</span>
+        </div>
+      </div>
+      <div style="padding: 0 15px">
+        <button class="new-chat-btn" onclick="startNewChat()">
+          <span class="material-symbols-outlined">add</span>
+          New Chat
+        </button>
+      </div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+
+    <div class="main">
+      <div class="top-bar">
+        <div class="top-left">
+          <div class="menu-icon" id="menu-toggle-main" onclick="toggleSidebar()" style="margin-right: 10px">
+            <span class="material-symbols-outlined">menu</span>
+          </div>
+          <div class="model-selector">Gemesni <span class="material-symbols-outlined" style="font-size: 18px; color: #c4c7c5">expand_more</span></div>
+        </div>
+        <div class="user-profile">U</div>
+      </div>
+
+      <div class="chat-area" id="chat-area">
+        <div id="welcome-screen" class="welcome-view">
+          <div class="gradient-text">Hello, User</div>
+          <div class="sub-text">How can I help you today?</div>
+        </div>
+
+        <div id="messages-container" class="messages-container hidden"></div>
+      </div>
+
+      <div class="bottom-area">
+        <div class="input-container">
+          <button class="action-btn">
+            <span class="material-symbols-outlined">add_circle</span>
+          </button>
+
+          <textarea id="user-input" placeholder="Enter a prompt here" rows="1"></textarea>
+
+          <button class="action-btn" id="mic-btn">
+            <span class="material-symbols-outlined">mic</span>
+          </button>
+          <button class="action-btn hidden" id="send-btn">
+            <span class="material-symbols-outlined" style="color: #a8c7fa">send</span>
+          </button>
+        </div>
+        <div class="disclaimer">Gemini may display inaccurate info, including about people, so double-check its responses.</div>
+      </div>
+    </div>
+
+    <script>
+      // Inisialisasi marked.js untuk syntax highlighting
+      marked.setOptions({
+        renderer: new marked.Renderer(),
+        highlight: function (code, lang) {
+          const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+          return hljs.highlight(code, { language }).value;
+        },
+        langPrefix: 'hljs language-',
+        gfm: true,
+        breaks: true,
+        sanitize: true,
+      });
+
+      // --- Elements ---
+      const sidebar = document.getElementById('sidebar');
+      const menuToggleMain = document.getElementById('menu-toggle-main');
+      const welcomeScreen = document.getElementById('welcome-screen');
+      const messagesContainer = document.getElementById('messages-container');
+      const userInput = document.getElementById('user-input');
+      const sendBtn = document.getElementById('send-btn');
+      const micBtn = document.getElementById('mic-btn');
+      const chatArea = document.getElementById('chat-area');
+      const historyList = document.getElementById('history-list');
+
+      // --- State Management ---
+      let historyChats = []; // Array of finished chat objects
+      let currentChat = { id: Date.now(), title: null, messages: [] }; // The active chat object
+      let currentAiContent = '';
+
+      // Fungsi helper untuk menerapkan highlighting pada elemen tertentu
+      function applyHighlighting(container) {
+        container.querySelectorAll('pre code').forEach((block) => {
+          block.removeAttribute('data-highlighted');
+          hljs.highlightElement(block);
+        });
+      }
+
+      // --- Lifecycle ---
+      document.addEventListener('DOMContentLoaded', () => {
+        loadFromStorage();
+        updateUIState();
+        renderHistorySide();
+        checkMobile();
+      });
+
+      window.addEventListener('resize', checkMobile);
+
+      // --- UI/UX Functions ---
+      function checkMobile() {
+        if (window.innerWidth < 768) {
+          sidebar.classList.remove('open');
+          menuToggleMain.style.display = 'flex';
+        } else {
+          if (sidebar.classList.contains('open')) {
+            menuToggleMain.style.display = 'none';
+          } else {
+            menuToggleMain.style.display = 'flex';
+          }
+        }
+      }
+
+      window.toggleSidebar = () => {
+        sidebar.classList.toggle('open');
+        checkMobile();
+      };
+
+      // Logic Textarea Resize
+      userInput.addEventListener('input', function () {
+        this.style.height = 'auto';
+        const newHeight = this.scrollHeight;
+        this.style.height = (newHeight > 44 ? newHeight : 44) + 'px';
+
+        if (this.value.trim().length > 0) {
+          micBtn.classList.add('hidden');
+          sendBtn.classList.remove('hidden');
+        } else {
+          micBtn.classList.remove('hidden');
+          sendBtn.classList.add('hidden');
+          this.style.height = '44px';
+        }
+      });
+
+      // --- Core Chat Functions ---
+      sendBtn.addEventListener('click', sendMessage);
+      userInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      // 🚀 FITUR: SALIN KODE
+      window.copyCode = (button, code) => {
+        navigator.clipboard
+          .writeText(code)
+          .then(() => {
+            // Feedback visual
+            button.innerHTML = '<span class="material-symbols-outlined" style="font-size: 16px;">check</span> Copied!';
+            setTimeout(() => {
+              button.innerHTML = '<span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span> Copy code';
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error('Gagal menyalin:', err);
+          });
+      };
+
+      async function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        if (currentChat.messages.length === 0) {
+          currentChat.title = text.substring(0, 30);
+        }
+
+        const userBubble = addMessageToUI('user', text);
+        currentChat.messages.push({ role: 'user', content: text });
+        saveToStorage();
+
+        // Reset Input
+        userInput.value = '';
+        userInput.style.height = '44px';
+        micBtn.classList.remove('hidden');
+        sendBtn.classList.add('hidden');
+
+        const aiBubble = addMessageToUI('ai', '');
+        const spinner = document.createElement('span');
+        spinner.className = 'spin';
+        spinner.style.display = 'inline-block';
+        spinner.innerText = '✨';
+        aiBubble.appendChild(spinner);
+
+        currentAiContent = '';
+
+        try {
+          await fetchAIStream(currentChat.messages, (chunk) => {
+            if (aiBubble.contains(spinner)) {
+              aiBubble.innerHTML = '';
+            }
+
+            currentAiContent += chunk;
+
+            const html = marked.parse(currentAiContent);
+            aiBubble.innerHTML = html;
+
+            // Re-render tombol copy pada setiap chunk
+            addCopyButtonsToCodeBlocks(aiBubble);
+            applyHighlighting(aiBubble);
+
+            chatArea.scrollTop = chatArea.scrollHeight;
+          });
+
+          currentChat.messages.push({ role: 'model', content: currentAiContent });
+          saveToStorage();
+        } catch (error) {
+          if (aiBubble.contains(spinner)) aiBubble.innerHTML = '';
+          aiBubble.innerHTML += "<br><span style='color:#d96570; font-size:0.8rem'>[Error connecting to API]</span>";
+          console.error(error);
+        }
+      }
+
+      function addCopyButtonsToCodeBlocks(container) {
+        // Cari semua elemen <pre> di dalam container
+        container.querySelectorAll('pre').forEach((preBlock) => {
+          // Pastikan tombol copy belum ditambahkan sebelumnya
+          if (preBlock.querySelector('.copy-code-btn')) return;
+
+          const codeElement = preBlock.querySelector('code');
+          if (codeElement) {
+            const codeText = codeElement.textContent;
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-code-btn';
+            copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span> Copy code';
+
+            copyBtn.onclick = function (e) {
+              e.stopPropagation();
+              copyCode(this, codeText);
+            };
+
+            preBlock.prepend(copyBtn);
+          }
+        });
+      }
+
+      function addMessageToUI(role, text) {
+        welcomeScreen.classList.add('hidden');
+        messagesContainer.classList.remove('hidden');
+
+        const row = document.createElement('div');
+        row.className = `msg-row ${role}`;
+
+        if (role === 'ai') {
+          const avatar = document.createElement('div');
+          avatar.className = 'avatar-icon';
+          row.appendChild(avatar);
+        }
+
+        const bubble = document.createElement('div');
+        bubble.className = 'msg-bubble';
+
+        if (role === 'user') {
+          bubble.textContent = text;
+        } else {
+          bubble.innerHTML = marked.parse(text);
+        }
+
+        row.appendChild(bubble);
+        messagesContainer.appendChild(row);
+
+        if (role === 'ai') {
+          // Tambahkan tombol salin pada blok kode yang sudah di-render
+          addCopyButtonsToCodeBlocks(bubble);
+          applyHighlighting(bubble);
+        }
+
+        chatArea.scrollTop = chatArea.scrollHeight;
+        return bubble;
+      }
+
+      // --- History Management Functions ---
+
+      // 🚀 FITUR: HAPUS CHAT
+      window.deleteChat = (id, event) => {
+        event.stopPropagation();
+
+        if (confirm('Apakah Anda yakin ingin menghapus riwayat chat ini?')) {
+          // Hapus dari historyChats
+          historyChats = historyChats.filter((chat) => chat.id !== id);
+
+          // Jika chat yang dihapus adalah currentChat, mulai chat baru
+          if (currentChat.id === id) {
+            currentChat = { id: Date.now(), title: null, messages: [] };
+          }
+
+          saveAllToStorage();
+          updateUIState();
+        }
+      };
+
+      window.loadChat = (id) => {
+        // Simpan chat lama ke history jika memiliki pesan
+        if (currentChat.messages.length > 0) {
+          historyChats = historyChats.filter((chat) => chat.id !== currentChat.id);
+          historyChats.unshift(currentChat);
+        }
+
+        // Cari chat baru di history
+        const newChat = historyChats.find((chat) => chat.id === id);
+
+        if (newChat) {
+          currentChat = newChat;
+          // Hapus chat yang baru dimuat dari history agar tidak duplikat saat save berikutnya
+          historyChats = historyChats.filter((chat) => chat.id !== currentChat.id);
+        }
+
+        saveAllToStorage();
+        updateUIState();
+
+        if (window.innerWidth < 768) {
+          toggleSidebar();
+        }
+      };
+
+      function updateUIState() {
+        if (currentChat.messages.length > 0) {
+          welcomeScreen.classList.add('hidden');
+          messagesContainer.classList.remove('hidden');
+          messagesContainer.innerHTML = '';
+          currentChat.messages.forEach((m) => addMessageToUI(m.role === 'model' ? 'ai' : 'user', m.content));
+
+          applyHighlighting(messagesContainer);
+        } else {
+          messagesContainer.innerHTML = '';
+          welcomeScreen.classList.remove('hidden');
+          messagesContainer.classList.add('hidden');
+        }
+        userInput.value = '';
+        userInput.style.height = '44px';
+        micBtn.classList.remove('hidden');
+        sendBtn.classList.add('hidden');
+      }
+
+      window.startNewChat = () => {
+        if (currentChat.messages.length > 0) {
+          historyChats = historyChats.filter((chat) => chat.id !== currentChat.id);
+          historyChats.unshift(currentChat);
+        }
+
+        currentChat = { id: Date.now(), title: null, messages: [] };
+
+        saveAllToStorage();
+        updateUIState();
+
+        if (window.innerWidth < 768) {
+          toggleSidebar();
+        }
+      };
+
+      function renderHistorySide() {
+        // Menggabungkan current chat dan history, menghapus duplikat
+        const allChats = [...historyChats]
+          .filter((chat, index, self) => index === self.findIndex((t) => t.id === chat.id) && chat.messages.length > 0)
+          .sort((a, b) => b.id - a.id);
+
+        // Tambahkan current chat di awal jika ada pesan
+        if (currentChat.messages.length > 0) {
+          allChats.unshift(currentChat);
+        }
+
+        let html = '';
+
+        if (allChats.length > 0) {
+          html += '<div style="padding:10px 15px; font-size:0.8rem; color:#555;">Recent</div>';
+
+          allChats.forEach((chat) => {
+            const isActive = chat.id === currentChat.id;
+
+            html += `
+                    <div class="history-item ${isActive ? 'active' : ''}" onclick="loadChat(${chat.id})">
+                        <div class="chat-title">
+                            <span class="material-symbols-outlined" style="font-size:16px;">chat_bubble</span>
+                            ${chat.title || 'Untitled Chat'}
+                        </div>
+                        <button class="delete-chat-btn" onclick="deleteChat(${chat.id}, event)">
+                             <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
+                        </button>
+                    </div>`;
+          });
+        } else {
+          html = `<div style="padding:10px 15px; font-size:0.8rem; color:#555;">No recent chats</div>`;
+        }
+
+        historyList.innerHTML = html;
+      }
+
+      // --- Storage Management ---
+      function loadFromStorage() {
+        historyChats = JSON.parse(localStorage.getItem('gemini_history')) || [];
+        const storedCurrent = JSON.parse(localStorage.getItem('gemini_current'));
+        if (storedCurrent && storedCurrent.messages.length > 0) {
+          currentChat = storedCurrent;
+        } else {
+          currentChat = { id: Date.now(), title: null, messages: [] };
+        }
+      }
+
+      function saveAllToStorage() {
+        // Filter history untuk memastikan tidak ada chat aktif di history
+        const filteredHistory = historyChats.filter((chat) => chat.id !== currentChat.id);
+
+        localStorage.setItem('gemini_history', JSON.stringify(filteredHistory));
+        localStorage.setItem('gemini_current', JSON.stringify(currentChat));
+        renderHistorySide();
+      }
+
+      function saveToStorage() {
+        // Hanya simpan currentChat saat mengetik
+        localStorage.setItem('gemini_current', JSON.stringify(currentChat));
+        renderHistorySide();
+      }
+
+      // ============================================
+      // IMPLEMENTASI POLLINATIONS.AI (ROBUST STREAM)
+      // ============================================
+      async function fetchAIStream(allMessages, onChunk) {
+        const API_URL = 'https://text.pollinations.ai/openai';
+
+        const messagesData = allMessages.map((msg) => ({
+          role: msg.role === 'model' ? 'assistant' : 'user',
+          content: msg.content,
+        }));
+        const messagesPayload = trimMessagesByCharacterCount(messagesData, 5000);
+        console.log(messagesPayload);
+        const validPayload = messagesPayload.filter((m) => m.content && m.content.trim() !== '');
+
+        if (validPayload.length === 0) return;
+
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'openai-fast',
+            messages: validPayload,
+            stream: true,
+          }),
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+
+          for (let i = 0; i < lines.length - 1; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+
+            if (line.startsWith('data: ')) {
+              const jsonStr = line.replace('data: ', '');
+              if (jsonStr === '[DONE]') continue;
+
+              try {
+                const json = JSON.parse(jsonStr);
+                const content = json.choices?.[0]?.delta?.content;
+                if (content) {
+                  onChunk(content);
+                }
+              } catch (e) {
+                // console.warn('Error parsing JSON line:', e);
+              }
+            }
+          }
+
+          buffer = lines[lines.length - 1];
+        }
+      }
+
+      function trimMessagesByCharacterCount(messages, maxChars = 5000) {
+        let totalChars = messages.reduce((sum, msg) => sum + msg.content.length, 0);
+
+        // Kalau total karakter masih di bawah batas, langsung return
+        if (totalChars <= maxChars) {
+          return messages;
+        }
+
+        // Loop untuk hapus pesan dari awal sampai totalnya di bawah batas
+        let trimmedMessages = [...messages];
+        while (totalChars > maxChars && trimmedMessages.length > 0) {
+          const removedMsg = trimmedMessages.shift(); // hapus pesan paling awal
+          totalChars -= removedMsg.content.length; // kurangi total karakter
+        }
+
+        return trimmedMessages;
+      }
+    </script>
+  </body>
+</html>
