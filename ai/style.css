@@ -488,6 +488,22 @@ code {
   background-color: #1e1f20; /* Warna latar belakang baris genap (opsional, untuk kontras) */
 }
 
+.message-text ul,
+.message-text ol {
+  margin-top: -40px;
+  margin-bottom: 0;
+  padding-left: 1.5em;
+}
+
+.message-text li {
+  margin-bottom: -20px;
+}
+
+.message-text p {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
 /* Model Selector */
 .model-selector {
   display: flex;
