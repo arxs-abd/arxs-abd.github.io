@@ -15,8 +15,15 @@ const projectsData = [
         demoLink: "https://phones.noparkeemart.my.id/",
     },
     {
+        title: "ARXS GPT",
+        description: "A website for using Ai Model using API",
+        category: "web",
+        tags: ["Node.js", "Express", "PostgreSQL"],
+        demoLink: "https://gpt.noparkeemart.my.id/",
+    },
+    {
         title: "Arxs Chat",
-        description: "A website like ChatGPT for asking questions and chatting with the Gemini API.",
+        description: "A website like ChatGPT for asking questions and chatting with the ARXS GPT API",
         category: "web",
         tags: ["Node.js", "Express", "PostgreSQL"],
         demoLink: "https://chat.noparkeemart.my.id/",
