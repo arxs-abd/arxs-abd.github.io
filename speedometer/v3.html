@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Speedometer Ultimate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        modern: { primary: '#3b82f6', secondary: '#06b6d4' }, // Blue/Cyan
+                        racing: { primary: '#ef4444', secondary: '#f59e0b' }, // Red/Yellow
+                        retro:  { primary: '#d946ef', secondary: '#8b5cf6' }, // Pink/Purple
+                    },
+                    fontFamily: {
+                        digital: ['Share Tech Mono', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
+                        racing: ['Teko', 'sans-serif'], // Font for Racing look
+                    },
+                    dropShadow: {
+                        'neon-blue': '0 0 5px rgba(59, 130, 246, 0.5)',
+                        'neon-red': '0 0 5px rgba(239, 68, 68, 0.5)',
+                        'neon-purple': '0 0 5px rgba(217, 70, 239, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Import Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;700&display=swap');
+
+        /* Custom Scrollbar for sleek look */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+
+        /* Animation Classes */
+        .gauge-transition { transition: stroke-dashoffset 0.3s ease-out, stroke 0.3s ease, filter 0.3s; }
+        .text-transition { transition: color 0.3s ease, text-shadow 0.3s ease; }
+        
+        .blink { animation: blinker 1.5s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0.4; } }
+
+        /* Background Grid for Retro Mode */
+        .bg-grid-retro {
+            background-image: linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 font-sans h-[100dvh] flex flex-col overflow-hidden transition-colors duration-300">
+
+    <!-- Fixed Header -->
+    <header class="flex-none p-4 flex justify-between items-center z-20 bg-opacity-90 backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+            <div id="gps-status-icon" class="w-3 h-3 rounded-full bg-red-500 transition-colors duration-300"></div>
+            <span id="gps-status-text" class="text-xs font-bold tracking-wider uppercase opacity-80">Mencari GPS...</span>
+        </div>
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors focus:outline-none">
+            <svg id="sun-icon" class="w-6 h-6 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <svg id="moon-icon" class="w-6 h-6 block dark:hidden text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+    </header>
+
+    <!-- Scrollable Main Content Area -->
+    <div id="main-scroll" class="flex-1 overflow-y-auto overflow-x-hidden relative flex flex-col w-full">
+        
+        <!-- Retro Background Layer (Visible only in Retro mode) -->
+        <div id="retro-bg" class="absolute inset-0 bg-grid-retro opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+
+        <!-- Skin Selector -->
+        <div class="flex justify-center mt-4 mb-2 px-4 z-10">
+            <div class="flex bg-gray-200 dark:bg-gray-800 rounded-lg p-1 shadow-inner">
+                <button onclick="setSkin('modern')" class="skin-btn px-4 py-1.5 text-xs font-bold rounded-md transition-all uppercase tracking-wide bg-white dark:bg-gray-700 shadow-sm" data-skin="modern">Modern</button>
+                <button onclick="setSkin('racing')" class="skin-btn px-4 py-1.5 text-xs font-bold rounded-md transition-all uppercase tracking-wide opacity-60 hover:opacity-100" data-skin="racing">Racing</button>
+                <button onclick="setSkin('retro')" class="skin-btn px-4 py-1.5 text-xs font-bold rounded-md transition-all uppercase tracking-wide opacity-60 hover:opacity-100" data-skin="retro">Retro</button>
+            </div>
+        </div>
+
+        <!-- Speedometer Section -->
+        <main class="flex-grow flex flex-col items-center justify-center py-6 min-h-[300px]">
+            <div class="relative w-72 h-72 sm:w-80 sm:h-80 transition-transform duration-300 hover:scale-105">
+                <svg class="w-full h-full drop-shadow-2xl" viewBox="0 0 200 200">
+                    <!-- Ticks Ring (Visible in Racing Mode) -->
+                    <circle id="gauge-ticks" class="transition-opacity duration-300 opacity-0" cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="10" stroke-dasharray="2 8" class="text-gray-300 dark:text-gray-700"></circle>
+                    
+                    <!-- Base Track -->
+                    <circle class="stroke-gray-200 dark:stroke-gray-800" cx="100" cy="100" r="90" fill="none" stroke-width="8"></circle>
+                    
+                    <!-- Progress Bar -->
+                    <circle id="speed-ring" class="gauge-transition fill-none" cx="100" cy="100" r="90" stroke-width="8" stroke-linecap="round" stroke-dasharray="565.48" stroke-dashoffset="565.48" transform="rotate(-90 100 100)"></circle>
+                </svg>
+
+                <!-- Center Text -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center z-10">
+                    <span id="label-speed" class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1 transition-all">Kecepatan</span>
+                    
+                    <div class="relative">
+                        <!-- Main Number -->
+                        <span id="speed-display" class="font-digital text-8xl font-bold leading-none tracking-tighter text-transition">0</span>
+                    </div>
+                    
+                    <span id="unit-display" class="text-lg font-medium text-gray-500 mt-2">km/h</span>
+                    
+                    <!-- Accuracy Badge -->
+                    <div id="accuracy-badge" class="mt-4 px-2 py-0.5 rounded text-[9px] bg-gray-200 dark:bg-gray-800 text-gray-500 transition-opacity opacity-0 border border-gray-300 dark:border-gray-700">
+                        GPS: ±<span id="acc-val">0</span>m
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Spacer for small screens so stats don't stick to gauge -->
+        <div class="h-4"></div>
+
+        <!-- Stats & Controls Panel -->
+        <!-- Added pb-12 and mb-safe to ensure buttons are clickable on mobile -->
+        <section class="w-full max-w-lg mx-auto bg-white dark:bg-gray-800/80 backdrop-blur-md rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.12)] border-t border-gray-100 dark:border-gray-700 p-6 pb-20 sm:pb-8 transition-colors duration-300">
+            
+            <!-- Stats Grid - Changed to 3 columns on medium screens and up -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+                <!-- Distance Card -->
+                <div class="group bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center transition-all hover:border-gray-300 dark:hover:border-gray-600">
+                    <span class="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-1">Jarak</span>
+                    <div class="flex items-baseline gap-1">
+                        <span id="dist-display" class="font-digital text-2xl font-bold dark:text-gray-100">0.00</span>
+                        <span class="text-xs text-gray-500 font-sans">km</span>
+                    </div>
+                </div>
+
+                <!-- Max Speed Card -->
+                <div class="group bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center transition-all hover:border-gray-300 dark:hover:border-gray-600">
+                    <span class="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-1">Maksimum</span>
+                    <div class="flex items-baseline gap-1">
+                        <span id="max-speed-display" class="font-digital text-2xl font-bold dark:text-gray-100">0</span>
+                        <span class="text-xs text-gray-500 font-sans">km/h</span>
+                    </div>
+                </div>
+
+                <!-- NEW: Altitude Card (Ketinggian) -->
+                <div id="altitude-card" class="group bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center transition-all hover:border-gray-300 dark:hover:border-gray-600 relative">
+                    <!-- Toggle button to hide/disable this stat -->
+                    <button id="toggle-altitude" title="Sembunyikan Ketinggian" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity focus:outline-none">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <span class="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-1">Ketinggian</span>
+                    <div class="flex items-baseline gap-1">
+                        <span id="alt-display" class="font-digital text-2xl font-bold dark:text-gray-100">-</span>
+                        <span class="text-xs text-gray-500 font-sans">m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons Control -->
+            <div class="flex gap-3">
+                <button id="toggle-tracking" class="flex-1 text-white font-bold py-3.5 px-6 rounded-xl transition-all active:scale-95 shadow-lg flex items-center justify-center gap-2">
+                    <span id="btn-icon">▶</span> <span id="btn-text">MULAI</span>
+                </button>
+                <button id="reset-btn" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 text-gray-700 font-semibold py-3.5 px-6 rounded-xl transition-all active:scale-95">
+                    ↺
+                </button>
+            </div>
+            
+            <p class="text-center text-[10px] text-gray-400 mt-4 opacity-60 pb-safe">
+                Layar akan tetap menyala selama pelacakan aktif.
+            </p>
+        </section>
+
+    </div>
+
+    <script>
+        // --- Configuration & State ---
+        const CONFIG = {
+            r: 90,
+            maxSpeed: 140, // Visual max for gauge
+        };
+        const CIRCUMFERENCE = 2 * Math.PI * CONFIG.r;
+        
+        let state = {
+            isTracking: false,
+            watchId: null,
+            wakeLock: null,
+            currentSpeed: 0,
+            maxSpeed: 0,
+            totalDistance: 0,
+            altitude: 0, // NEW: State untuk ketinggian
+            lastPos: null, // { lat, lon, time }
+            theme: 'modern', // modern, racing, retro
+            showAltitude: true, // NEW: State untuk visibilitas Altimeter
+        };
+
+        // --- DOM Elements ---
+        const els = {
+            speed: document.getElementById('speed-display'),
+            dist: document.getElementById('dist-display'),
+            max: document.getElementById('max-speed-display'),
+            ring: document.getElementById('speed-ring'),
+            ticks: document.getElementById('gauge-ticks'),
+            gpsIcon: document.getElementById('gps-status-icon'),
+            gpsText: document.getElementById('gps-status-text'),
+            toggleBtn: document.getElementById('toggle-tracking'),
+            btnText: document.getElementById('btn-text'),
+            btnIcon: document.getElementById('btn-icon'),
+            resetBtn: document.getElementById('reset-btn'),
+            accBadge: document.getElementById('accuracy-badge'),
+            accVal: document.getElementById('acc-val'),
+            retroBg: document.getElementById('retro-bg'),
+            skinBtns: document.querySelectorAll('.skin-btn'),
+            themeToggle: document.getElementById('theme-toggle'),
+            labelSpeed: document.getElementById('label-speed'),
+            unitDisplay: document.getElementById('unit-display'),
+            // NEW ELEMENTS FOR ALTITUDE
+            altDisplay: document.getElementById('alt-display'),
+            altitudeCard: document.getElementById('altitude-card'),
+            toggleAltitude: document.getElementById('toggle-altitude'),
+        };
+
+        // Helper function for updating Altitude visibility
+        function updateAltitudeVisibility() {
+            if (state.showAltitude) {
+                els.altitudeCard.classList.remove('hidden');
+            } else {
+                els.altitudeCard.classList.add('hidden');
+            }
+        }
+
+        // --- Initialization ---
+        function init() {
+            // Setup Gauge
+            els.ring.style.strokeDasharray = `${CIRCUMFERENCE} ${CIRCUMFERENCE}`;
+            els.ring.style.strokeDashoffset = CIRCUMFERENCE;
+
+            // Load Saved Theme (Dark/Light)
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+
+            // Load Altitude Preference
+            const savedPref = localStorage.getItem('showAltitude');
+            if (savedPref !== null) {
+                // localStorage stores strings, convert back to boolean
+                state.showAltitude = savedPref === 'true'; 
+            }
+            updateAltitudeVisibility(); // Apply visibility on load
+
+            // Set Initial Skin
+            setSkin('modern');
+        }
+
+        // --- Skin System ---
+        function setSkin(skinName) {
+            state.theme = skinName;
+            
+            // Reset Active Button State
+            els.skinBtns.forEach(btn => {
+                if(btn.dataset.skin === skinName) {
+                    btn.classList.remove('opacity-60', 'bg-transparent');
+                    btn.classList.add('bg-white', 'dark:bg-gray-700', 'shadow-sm', 'opacity-100');
+                } else {
+                    btn.classList.add('opacity-60', 'bg-transparent');
+                    btn.classList.remove('bg-white', 'dark:bg-gray-700', 'shadow-sm', 'opacity-100');
+                }
+            });
+
+            // FIX: Remove ALL possible specific skin classes to prevent color conflict
+            
+            // Speed Text Cleanup
+            els.speed.classList.remove(
+                'font-digital', 'font-racing', 'italic', 
+                'text-blue-500', 'dark:text-cyan-400',
+                'text-red-600', 'dark:text-red-500',
+                'text-fuchsia-500', 'dark:text-fuchsia-400',
+                'drop-shadow-neon-blue', 'drop-shadow-neon-red', 'drop-shadow-neon-purple'
+            );
+
+            // Ring Cleanup
+            els.ring.classList.remove(
+                'stroke-blue-500', 'dark:stroke-cyan-400',
+                'stroke-red-600', 'dark:stroke-red-500',
+                'stroke-fuchsia-500', 'dark:stroke-fuchsia-400',
+                'drop-shadow-neon-blue', 'drop-shadow-neon-red', 'drop-shadow-neon-purple'
+            );
+
+            // Toggle Button Cleanup (Colors only, not structure)
+            els.toggleBtn.classList.remove(
+                'bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/30',
+                'bg-red-600', 'hover:bg-red-700', 'shadow-red-500/30',
+                'bg-fuchsia-600', 'hover:bg-fuchsia-700', 'shadow-purple-500/30'
+            );
+
+            // Apply New Skin Logic
+            switch(skinName) {
+                case 'modern':
+                    els.speed.classList.add('font-digital', 'text-blue-500', 'dark:text-cyan-400');
+                    els.ring.classList.add('stroke-blue-500', 'dark:stroke-cyan-400');
+                    if(document.documentElement.classList.contains('dark')) els.speed.classList.add('drop-shadow-neon-blue');
+                    
+                    // Only apply color if NOT tracking (Tracking needs Gray button)
+                    if (!state.isTracking) {
+                        els.toggleBtn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/30');
+                    }
+                    
+                    els.ticks.classList.add('opacity-0');
+                    els.retroBg.classList.remove('opacity-100');
+                    els.labelSpeed.classList.remove('hidden');
+                    break;
+
+                case 'racing':
+                    els.speed.classList.add('font-racing', 'italic', 'text-red-600', 'dark:text-red-500');
+                    els.ring.classList.add('stroke-red-600', 'dark:stroke-red-500');
+                    
+                    if (!state.isTracking) {
+                        els.toggleBtn.classList.add('bg-red-600', 'hover:bg-red-700', 'shadow-red-500/30');
+                    }
+                    
+                    els.ticks.classList.remove('opacity-0');
+                    els.ticks.setAttribute('stroke', '#ef4444');
+                    els.retroBg.classList.remove('opacity-100');
+                    els.labelSpeed.classList.add('hidden'); 
+                    break;
+
+                case 'retro':
+                    els.speed.classList.add('font-digital', 'text-fuchsia-500', 'dark:text-fuchsia-400', 'drop-shadow-neon-purple');
+                    els.ring.classList.add('stroke-fuchsia-500', 'dark:stroke-fuchsia-400', 'drop-shadow-neon-purple');
+                    
+                    if (!state.isTracking) {
+                        els.toggleBtn.classList.add('bg-fuchsia-600', 'hover:bg-fuchsia-700', 'shadow-purple-500/30');
+                    }
+                    
+                    els.ticks.classList.add('opacity-0');
+                    els.retroBg.classList.add('opacity-100'); 
+                    els.labelSpeed.classList.remove('hidden');
+                    break;
+            }
+        }
+
+
+        // --- Logic Functions ---
+
+        function updateGauge(kmh) {
+            const visualSpeed = Math.min(kmh, CONFIG.maxSpeed);
+            const offset = CIRCUMFERENCE - (visualSpeed / CONFIG.maxSpeed) * CIRCUMFERENCE;
+            els.ring.style.strokeDashoffset = offset;
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Earth radius km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function handlePosition(pos) {
+            const { latitude, longitude, speed, accuracy, altitude } = pos.coords;
+
+            // GPS Valid
+            els.gpsIcon.className = "w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]";
+            els.gpsText.textContent = "GPS TERHUBUNG";
+            els.gpsText.classList.remove('text-red-500');
+            els.gpsText.classList.add('text-green-600', 'dark:text-green-400');
+            
+            els.accBadge.style.opacity = '1';
+            els.accVal.textContent = Math.round(accuracy);
+
+            // Speed
+            let kmh = (speed !== null && speed >= 0) ? speed * 3.6 : 0;
+            if (kmh < 1.0) kmh = 0; // Filter noise
+            
+            state.currentSpeed = kmh;
+            els.speed.textContent = Math.round(kmh);
+            updateGauge(kmh);
+
+            // Max Speed
+            if (kmh > state.maxSpeed) {
+                state.maxSpeed = kmh;
+                els.max.textContent = Math.round(state.maxSpeed);
+            }
+
+            // Distance
+            if (state.lastPos && kmh > 0.5) {
+                const d = calculateDistance(state.lastPos.lat, state.lastPos.lon, latitude, longitude);
+                // Sanity check: distance shouldn't be massive in 1 tick, also ignore tiny drift
+                if (d > 0.0005 && d < 0.2) { 
+                    state.totalDistance += d;
+                    els.dist.textContent = state.totalDistance.toFixed(2);
+                }
+            }
+            
+            // NEW: Altitude (Ketinggian)
+            if (altitude !== null) {
+                state.altitude = Math.round(altitude);
+                els.altDisplay.textContent = state.altitude;
+            } else {
+                els.altDisplay.textContent = '-'; 
+            }
+
+            state.lastPos = { lat: latitude, lon: longitude };
+        }
+
+        function handleError(err) {
+            console.warn(err);
+            els.gpsIcon.className = "w-3 h-3 rounded-full bg-red-500 blink";
+            els.gpsText.textContent = "SINYAL LEMAH";
+            els.gpsText.classList.remove('text-green-600');
+            els.gpsText.classList.add('text-red-500');
+        }
+
+        // --- Wake Lock ---
+        async function toggleWakeLock(shouldLock) {
+            if (!('wakeLock' in navigator)) return;
+            try {
+                if (shouldLock && !state.wakeLock) {
+                    state.wakeLock = await navigator.wakeLock.request('screen');
+                } else if (!shouldLock && state.wakeLock) {
+                    await state.wakeLock.release();
+                    state.wakeLock = null;
+                }
+            } catch (err) { console.error('WakeLock Error:', err); }
+        }
+
+        // --- Controls ---
+        
+        els.toggleBtn.addEventListener('click', () => {
+            if (!state.isTracking) {
+                // START
+                if ("geolocation" in navigator) {
+                    state.watchId = navigator.geolocation.watchPosition(handlePosition, handleError, {
+                        enableHighAccuracy: true, timeout: 10000, maximumAge: 0
+                    });
+                    state.isTracking = true;
+                    toggleWakeLock(true);
+                    
+                    // UI Updates
+                    els.btnText.textContent = "BERHENTI";
+                    els.btnIcon.textContent = "⏹";
+                    els.toggleBtn.classList.add('bg-gray-800', 'dark:bg-gray-600'); 
+                    
+                    els.gpsText.textContent = "MENCARI...";
+                    els.gpsIcon.className = "w-3 h-3 rounded-full bg-yellow-400 blink";
+                } else {
+                    // Replaced alert() with console warning as requested by guidelines
+                    console.warn("Geolocation tidak didukung browser ini.");
+                }
+            } else {
+                // STOP
+                navigator.geolocation.clearWatch(state.watchId);
+                state.isTracking = false;
+                toggleWakeLock(false);
+                
+                // UI Reset
+                els.btnText.textContent = "MULAI";
+                els.btnIcon.textContent = "▶";
+                els.toggleBtn.classList.remove('bg-gray-800', 'dark:bg-gray-600');
+                
+                // Refresh skin color on button
+                setSkin(state.theme); 
+
+                els.gpsIcon.className = "w-3 h-3 rounded-full bg-gray-400";
+                els.gpsText.textContent = "STANDBY";
+                els.gpsText.classList.remove('text-green-600', 'text-red-500');
+                
+                state.lastPos = null;
+                els.speed.textContent = "0";
+                updateGauge(0);
+                els.altDisplay.textContent = '-'; // Reset altitude display
+            }
+        });
+
+        els.resetBtn.addEventListener('click', () => {
+            // Placeholder for custom confirmation dialog
+            if(confirm("Reset data jarak & max speed?")) {
+                state.totalDistance = 0;
+                state.maxSpeed = 0;
+                els.dist.textContent = "0.00";
+                els.max.textContent = "0";
+                if (!state.isTracking) {
+                    els.speed.textContent = "0";
+                    updateGauge(0);
+                }
+            }
+        });
+        
+        // NEW: Toggle Altitude Listener
+        els.toggleAltitude.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            state.showAltitude = !state.showAltitude;
+            localStorage.setItem('showAltitude', state.showAltitude);
+            updateAltitudeVisibility();
+        });
+
+
+        els.themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            // Re-apply skin to ensure correct colors for mode
+            setSkin(state.theme);
+        });
+
+        // Re-acquire wake lock if tab becomes visible again
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && state.isTracking) {
+                toggleWakeLock(true);
+            }
+        });
+
+        // Start
+        init();
+
+    </script>
+</body>
+</html>
