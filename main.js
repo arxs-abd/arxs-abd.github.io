@@ -83,6 +83,13 @@ const projectsData = [
         category: "web",
         tags: ["HTML", "CSS", "JavaScript"],
         demoLink: "https://arxs-abd.github.io/tts/",
+    },
+    {
+        title: "Speedometer",
+        description: "A website for tracking the speed of your device",
+        category: "web",
+        tags: ["HTML", "CSS", "JavaScript"],
+        demoLink: "https://arxs-abd.github.io/speedometer/",
     }
 ];
 const projects = projectsData.map((project, index) => {
