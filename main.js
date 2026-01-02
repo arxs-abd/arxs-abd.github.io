@@ -29,6 +29,13 @@ const projectsData = [
         demoLink: "https://chat.noparkeemart.my.id/",
     },
     {
+        title: "DONEX",
+        description: "A website to donate to people like saweria",
+        category: "web",
+        tags: ["Node.js", "Express", "PostgreSQL"],
+        demoLink: "https://donex.noparkeemart.my.id/",
+    },
+    {
         title: "Minesweeper",
         description: "A website for playing Minesweeper game",
         category: "game",
