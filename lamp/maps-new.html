@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Light Map Monitor (Leaflet MVP)</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            height: 100vh; 
+            width: 100vw;
+            overflow: hidden;
+            background: #1a1a2e;
+        }
+        
+        #map { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        /* Floating Header */
+        .info-panel { 
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 90%;
+        }
+        
+        .info-panel h1 { 
+            font-size: 1.2rem;
+            color: #1a1a2e;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .info-panel {
+                top: 10px;
+                padding: 10px 20px;
+            }
+            .info-panel h1 {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Enhanced Popup */
+        .leaflet-popup-content-wrapper {
+            background-color: #2d2d30;
+            color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 0;
+        }
+        
+        .leaflet-popup-content {
+            margin: 0;
+            min-width: 200px;
+        }
+        
+        .leaflet-popup-tip {
+            background-color: #2d2d30;
+        }
+        
+        .popup-content { 
+            text-align: center; 
+            padding: 20px;
+        }
+        
+        .popup-header {
+            background-color: #1e1e1e;
+            padding: 12px;
+            border-radius: 15px 15px 0 0;
+            margin: -20px -20px 15px -20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .popup-location { 
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .popup-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.3;
+        }
+        
+        .popup-status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .popup-countdown { 
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 15px 0;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .popup-countdown-label {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .popup-detail { 
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .popup-detail-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .popup-detail-label {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-bottom: 3px;
+        }
+        
+        .popup-detail-value {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        /* Custom Circle Markers */
+        .traffic-light-marker {
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 0.85rem;
+        }
+        
+        .legend-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a1a2e;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            color: #333;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .legend-divider {
+            height: 1px;
+            background: rgba(0,0,0,0.1);
+            margin: 10px 0;
+        }
+        
+        .legend-start-time {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        .legend-start-time-label {
+            font-weight: 600;
+            color: #1a1a2e;
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        .legend-start-time-value {
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .legend {
+                bottom: 15px;
+                right: 15px;
+                font-size: 0.75rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="info-panel">
+        <h1>🚦 Pemantauan Lampu Lalu Lintas Real-Time</h1>
+    </div> -->
+    <div id="map"></div>
+    
+    <!-- <div class="legend">
+        <div class="legend-title">Status Lampu</div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff4d4d;"></div>
+            <span>Merah - Berhenti</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ffcc00;"></div>
+            <span>Kuning - Hati-hati</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #2ecc71;"></div>
+            <span>Hijau - Jalan</span>
+        </div>
+    </div> -->
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        // --- 0. Sinkronisasi Waktu Server ---
+        let serverTimeOffset = 0; // Selisih waktu antara server dan lokal
+
+        async function syncTime() {
+            const clientTimeStart = Date.now();
+            
+            try {
+                console.log('🔄 Sinkronisasi waktu dengan Cloudflare...');
+                
+                // Request ke Cloudflare trace endpoint
+                const response = await fetch('https://cloudflare.com/cdn-cgi/trace', {
+                    cache: 'no-store',
+                    mode: 'cors'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const text = await response.text();
+                
+                // Parse timestamp dari response
+                const tsLine = text.split('\n').find(line => line.startsWith('ts='));
+                if (!tsLine) {
+                    throw new Error('Timestamp tidak ditemukan');
+                }
+                
+                // Ekstrak timestamp (dalam detik, convert ke milliseconds)
+                const timestamp = parseFloat(tsLine.split('=')[1]);
+                const serverTime = timestamp * 1000;
+                
+                // Hitung network latency
+                const clientTimeEnd = Date.now();
+                const latency = (clientTimeEnd - clientTimeStart) / 2;
+                
+                // Adjust server time dengan latency untuk akurasi lebih baik
+                const adjustedServerTime = serverTime + latency;
+                
+                // Hitung offset
+                serverTimeOffset = adjustedServerTime - clientTimeEnd;
+                
+                console.log('✅ Waktu berhasil disinkronkan dengan Cloudflare');
+                console.log('📊 Server time:', new Date(adjustedServerTime).toLocaleString('id-ID'));
+                console.log('📊 Client time:', new Date(clientTimeEnd).toLocaleString('id-ID'));
+                console.log('📊 Time offset:', Math.round(serverTimeOffset), 'ms');
+                console.log('📊 Network latency:', Math.round(latency), 'ms');
+                
+                return true;
+                
+            } catch (error) {
+                console.error('❌ Gagal sinkronisasi:', error.message);
+                syncStatus = 'failed';
+                timeOffset = 0; // Fallback ke waktu lokal
+                return false;
+            }
+        }
+
+        // Fungsi pembantu untuk mendapatkan waktu yang sudah dikoreksi
+        function getCorrectedNow() {
+            return new Date(Date.now() + serverTimeOffset);
+        }
+
+        // Panggil sinkronisasi saat web dibuka
+        syncTime();
+
+        // --- 1. Data Lampu Lalu Lintas --- 
+        let trafficLights = [
+            {
+                id: "1",
+                name: "Simpang Jl. Syech Yusuf - Jl. Malengkeri",
+                lat: -5.188535460264546, 
+                lng: 119.44151425526137,
+                startDateTime: "2026-01-11T21:11:48",
+                durations: { merah: 102, hijau: 31, kuning: 2 }
+            },
+            {
+                id: "2",
+                name: "Simpang Jl. Malengkeri - Jl. Syech Yusuf",
+                lat: -5.188542806084385, 
+                lng: 119.44133588831451,
+                startDateTime: "2026-01-11T21:11:48",
+                durations: { merah: 102, hijau: 33, kuning: null }
+            },
+        ];
+
+        // --- 2. Inisialisasi Peta Leaflet ---
+        const map = L.map('map').setView([-5.188527890582127, 119.4415845646142], 18);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap &copy; CARTO',
+            subdomains: 'abcd',
+            maxZoom: 20,
+            // minZoom: 18
+        }).addTo(map);
+
+        // --- 3. Fungsi untuk menghitung status lampu ---
+        function getTrafficLightStatus(light) {
+            // PERUBAHAN DISINI: Menggunakan waktu yang sudah dikoreksi offsetnya
+            const now = getCorrectedNow(); 
+            const acuan = new Date(light.startDateTime);
+            
+            const hasYellow = light.durations.kuning !== null && light.durations.kuning > 0;
+            const totalSiklus = light.durations.merah + light.durations.hijau + (hasYellow ? light.durations.kuning : 0);
+
+            let selisihDetik = Math.floor((now - acuan) / 1000);
+
+            if (selisihDetik < 0) {
+                return { status: "OFF", sisaWaktu: Math.abs(selisihDetik), class: "off" };
+            }
+
+            let posisi = selisihDetik % totalSiklus;
+            let status = "";
+            let sisaWaktu = 0;
+            let className = "";
+
+            if (posisi < light.durations.merah) {
+                status = "MERAH";
+                className = "red";
+                sisaWaktu = light.durations.merah - posisi;
+            } else if (hasYellow && posisi < (light.durations.merah + light.durations.hijau)) {
+                status = "HIJAU";
+                className = "green";
+                sisaWaktu = (light.durations.merah + light.durations.hijau) - posisi;
+            } else if (hasYellow) {
+                status = "KUNING";
+                className = "yellow";
+                sisaWaktu = totalSiklus - posisi;
+            } else {
+                status = "HIJAU";
+                className = "green";
+                sisaWaktu = totalSiklus - posisi;
+            }
+
+            return { status, sisaWaktu, class: className, posisi, totalSiklus };
+        }
+
+        // --- 4. Fungsi untuk membuat konten popup ---
+        function getPopupContent(light) {
+            const currentStatus = getTrafficLightStatus(light);
+            
+            // Tentukan warna badge berdasarkan status
+            let badgeColor = '';
+            let statusIcon = '';
+            if (currentStatus.class === 'red') {
+                badgeColor = 'background: rgba(255,77,77,0.3); color: #fff;';
+                statusIcon = '🔴';
+            } else if (currentStatus.class === 'green') {
+                badgeColor = 'background: rgba(46,204,113,0.3); color: #fff;';
+                statusIcon = '🟢';
+            } else if (currentStatus.class === 'yellow') {
+                badgeColor = 'background: rgba(255,204,0,0.3); color: #fff;';
+                statusIcon = '🟡';
+            } else {
+                badgeColor = 'background: rgba(200,200,200,0.3); color: #fff;';
+                statusIcon = '⚪';
+            }
+            
+            return `
+                <div class="popup-content">
+                    <div class="popup-header">
+                        <div class="popup-name">${light.name}</div>
+                    </div>
+                    
+                    <div class="popup-status-badge" style="${badgeColor}">
+                        ${statusIcon} ${currentStatus.status}
+                    </div>
+                    
+                    <div class="popup-countdown">${currentStatus.sisaWaktu}</div>
+                    <div class="popup-countdown-label">detik tersisa</div>
+                    
+                    <div class="popup-detail">
+                        <div class="popup-detail-item">
+                            <div class="popup-detail-label">Merah</div>
+                            <div class="popup-detail-value">${light.durations.merah} detik</div>
+                        </div>
+                        ${light.durations.kuning !== null && light.durations.kuning > 0 ? `
+                            <div class="popup-detail-item">
+                                <div class="popup-detail-label">Kuning</div>
+                                <div class="popup-detail-value">${light.durations.kuning} detik</div>
+                            </div>
+                        ` : ''}
+                        <div class="popup-detail-item">
+                            <div class="popup-detail-label">Hijau</div>
+                            <div class="popup-detail-value">${light.durations.hijau} detik</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.7rem; opacity: 0.8;">
+                        ⏰ Update Terakhir : ${formatStartTime(light.startDateTime)}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // --- 5. Fungsi untuk format start time ---
+        function formatStartTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            const options = { 
+                day: '2-digit', 
+                month: 'short', 
+                year: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            return date.toLocaleDateString('id-ID', options);
+        }
+
+        // --- 5. Objek untuk menyimpan marker dan interval ---
+        const lightMarkers = {};
+        const popupIntervals = {};
+
+        // --- 6. Fungsi untuk membuat/mengupdate marker di peta ---
+        function updateLightMarkers() {
+            trafficLights.forEach(light => {
+                const statusData = getTrafficLightStatus(light);
+                
+                let marker = lightMarkers[light.id];
+                if (!marker) {
+                    // Jika marker belum ada, buat baru
+                    marker = L.circleMarker([light.lat, light.lng], {
+                        radius: 14,
+                        fillOpacity: 0.9,
+                        weight: 3,
+                        className: 'traffic-light-marker'
+                    }).addTo(map);
+                    lightMarkers[light.id] = marker;
+
+                    // Bind popup dengan konten awal
+                    marker.bindPopup(getPopupContent(light));
+                    
+                    // Simpan data lampu ke marker
+                    marker.lightData = light;
+
+                    // Event saat popup dibuka
+                    marker.on('popupopen', function() {
+                        const markerTarget = this;
+                        const lightData = markerTarget.lightData;
+                        
+                        // Update konten popup langsung
+                        markerTarget.getPopup().setContent(getPopupContent(lightData));
+                        
+                        // Bersihkan interval lama jika ada
+                        if (popupIntervals[lightData.id]) {
+                            clearInterval(popupIntervals[lightData.id]);
+                        }
+                        
+                        // Buat interval baru untuk update otomatis
+                        popupIntervals[lightData.id] = setInterval(() => {
+                            if (markerTarget.getPopup() && markerTarget.getPopup().isOpen()) {
+                                markerTarget.getPopup().setContent(getPopupContent(lightData));
+                            } else {
+                                // Jika popup sudah ditutup, hentikan interval
+                                clearInterval(popupIntervals[lightData.id]);
+                            }
+                        }, 1000);
+                    });
+
+                    // Event saat popup ditutup
+                    marker.on('popupclose', function() {
+                        const lightData = this.lightData;
+                        if (popupIntervals[lightData.id]) {
+                            clearInterval(popupIntervals[lightData.id]);
+                        }
+                    });
+                }
+
+                // Update warna marker dengan efek glow
+                const glowIntensity = statusData.class === 'red' ? '0 0 20px rgba(255,77,77,0.8)' : 
+                                     (statusData.class === 'green' ? '0 0 20px rgba(46,204,113,0.8)' : 
+                                     (statusData.class === 'yellow' ? '0 0 20px rgba(255,204,0,0.8)' : '0 0 10px rgba(200,200,200,0.5)'));
+                
+                marker.setStyle({
+                    color: statusData.class === 'red' ? '#ff0000' : (statusData.class === 'green' ? '#00ff00' : (statusData.class === 'yellow' ? '#ffdd00' : '#999')),
+                    fillColor: statusData.class === 'red' ? '#ff4d4d' : (statusData.class === 'green' ? '#2ecc71' : (statusData.class === 'yellow' ? '#ffcc00' : '#ddd')),
+                    boxShadow: glowIntensity
+                });
+            });
+        }
+
+        // --- 7. Jalankan update setiap 1 detik ---
+        setInterval(updateLightMarkers, 1000);
+        updateLightMarkers(); // Panggil sekali di awal
+    </script>
+</body>
+</html>
