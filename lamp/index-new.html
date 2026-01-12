@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Light Monitor - Precise Tracking</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; background: #eef2f3; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; margin-bottom: 20px; }
+        h2 { margin-top: 0; color: #333; font-size: 1.1rem; text-align: center; }
+        .display { text-align: center; margin: 15px 0; padding: 20px; border-radius: 12px; transition: all 0.3s; }
+        .status-text { font-size: 1.5rem; font-weight: bold; margin-bottom: 5px; }
+        .countdown { font-size: 4rem; font-weight: 800; line-height: 1; }
+        .input-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.85rem; color: #555; margin-bottom: 4px; font-weight: 600; }
+        input, select { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; outline: none; font-size: 16px; }
+        .time-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .time-inputs input { text-align: center; }
+        .status-merah { background: #ff4d4d; color: white; }
+        .status-kuning { background: #ffcc00; color: #333; }
+        .status-hijau { background: #2ecc71; color: white; }
+        .status-off { background: #ddd; color: #999; }
+        .helper-text { font-size: 0.75rem; color: #888; margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Konfigurasi Presisi</h2>
+        <div class="input-group">
+            <label>Tanggal Acuan</label>
+            <input type="date" id="startDate">
+        </div>
+        <div class="input-group">
+            <label>Waktu Acuan (Jam : Menit : Detik)</label>
+            <div class="time-inputs">
+                <input type="number" id="startHour" placeholder="Jam" min="0" max="23" value="8">
+                <input type="number" id="startMinute" placeholder="Menit" min="0" max="59" value="0">
+                <input type="number" id="startSecond" placeholder="Detik" min="0" max="59" value="0">
+            </div>
+            <div class="helper-text">Pilih kapan siklus pertama dimulai (dengan presisi detik).</div>
+        </div>
+        <div class="input-group"><label>Merah (detik)</label><input type="number" id="durMerah"></div>
+        <div class="input-group"><label>Hijau (detik)</label><input type="number" id="durHijau"></div>
+        <div class="input-group"><label>Kuning (detik)</label><input type="number" id="durKuning"></div>
+    </div>
+
+    <div class="card">
+        <div id="statusBox" class="display status-off">
+            <div id="statusText" class="status-text">OFF</div>
+            <div id="countdown" class="countdown">0</div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = ['startDate', 'startHour', 'startMinute', 'startSecond', 'durMerah', 'durHijau', 'durKuning'];
+
+        function loadData() {
+            const savedData = localStorage.getItem('trafficConfigDate');
+            if (savedData) {
+                const config = JSON.parse(savedData);
+                inputs.forEach(id => { 
+                    const el = document.getElementById(id);
+                    if (el && config[id] !== undefined) {
+                        el.value = config[id];
+                    }
+                });
+            } else {
+                // Default ke hari ini jam 08:00:00 jika data kosong
+                const now = new Date();
+                const dateStr = now.toISOString().slice(0, 10);
+                document.getElementById('startDate').value = dateStr;
+                document.getElementById('startHour').value = "8";
+                document.getElementById('startMinute').value = "0";
+                document.getElementById('startSecond').value = "0";
+                document.getElementById('durMerah').value = "60";
+                document.getElementById('durHijau').value = "40";
+                document.getElementById('durKuning').value = "5";
+            }
+        }
+
+        function saveData() {
+            const config = {};
+            inputs.forEach(id => { config[id] = document.getElementById(id).value; });
+            localStorage.setItem('trafficConfigDate', JSON.stringify(config));
+        }
+
+        function updateTrafficLight() {
+            const startDate = document.getElementById('startDate').value;
+            const startHour = parseInt(document.getElementById('startHour').value) || 0;
+            const startMinute = parseInt(document.getElementById('startMinute').value) || 0;
+            const startSecond = parseInt(document.getElementById('startSecond').value) || 0;
+            
+            const dMerah = parseInt(document.getElementById('durMerah').value) || 0;
+            const dHijau = parseInt(document.getElementById('durHijau').value) || 0;
+            const dKuning = parseInt(document.getElementById('durKuning').value) || 0;
+            const totalSiklus = dMerah + dHijau + dKuning;
+
+            if (totalSiklus === 0 || !startDate) return;
+
+            const now = new Date();
+            const acuan = new Date(startDate);
+            acuan.setHours(startHour, startMinute, startSecond, 0);
+
+            // Hitung selisih dalam detik (milidetik / 1000)
+            let selisihDetik = Math.floor((now - acuan) / 1000);
+
+            // Jika waktu sekarang masih sebelum waktu acuan
+            if (selisihDetik < 0) {
+                document.getElementById('statusText').innerText = "BELUM MULAI";
+                document.getElementById('statusBox').className = "display status-off";
+                document.getElementById('countdown').innerText = Math.abs(selisihDetik);
+                return;
+            }
+
+            let posisi = selisihDetik % totalSiklus;
+
+            const statusBox = document.getElementById('statusBox');
+            const statusText = document.getElementById('statusText');
+            const countdownDisp = document.getElementById('countdown');
+            
+            let sisaWaktu = 0;
+
+            if (posisi < dMerah) {
+                statusText.innerText = "MERAH";
+                statusBox.className = "display status-merah";
+                sisaWaktu = dMerah - posisi;
+            } else if (posisi < (dMerah + dHijau)) {
+                statusText.innerText = "HIJAU";
+                statusBox.className = "display status-hijau";
+                sisaWaktu = (dMerah + dHijau) - posisi;
+            } else {
+                statusText.innerText = "KUNING";
+                statusBox.className = "display status-kuning";
+                sisaWaktu = totalSiklus - posisi;
+            }
+
+            countdownDisp.innerText = sisaWaktu;
+        }
+
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                saveData();
+                updateTrafficLight();
+            });
+        });
+
+        loadData();
+        setInterval(updateTrafficLight, 1000);
+        updateTrafficLight();
+    </script>
+</body>
+</html>
