@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Pulse - Statistik Posisi Lap</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0b0b; /* Lebih gelap dari default bootstrap */
+            color: #ffffff;
+        }
+
+        /* F1 Custom Colors */
+        .text-f1-red { color: #e10600; }
+        .bg-f1-red { background-color: #e10600; }
+        .border-f1-red { border-color: #e10600 !important; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #e10600; border-radius: 10px; }
+
+        /* Card Styling */
+        .card-custom {
+            background: linear-gradient(145deg, #1a1a1a, #121212);
+            border: 1px solid #333;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card-custom:hover {
+            border-color: #e10600;
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+
+        /* Typography */
+        .f1-font { font-weight: 900; font-style: italic; text-transform: uppercase; }
+        
+        /* Interactive Rows */
+        .driver-row { cursor: pointer; transition: background-color 0.2s; }
+        .driver-row:hover { background-color: rgba(225, 6, 0, 0.15); }
+        .driver-row.active { background-color: rgba(225, 6, 0, 0.25); border-left: 4px solid #e10600; }
+
+        /* Navbar Nav */
+        .nav-link {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #e10600;
+        }
+        
+        /* Modal Fixes */
+        .modal-content { background-color: #121212; border: 1px solid #333; }
+        .table-responsive-custom { max-height: 70vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-black border-bottom border-secondary border-opacity-25 sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#" onclick="location.reload()">
+                <div class="bg-f1-red rounded-1 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="fas fa-flag-checkered text-white"></i>
+                </div>
+                <span class="h4 mb-0 f1-font">F1<span class="text-f1-red">PULSE</span></span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-3">
+                    <li class="nav-item"><a class="nav-link active" href="#" onclick="switchTab('schedule', this)">Jadwal & Hasil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('standings', this)">Pembalap</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('constructors', this)">Tim</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mt-5 pb-5">
+
+        <!-- SCHEDULE SECTION -->
+        <div id="section-schedule" class="content-section">
+            <h2 class="f1-font mb-4">Kalender Balap <span class="text-f1-red" id="year-display">2024</span></h2>
+            <div id="schedule-list" class="row g-4">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-f1-red" role="status"><span class="visually-hidden">Loading...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STANDINGS SECTION -->
+        <div id="section-standings" class="content-section d-none">
+            <h2 class="f1-font mb-4">Klasemen Pembalap</h2>
+            <div class="card card-custom p-0 overflow-hidden">
+                <div class="table-responsive">
+                    <div id="standings-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONSTRUCTORS SECTION -->
+        <div id="section-constructors" class="content-section d-none">
+            <h2 class="f1-font mb-4">Klasemen Konstruktor</h2>
+            <div id="constructors-list" class="row g-4"></div>
+        </div>
+
+    </div>
+
+    <!-- RACE DETAIL MODAL (Bootstrap 5 Modal) -->
+    <div class="modal fade" id="raceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header border-bottom border-secondary border-opacity-25 bg-black">
+                    <div>
+                        <h5 class="modal-title f1-font" id="modalRaceName">Grand Prix</h5>
+                        <small class="text-secondary fw-bold text-uppercase" id="modalRaceDate">Date</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="row g-0 h-100">
+                        
+                        <!-- Left: Result Table -->
+                        <div class="col-lg-5 border-end border-secondary border-opacity-25 bg-dark">
+                            <div class="p-3 bg-black border-bottom border-secondary border-opacity-25">
+                                <small class="text-f1-red fw-bold text-uppercase"><i class="fas fa-info-circle me-1"></i> Klik pembalap untuk melihat grafik posisi</small>
+                            </div>
+                            <div class="table-responsive-custom custom-scrollbar">
+                                <table class="table table-dark table-hover mb-0 align-middle">
+                                    <thead class="sticky-top bg-black">
+                                        <tr class="text-uppercase text-secondary" style="font-size: 0.7rem;">
+                                            <th class="ps-4">Pos</th>
+                                            <th>Pembalap</th>
+                                            <th class="text-end pe-4">Poin</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="race-results-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Right: Chart -->
+                        <div class="col-lg-7 bg-black p-4 d-flex flex-column">
+                            <!-- Driver Info Header -->
+                            <div id="selected-driver-info" class="d-flex align-items-center gap-3 mb-4 p-3 rounded border border-secondary border-opacity-25 bg-dark">
+                                <div class="bg-f1-red rounded" style="width: 5px; height: 40px;"></div>
+                                <div>
+                                    <h4 id="selected-driver-name" class="f1-font mb-0 text-white">-</h4>
+                                    <small id="selected-driver-team" class="text-secondary text-uppercase fw-bold">Pilih pembalap</small>
+                                </div>
+                            </div>
+
+                            <!-- Chart Canvas -->
+                            <div class="flex-grow-1 position-relative" style="min-height: 350px;">
+                                <canvas id="lapChart"></canvas>
+                                
+                                <!-- Loader Overlay -->
+                                <div id="chart-loader" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-black bg-opacity-75 d-none">
+                                    <div class="spinner-border text-f1-red mb-2" role="status"></div>
+                                    <small class="text-uppercase fw-bold text-secondary">Memuat data posisi...</small>
+                                </div>
+                                
+                                <!-- Error Overlay -->
+                                <div id="chart-error" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-black d-none">
+                                    <div class="badge bg-danger bg-opacity-25 text-danger px-3 py-2 text-uppercase">
+                                        Data lap tidak tersedia
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const CURRENT_YEAR = '2025'; 
+        const BASE_URL = 'https://api.jolpi.ca/ergast/f1';
+        let lapChartInstance = null;
+        let raceModalInstance = null;
+
+        document.getElementById('year-display').innerText = CURRENT_YEAR;
+
+        // --- Navigation Logic ---
+        function switchTab(tabName, element) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(el => el.classList.add('d-none'));
+            // Show selected
+            document.getElementById(`section-${tabName}`).classList.remove('d-none');
+            
+            // Update active nav state
+            if(element) {
+                document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+                element.classList.add('active');
+            }
+        }
+
+        // --- Data Fetching: Schedule ---
+        async function fetchSchedule() {
+            const container = document.getElementById('schedule-list');
+            try {
+                const response = await fetch(`${BASE_URL}/${CURRENT_YEAR}.json`);
+                const data = await response.json();
+                const races = data.MRData.RaceTable.Races;
+                
+                container.innerHTML = '';
+                races.forEach(race => {
+                    const raceDate = new Date(race.date);
+                    const formattedDate = raceDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const isPast = new Date() > raceDate;
+
+                    container.innerHTML += `
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 card-custom p-4" onclick="openRaceDetails('${race.round}', '${race.raceName}', '${formattedDate}')">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">RD ${race.round}</span>
+                                    ${isPast ? '<span class="badge bg-f1-red text-uppercase">Selesai</span>' : ''}
+                                </div>
+                                <h4 class="f1-font mb-1 text-white">${race.raceName}</h4>
+                                <p class="text-secondary text-uppercase fw-bold text-xs mb-4">${race.Circuit.circuitName}</p>
+                                <div class="mt-auto d-flex justify-content-between align-items-center text-secondary small fw-bold">
+                                    <span><i class="far fa-calendar-alt text-f1-red me-2"></i>${formattedDate}</span>
+                                    <span class="text-f1-red text-uppercase fw-bold" style="font-size: 0.7rem;">Lihat Hasil <i class="fas fa-chevron-right ms-1"></i></span>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+            } catch (error) {
+                container.innerHTML = `<div class="text-center text-danger">Gagal memuat jadwal.</div>`;
+            }
+        }
+
+        // --- Data Fetching: Standings ---
+        async function fetchStandings() {
+            try {
+                const response = await fetch(`${BASE_URL}/${CURRENT_YEAR}/driverstandings.json`);
+                const data = await response.json();
+                const list = data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+                const container = document.getElementById('standings-container');
+                
+                let html = `<table class="table table-dark table-hover mb-0 align-middle">
+                    <thead class="text-uppercase text-secondary small"><tr><th class="py-3 ps-4">Pos</th><th>Pembalap</th><th>Tim</th><th class="text-end pe-4">PTS</th></tr></thead>
+                    <tbody>`;
+                
+                list.forEach(entry => {
+                    html += `<tr>
+                        <td class="ps-4 f1-font text-white lead">${entry.position}</td>
+                        <td class="fw-bold text-uppercase">${entry.Driver.familyName} <small class="text-secondary ms-1">#${entry.Driver.permanentNumber}</small></td>
+                        <td class="text-secondary text-uppercase small fw-bold">${entry.Constructors[0].name}</td>
+                        <td class="text-end pe-4 f1-font text-f1-red lead">${entry.points}</td>
+                    </tr>`;
+                });
+                
+                container.innerHTML = html + `</tbody></table>`;
+            } catch (error) {}
+        }
+
+        // --- Data Fetching: Constructors ---
+        async function fetchConstructors() {
+            try {
+                const response = await fetch(`${BASE_URL}/${CURRENT_YEAR}/constructorstandings.json`);
+                const data = await response.json();
+                const list = data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
+                const container = document.getElementById('constructors-list');
+                
+                list.forEach(entry => {
+                    container.innerHTML += `
+                        <div class="col-md-6">
+                            <div class="card card-custom p-4 border-start border-4 border-f1-red">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <span class="display-6 f1-font me-3 text-secondary">${entry.position}</span>
+                                        <span class="h5 mb-0 f1-font text-uppercase">${entry.Constructor.name}</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="h3 mb-0 f1-font text-white">${entry.points}</div>
+                                        <small class="text-secondary text-uppercase fw-bold">Points</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+            } catch (error) {}
+        }
+
+        // --- Modal & Details Logic ---
+        async function openRaceDetails(round, raceName, date) {
+            // Init modal
+            if(!raceModalInstance) {
+                raceModalInstance = new bootstrap.Modal(document.getElementById('raceModal'));
+            }
+            
+            document.getElementById('modalRaceName').innerText = raceName;
+            document.getElementById('modalRaceDate').innerText = date;
+            
+            const tbody = document.getElementById('race-results-body');
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center py-5"><div class="spinner-border text-f1-red"></div></td></tr>';
+            
+            // Reset Chart UI
+            document.getElementById('selected-driver-name').innerText = "-";
+            document.getElementById('selected-driver-team').innerText = "Pilih pembalap dari tabel";
+            if(lapChartInstance) {
+                lapChartInstance.destroy();
+                lapChartInstance = null;
+            }
+
+            raceModalInstance.show();
+
+            try {
+                const response = await fetch(`${BASE_URL}/${CURRENT_YEAR}/${round}/results.json`);
+                const data = await response.json();
+                const results = data.MRData.RaceTable.Races[0]?.Results || [];
+                
+                tbody.innerHTML = '';
+                results.forEach(res => {
+                    const row = document.createElement('tr');
+                    row.className = 'driver-row';
+                    row.innerHTML = `
+                        <td class="ps-4 f1-font ${res.position <= 3 ? 'text-f1-red' : 'text-white'}">${res.position}</td>
+                        <td class="py-3">
+                            <div class="fw-bold text-uppercase text-white small">${res.Driver.familyName}</div>
+                            <div class="text-secondary text-uppercase" style="font-size: 0.65rem;">${res.Constructor.name}</div>
+                        </td>
+                        <td class="text-end pe-4 fw-bold small">${res.points}</td>
+                    `;
+                    
+                    // Click Event for Chart
+                    row.addEventListener('click', () => {
+                        // Highlight active row
+                        document.querySelectorAll('.driver-row').forEach(r => r.classList.remove('active'));
+                        row.classList.add('active');
+                        
+                        // Update Header
+                        document.getElementById('selected-driver-name').innerText = res.Driver.familyName;
+                        document.getElementById('selected-driver-team').innerText = res.Constructor.name;
+
+                        // Fetch Chart Data
+                        fetchLapPositions(round, res.Driver.driverId);
+                    });
+
+                    tbody.appendChild(row);
+                });
+
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-danger py-4">Gagal memuat hasil.</td></tr>';
+            }
+        }
+
+        // --- Chart Logic: Only Positions ---
+        async function fetchLapPositions(round, driverId) {
+            const loader = document.getElementById('chart-loader');
+            const errorMsg = document.getElementById('chart-error');
+            
+            loader.classList.remove('d-none');
+            errorMsg.classList.add('d-none');
+            
+            if(lapChartInstance) lapChartInstance.destroy();
+
+            try {
+                // Fetch max 100 laps (usually enough for F1)
+                const response = await fetch(`${BASE_URL}/${CURRENT_YEAR}/${round}/drivers/${driverId}/laps.json?limit=100`);
+                const data = await response.json();
+                const raceData = data.MRData.RaceTable.Races[0];
+
+                if (!raceData || !raceData.Laps || raceData.Laps.length === 0) {
+                    throw new Error("No Data");
+                }
+
+                const laps = raceData.Laps;
+                const labels = laps.map(l => l.number);
+                const positions = laps.map(l => parseInt(l.Timings[0].position));
+
+                renderChart(labels, positions);
+
+            } catch (error) {
+                errorMsg.classList.remove('d-none');
+            } finally {
+                loader.classList.add('d-none');
+            }
+        }
+
+        function renderChart(labels, data) {
+            const ctx = document.getElementById('lapChart').getContext('2d');
+            
+            lapChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Posisi',
+                        data: data,
+                        borderColor: '#e10600',
+                        backgroundColor: 'rgba(225, 6, 0, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: true,
+                        pointRadius: 2,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#e10600'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            reverse: true, // Posisi 1 di atas
+                            min: 1,
+                            max: 20, // Grid size max
+                            title: { display: true, text: 'POSISI', color: '#666', font: { size: 10, weight: 'bold' } },
+                            ticks: { color: '#888', stepSize: 1 },
+                            grid: { color: '#222' }
+                        },
+                        x: {
+                            title: { display: true, text: 'LAP', color: '#666', font: { size: 10, weight: 'bold' } },
+                            ticks: { color: '#666', maxTicksLimit: 10 },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#000',
+                            titleColor: '#e10600',
+                            bodyFont: { weight: 'bold' },
+                            callbacks: {
+                                title: (items) => `LAP ${items[0].label}`,
+                                label: (item) => `Posisi: ${item.raw}`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Init
+        window.onload = () => {
+            fetchSchedule();
+            fetchStandings();
+            fetchConstructors();
+        };
+    </script>
+</body>
+</html>
