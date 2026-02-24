@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reflex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: #0d0d0d;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .state-label {
+    font-size: clamp(48px, 18vw, 160px);
+    font-weight: 700;
+    letter-spacing: -2px;
+    line-height: 1;
+    transition: color 0.15s ease, font-size 0.15s ease;
+    color: #fff;
+    padding: 0 16px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .state-label.result {
+    letter-spacing: 0px;
+  }
+
+  .state-label.dim { color: #333; }
+
+  .sub {
+    margin-top: 24px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #444;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  /* Previous time shown below sub */
+  .prev {
+    margin-top: 32px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #2a2a2a;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    height: 16px;
+  }
+
+  .prev.visible { opacity: 1; }
+  .prev span { color: #444; }
+
+  .progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: #fff;
+    opacity: 0;
+  }
+
+  .progress-bar.active { opacity: 1; }
+
+  .top {
+    position: fixed;
+    top: 32px;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #222;
+  }
+
+  @keyframes goPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .state-label.pulse { animation: goPulse 0.6s ease infinite; }
+
+  @keyframes flashIn {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .state-label.flash { animation: flashIn 0.2s ease forwards; }
+</style>
+</head>
+<body id="app">
+
+<div class="top">reflex</div>
+
+<div class="state-label dim" id="label">READY</div>
+<div class="sub" id="sub">hold space or click</div>
+<div class="prev" id="prev">prev: <span id="prevVal">—</span></div>
+
+<div class="progress-bar" id="bar"></div>
+
+<script>
+  const HOLD = 500;
+  let state = 'ready';
+  let holdTimer = null, startTime = null;
+  let lastResult = null;
+
+  const label = document.getElementById('label');
+  const sub = document.getElementById('sub');
+  const bar = document.getElementById('bar');
+  const prev = document.getElementById('prev');
+  const prevVal = document.getElementById('prevVal');
+
+  function fmt(ms) {
+    const h = Math.floor(ms / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
+    const x = ms % 1000;
+    if (h > 0) return `${p(h)}:${p(m)}:${p(s)}.${p3(x)}`;
+    if (m > 0) return `${p(m)}:${p(s)}.${p3(x)}`;
+    return `${p(s)}.${p3(x)}`;
+  }
+  const p = n => String(n).padStart(2, '0');
+  const p3 = n => String(n).padStart(3, '0');
+
+  // ss.xxx = 6 chars, mm:ss.xxx = 9, hh:mm:ss.xxx = 12
+  const sizeMap = [
+    { maxLen: 6,  vw: 22, max: 160 },
+    { maxLen: 9,  vw: 14, max: 120 },
+    { maxLen: 12, vw: 9,  max: 90  },
+  ];
+
+  function setLabel(text, cls) {
+    label.className = 'state-label' + (cls ? ' ' + cls : '');
+    label.textContent = text;
+    if (cls && cls.includes('result')) {
+      const len = text.length;
+      const entry = sizeMap.find(e => len <= e.maxLen) || sizeMap[sizeMap.length - 1];
+      label.style.fontSize = 'clamp(32px, ' + entry.vw + 'vw, ' + entry.max + 'px)';
+    } else {
+      label.style.fontSize = '';
+    }
+  }
+
+  function startHold() {
+    if (state !== 'ready' && state !== 'result') return;
+    state = 'hold';
+
+    setLabel('HOLD');
+    sub.textContent = 'keep holding...';
+    prev.classList.remove('visible');
+
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    bar.classList.add('active');
+    requestAnimationFrame(() => {
+      bar.style.transition = `width ${HOLD}ms linear`;
+      bar.style.width = '100%';
+    });
+
+    holdTimer = setTimeout(() => {
+      if (state !== 'hold') return;
+      state = 'go';
+      setLabel('GO', 'pulse');
+      sub.textContent = 'release!';
+    }, HOLD);
+  }
+
+  function cancelHold() {
+    if (state !== 'hold') return;
+    clearTimeout(holdTimer);
+    state = 'ready';
+
+    bar.style.transition = 'width 0.25s ease';
+    bar.style.width = '0%';
+    setTimeout(() => bar.classList.remove('active'), 250);
+
+    setLabel('READY', 'dim');
+    sub.textContent = 'hold space or click';
+
+    // restore prev if exists
+    if (lastResult !== null) {
+      prevVal.textContent = fmt(lastResult);
+      prev.classList.add('visible');
+    }
+  }
+
+  function release() {
+    if (state !== 'go') return;
+    clearTimeout(holdTimer);
+    state = 'running';
+    startTime = Date.now();
+
+    bar.style.transition = 'width 0.25s ease';
+    bar.style.width = '0%';
+    setTimeout(() => bar.classList.remove('active'), 250);
+
+    setLabel('RUNNING');
+    sub.textContent = 'press to stop';
+    prev.classList.remove('visible');
+  }
+
+  function stop() {
+    if (state !== 'running') return;
+    const elapsed = Date.now() - startTime;
+    state = 'result';
+    lastResult = elapsed;
+
+    setLabel(fmt(elapsed), 'flash result');
+    sub.textContent = 'hold again to retry';
+    prev.classList.remove('visible');
+  }
+
+  document.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    if (state === 'ready' || state === 'result') startHold();
+    else if (state === 'running') stop();
+  });
+
+  document.addEventListener('pointerup', () => {
+    if (state === 'hold') cancelHold();
+    else if (state === 'go') release();
+  });
+
+  document.addEventListener('pointercancel', () => {
+    if (state === 'hold') cancelHold();
+    else if (state === 'go') release();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.code !== 'Space' || e.repeat) return;
+    e.preventDefault();
+    if (state === 'ready' || state === 'result') startHold();
+    else if (state === 'running') stop();
+  });
+
+  document.addEventListener('keyup', e => {
+    if (e.code !== 'Space') return;
+    e.preventDefault();
+    if (state === 'hold') cancelHold();
+    else if (state === 'go') release();
+  });
+</script>
+</body>
+</html>
