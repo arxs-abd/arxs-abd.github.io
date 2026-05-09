@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morse Code Tester</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff9d;
+    --green-dim: #00cc7a;
+    --bg: #030c06;
+    --surface: #071410;
+    --surface2: #0d1f1a;
+    --border: #1a3d30;
+    --text: #b0ffd8;
+    --text-dim: #5a9a7a;
+    --red: #ff4d6d;
+    --amber: #ffcc00;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Share Tech Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, #001a0f 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 90%, #001a0f 0%, transparent 60%),
+      repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,255,157,0.015) 40px, rgba(0,255,157,0.015) 41px),
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,255,157,0.015) 40px, rgba(0,255,157,0.015) 41px);
+  }
+
+  h1, h2, .label {
+    font-family: 'Orbitron', monospace;
+  }
+
+  .terminal-border {
+    border: 1px solid var(--border);
+    box-shadow: 0 0 20px rgba(0,255,157,0.07), inset 0 0 20px rgba(0,255,157,0.02);
+  }
+
+  .glow {
+    text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0,255,157,0.4);
+  }
+
+  .btn-primary {
+    background: transparent;
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    padding: 0.5rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--green);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover::before { opacity: 0.1; }
+  .btn-primary:hover {
+    box-shadow: 0 0 15px rgba(0,255,157,0.3);
+  }
+  .btn-primary:active { transform: scale(0.97); }
+
+  .btn-danger {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .btn-danger::before { background: var(--red); }
+  .btn-danger:hover { box-shadow: 0 0 15px rgba(255,77,109,0.3); }
+
+  .btn-amber {
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+  .btn-amber::before { background: var(--amber); }
+  .btn-amber:hover { box-shadow: 0 0 15px rgba(255,204,0,0.3); }
+
+  .morse-input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .morse-input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 10px rgba(0,255,157,0.15);
+  }
+  .morse-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+
+  .tag {
+    display: inline-block;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    letter-spacing: 0.1em;
+    font-family: 'Orbitron', monospace;
+  }
+
+  .word-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .word-card.correct { border-color: var(--green); background: rgba(0,255,157,0.04); }
+  .word-card.wrong { border-color: var(--red); background: rgba(255,77,109,0.04); }
+
+  .morse-display {
+    color: var(--amber);
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+  }
+
+  .result-badge {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid;
+    display: inline-block;
+  }
+  .result-badge.correct { color: var(--green); border-color: var(--green); }
+  .result-badge.wrong { color: var(--red); border-color: var(--red); }
+
+  .scanline {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .blinking-cursor::after {
+    content: '█';
+    animation: blink 1s step-end infinite;
+    color: var(--green);
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  select.morse-input {
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .score-bar {
+    height: 4px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .score-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green-dim), var(--green));
+    transition: width 0.5s ease;
+    box-shadow: 0 0 8px var(--green);
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .mode-tab {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    background: transparent;
+  }
+  .mode-tab.active {
+    border-color: var(--green);
+    color: var(--green);
+    box-shadow: 0 0 10px rgba(0,255,157,0.2);
+    background: rgba(0,255,157,0.05);
+  }
+  .mode-tab:hover:not(.active) {
+    border-color: var(--text-dim);
+    color: var(--text);
+  }
+
+  .letter-chip {
+    display: inline-block;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .letter-chip.selected {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0,255,157,0.08);
+  }
+  .letter-chip:hover { border-color: var(--text-dim); color: var(--text); }
+
+  .reference-table td, .reference-table th {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .reference-table th {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+
+  <!-- Header -->
+  <div class="text-center mb-10">
+    <div class="tag mb-3">RADIO TRAINING SYSTEM v2.0</div>
+    <h1 class="text-3xl font-black glow tracking-widest mb-2">MORSE CODE TESTER</h1>
+    <p class="text-sm text-[var(--text-dim)] tracking-widest">– – – · · · – – –</p>
+  </div>
+
+  <!-- Config Panel -->
+  <div class="terminal-border p-5 mb-6 bg-[var(--surface)]">
+    <h2 class="text-xs tracking-widest text-[var(--text-dim)] mb-4 label">[ KONFIGURASI LATIHAN ]</h2>
+
+    <!-- Letter selector -->
+    <div class="mb-4">
+      <div class="text-xs text-[var(--text-dim)] mb-2 tracking-wider">HURUF YANG DIKUASAI <span class="text-[var(--green)]">(klik untuk pilih/batal)</span></div>
+      <div id="letterChips" class="flex flex-wrap gap-1 mb-2"></div>
+      <div class="flex gap-2 mt-2">
+        <button class="btn-primary text-xs" onclick="selectAll()">PILIH SEMUA</button>
+        <button class="btn-primary text-xs" onclick="clearAll()">HAPUS SEMUA</button>
+        <button class="btn-primary text-xs" onclick="setPreset('beginner')">PRESET PEMULA</button>
+      </div>
+    </div>
+
+    <!-- OR manual input -->
+    <div class="mb-4">
+      <div class="text-xs text-[var(--text-dim)] mb-1 tracking-wider">ATAU KETIK MANUAL (contoh: auvndb)</div>
+      <div class="flex gap-2">
+        <input id="letterInput" class="morse-input" style="max-width:260px" placeholder="ketik huruf yang dikuasai..." oninput="syncFromInput()">
+        <button class="btn-primary" onclick="applyLetters()">TERAPKAN</button>
+      </div>
+    </div>
+
+    <!-- Mode & Count -->
+    <div class="flex flex-wrap gap-4 items-end">
+      <div>
+        <div class="text-xs text-[var(--text-dim)] mb-1 tracking-wider">MODE UJI</div>
+        <div class="flex gap-0">
+          <button class="mode-tab active" id="tab-word2morse" onclick="setMode('word2morse')">KATA → MORSE</button>
+          <button class="mode-tab" id="tab-morse2word" onclick="setMode('morse2word')">MORSE → KATA</button>
+        </div>
+      </div>
+      <div>
+        <div class="text-xs text-[var(--text-dim)] mb-1 tracking-wider">JUMLAH SOAL</div>
+        <select id="wordCount" class="morse-input" style="width:120px">
+          <option value="5">5 kata</option>
+          <option value="10" selected>10 kata</option>
+          <option value="15">15 kata</option>
+          <option value="20">20 kata</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="generateTest()">▶ MULAI TES</button>
+    </div>
+
+    <div id="noWords" class="hidden mt-3 text-[var(--red)] text-xs tracking-wider">⚠ Tidak ada kata yang cocok dengan huruf yang dipilih. Coba tambah lebih banyak huruf.</div>
+  </div>
+
+  <!-- Test Area -->
+  <div id="testArea" class="hidden">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="label text-xs tracking-widest text-[var(--text-dim)]">[ SOAL TES ]</h2>
+      <div class="flex gap-2">
+        <button class="btn-amber btn-primary" onclick="checkAll()">✔ CEK SEMUA JAWABAN</button>
+        <button class="btn-danger btn-primary" onclick="resetTest()">✖ RESET</button>
+      </div>
+    </div>
+
+    <!-- Score bar -->
+    <div id="scoreSection" class="hidden mb-4">
+      <div class="flex justify-between text-xs text-[var(--text-dim)] mb-1 tracking-wider">
+        <span>SKOR</span>
+        <span id="scoreText">0 / 0</span>
+      </div>
+      <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+    </div>
+
+    <div id="wordCards" class="flex flex-col gap-3"></div>
+
+    <div class="mt-5 flex gap-2">
+      <button class="btn-amber btn-primary" onclick="checkAll()">✔ CEK SEMUA JAWABAN</button>
+      <button class="btn-primary" onclick="generateTest()">↺ SOAL BARU</button>
+    </div>
+  </div>
+
+  <!-- Morse Reference Toggle -->
+  <div class="mt-8">
+    <button class="btn-primary w-full text-center" onclick="toggleRef()">[ TABEL REFERENSI MORSE ]</button>
+    <div id="refTable" class="hidden terminal-border mt-2 p-4 bg-[var(--surface)]">
+      <table class="reference-table w-full">
+        <thead><tr><th>HURUF</th><th>MORSE</th><th>HURUF</th><th>MORSE</th><th>HURUF</th><th>MORSE</th></tr></thead>
+        <tbody id="refBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="text-center mt-10 text-[var(--text-dim)] text-xs tracking-widest">
+    · · · — — — · · · &nbsp;|&nbsp; MORSE CODE TRAINER
+  </div>
+
+</div>
+
+<script>
+// ===== MORSE CODE MAP =====
+const MORSE = {
+  A:'.-', B:'-...', C:'-.-.', D:'-..', E:'.', F:'..-.', G:'--.', H:'....',
+  I:'..', J:'.---', K:'-.-', L:'.-..', M:'--', N:'-.', O:'---', P:'.--.',
+  Q:'--.-', R:'.-.', S:'...', T:'-', U:'..-', V:'...-', W:'.--', X:'-..-',
+  Y:'-.--', Z:'--..'
+};
+
+// ===== WORD BANK (10 kata awal, mudah ditambah) =====
+let WORD_BANK = [
+  'SOS','ANT','BUD','CAT','DIG','EAR','FAN','GAP','HIT','INK',
+  'JET','KIT','LAB','MUD','NUT','OAK','PAD','RIB','SAP','TAN',
+  'VAN','WAR','ZAP','BAD','CAB','DAB','FAD','GAB','HAD','JAB',
+  'NAB','TAB','AID','BAN','CAN','DAN','MAN','PAN','RAN','RAN',
+  'SUN','GUN','FUN','BUN','RUN','NUN','PUN','TUN','CUT','GUT',
+  'HUT','NUT','PUT','RUT','BUT','BAT','CAT','FAT','HAT','MAT',
+  'PAT','RAT','SAT','VAT','BID','DID','HID','KID','LID','RID'
+].map(w => w.toUpperCase()).filter((v,i,a)=>a.indexOf(v)===i);
+setWordBank();
+
+// ===== STATE =====
+let selectedLetters = new Set();
+let currentMode = 'word2morse';
+let testWords = [];
+let checked = false;
+
+// ===== LETTER CHIPS =====
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+loadSelectedLettersFromLocalStorage()
+
+function renderChips() {
+  const container = document.getElementById('letterChips');
+  container.innerHTML = alphabet.map(l =>
+    `<span class="letter-chip ${selectedLetters.has(l)?'selected':''}" onclick="toggleLetter('${l}')" id="chip-${l}">${l}</span>`
+  ).join('');
+}
+
+function toggleLetter(l) {
+  if (selectedLetters.has(l)) selectedLetters.delete(l);
+  else selectedLetters.add(l);
+  renderChips();
+  syncToInput();
+}
+
+function syncToInput() {
+  document.getElementById('letterInput').value = [...selectedLetters].sort().join('').toLowerCase();
+}
+
+function syncFromInput() {
+  const val = document.getElementById('letterInput').value.toUpperCase().replace(/[^A-Z]/g,'');
+  selectedLetters = new Set(val.split(''));
+  renderChips();
+  saveSelectedLetterToLocalStorage();
+}
+
+function applyLetters() {
+  syncFromInput();
+}
+
+function selectAll() {
+  selectedLetters = new Set(alphabet);
+  renderChips(); syncToInput();
+}
+
+function clearAll() {
+  selectedLetters = new Set();
+  renderChips(); syncToInput();
+}
+
+function setPreset(p) {
+  if(p==='beginner') {
+    selectedLetters = new Set(['E','T','A','I','N','S','O','R','H','D','L','U','C','M','F']);
+  }
+  renderChips(); syncToInput();
+}
+
+async function setWordBank() {
+  const data = await fetch('word.json');
+  const json = await data.json();
+  WORD_BANK = json.map(w => w.toUpperCase());
+}
+
+function saveSelectedLetterToLocalStorage() {
+  localStorage.setItem('selectedLetters', JSON.stringify(Array.from(selectedLetters)));
+}
+
+async function loadSelectedLettersFromLocalStorage() {
+  selectedLetters = new Set(JSON.parse(localStorage.getItem('selectedLetters') || '[]'));
+  renderChips(); 
+  syncToInput();
+}
+
+// ===== MODE =====
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('tab-word2morse').classList.toggle('active', mode==='word2morse');
+  document.getElementById('tab-morse2word').classList.toggle('active', mode==='morse2word');
+}
+
+// ===== WORD MATCHING =====
+function wordMatchesLetters(word, letters) {
+  return [...word].every(c => letters.has(c));
+}
+
+function getMatchingWords() {
+  return WORD_BANK.filter(w => wordMatchesLetters(w, selectedLetters));
+}
+
+function shuffle(arr) {
+  return arr.map(v=>[Math.random(),v]).sort(([a],[b])=>a-b).map(([,v])=>v);
+}
+
+// ===== MORSE HELPERS =====
+function wordToMorse(word) {
+  return [...word].map(c => MORSE[c]).join(' ');
+}
+
+// ===== GENERATE TEST =====
+function generateTest() {
+  document.getElementById('noWords').classList.add('hidden');
+  const matching = getMatchingWords();
+  const count = parseInt(document.getElementById('wordCount').value);
+
+  if(matching.length === 0) {
+    document.getElementById('noWords').classList.remove('hidden');
+    return;
+  }
+
+  testWords = shuffle(matching).slice(0, Math.min(count, matching.length));
+  checked = false;
+  renderCards();
+  document.getElementById('testArea').classList.remove('hidden');
+  document.getElementById('scoreSection').classList.add('hidden');
+  document.getElementById('testArea').scrollIntoView({behavior:'smooth'});
+}
+
+// ===== RENDER CARDS =====
+function renderCards() {
+  const container = document.getElementById('wordCards');
+  container.innerHTML = testWords.map((word, i) => {
+    const morse = wordToMorse(word);
+    if (currentMode === 'word2morse') {
+      return `
+        <div class="word-card" id="card-${i}">
+          <div class="flex items-start justify-between gap-4 flex-wrap">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="tag">#${String(i+1).padStart(2,'0')}</span>
+                <span class="tag">KATA → MORSE</span>
+              </div>
+              <div class="text-2xl font-bold tracking-[0.3em] text-white mb-4">${word}</div>
+              <div class="text-xs text-[var(--text-dim)] tracking-wider mb-1">JAWABAN MORSE CODE (gunakan . dan -):</div>
+              <input id="ans-${i}" class="morse-input" placeholder="contoh: ..- .-.. .-" autocomplete="off" spellcheck="false"
+                style="letter-spacing:0.15em" onkeydown="if(event.key==='Enter')checkSingle(${i})">
+            </div>
+            <div class="flex flex-col gap-2 items-end mt-1">
+              <button class="btn-primary" onclick="checkSingle(${i})">CEK</button>
+              <button class="btn-primary text-[0.6rem]" onclick="showHint(${i})">HINT</button>
+            </div>
+          </div>
+          <div id="result-${i}" class="hidden mt-3 pt-3 border-t border-[var(--border)]"></div>
+        </div>`;
+    } else {
+      return `
+        <div class="word-card" id="card-${i}">
+          <div class="flex items-start justify-between gap-4 flex-wrap">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="tag">#${String(i+1).padStart(2,'0')}</span>
+                <span class="tag">MORSE → KATA</span>
+              </div>
+              <div class="morse-display mb-4 tracking-widest">${morse}</div>
+              <div class="text-xs text-[var(--text-dim)] tracking-wider mb-1">JAWABAN KATA:</div>
+              <input id="ans-${i}" class="morse-input" placeholder="ketik kata di sini..." autocomplete="off" spellcheck="false"
+                style="text-transform:uppercase; letter-spacing:0.2em" onkeydown="if(event.key==='Enter')checkSingle(${i})">
+            </div>
+            <div class="flex flex-col gap-2 items-end mt-1">
+              <button class="btn-primary" onclick="checkSingle(${i})">CEK</button>
+              <button class="btn-primary text-[0.6rem]" onclick="showHint(${i})">HINT</button>
+            </div>
+          </div>
+          <div id="result-${i}" class="hidden mt-3 pt-3 border-t border-[var(--border)]"></div>
+        </div>`;
+    }
+  }).join('');
+}
+
+// ===== CHECK SINGLE =====
+function checkSingle(i) {
+  const word = testWords[i];
+  const morse = wordToMorse(word);
+  const ans = document.getElementById(`ans-${i}`).value.trim().toUpperCase();
+  const card = document.getElementById(`card-${i}`);
+  const resultDiv = document.getElementById(`result-${i}`);
+
+  let isCorrect;
+  if (currentMode === 'word2morse') {
+    const normalized = ans.replace(/\s+/g,' ');
+    const expected = morse.replace(/\s+/g,' ');
+    isCorrect = normalized === expected;
+  } else {
+    isCorrect = ans === word;
+  }
+
+  card.className = `word-card ${isCorrect ? 'correct' : 'wrong'}`;
+  resultDiv.classList.remove('hidden');
+
+  if (isCorrect) {
+    resultDiv.innerHTML = `
+      <div class="flex items-center gap-3">
+        <span class="result-badge correct">✓ BENAR</span>
+        <span class="text-[var(--green)] text-sm tracking-wider">Jawaban tepat!</span>
+      </div>`;
+  } else {
+    if (currentMode === 'word2morse') {
+      resultDiv.innerHTML = `
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-3">
+            <span class="result-badge wrong">✗ SALAH</span>
+            <span class="text-[var(--red)] text-sm">Jawaban kamu: <span class="text-white">${ans||'(kosong)'}</span></span>
+          </div>
+          <div class="text-xs text-[var(--text-dim)] tracking-wider">JAWABAN BENAR:</div>
+          <div class="morse-display text-sm">${morse}</div>
+          <div class="text-xs text-[var(--text-dim)] mt-1">${[...word].map(c=>`${c}=${MORSE[c]}`).join(' &nbsp; ')}</div>
+        </div>`;
+    } else {
+      resultDiv.innerHTML = `
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-3">
+            <span class="result-badge wrong">✗ SALAH</span>
+            <span class="text-[var(--red)] text-sm">Jawaban kamu: <span class="text-white">${ans||'(kosong)'}</span></span>
+          </div>
+          <div class="text-xs text-[var(--text-dim)] tracking-wider">JAWABAN BENAR: <span class="text-2xl text-white tracking-widest font-bold">${word}</span></div>
+        </div>`;
+    }
+  }
+}
+
+// ===== SHOW HINT =====
+function showHint(i) {
+  const word = testWords[i];
+  if (currentMode === 'word2morse') {
+    const firstLetter = word[0];
+    const hint = `${firstLetter} = ${MORSE[firstLetter]}`;
+    alert(`HINT: Huruf pertama "${firstLetter}" → ${MORSE[firstLetter]}`);
+  } else {
+    const hint = word[0] + '_'.repeat(word.length-1);
+    alert(`HINT: Kata ini ${word.length} huruf, dimulai dengan "${word[0]}"`);
+  }
+}
+
+// ===== CHECK ALL =====
+function checkAll() {
+  testWords.forEach((_, i) => checkSingle(i));
+  checked = true;
+
+  // Score
+  let correct = 0;
+  testWords.forEach((word, i) => {
+    const ans = document.getElementById(`ans-${i}`).value.trim().toUpperCase();
+    const morse = wordToMorse(word);
+    if (currentMode === 'word2morse') {
+      if (ans.replace(/\s+/g,' ') === morse.replace(/\s+/g,' ')) correct++;
+    } else {
+      if (ans === word) correct++;
+    }
+  });
+
+  const total = testWords.length;
+  const pct = Math.round(correct/total*100);
+  document.getElementById('scoreSection').classList.remove('hidden');
+  document.getElementById('scoreText').textContent = `${correct} / ${total} (${pct}%)`;
+  document.getElementById('scoreFill').style.width = pct + '%';
+  document.getElementById('scoreSection').scrollIntoView({behavior:'smooth'});
+}
+
+// ===== RESET =====
+function resetTest() {
+  document.getElementById('testArea').classList.add('hidden');
+  document.getElementById('wordCards').innerHTML = '';
+  testWords = [];
+}
+
+// ===== REFERENCE TABLE =====
+function buildRefTable() {
+  const letters = Object.keys(MORSE);
+  const rows = [];
+  for(let i=0; i<letters.length; i+=3) {
+    const a = letters[i], b = letters[i+1]||'', c = letters[i+2]||'';
+    rows.push(`<tr>
+      <td class="text-[var(--green)] font-bold">${a}</td>
+      <td class="text-[var(--amber)] tracking-widest">${MORSE[a]||''}</td>
+      <td class="text-[var(--green)] font-bold">${b}</td>
+      <td class="text-[var(--amber)] tracking-widest">${b?MORSE[b]:''}</td>
+      <td class="text-[var(--green)] font-bold">${c}</td>
+      <td class="text-[var(--amber)] tracking-widest">${c?MORSE[c]:''}</td>
+    </tr>`);
+  }
+  document.getElementById('refBody').innerHTML = rows.join('');
+}
+
+function toggleRef() {
+  const el = document.getElementById('refTable');
+  el.classList.toggle('hidden');
+}
+
+// ===== INIT =====
+renderChips();
+buildRefTable();
+// Default preset
+// setPreset('beginner');
+</script>
+</body>
+</html>
