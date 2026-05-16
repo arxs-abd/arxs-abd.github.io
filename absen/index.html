@@ -1,184 +1,213 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Scanner Barcode</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scanner Barcode</title>
 
-  <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
 
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-
-    h2 {
-      margin: 0;
-    }
-
-    #camera-select {
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      width: 320px;
-      font-size: 16px;
-      outline: none;
-    }
-
-    #reader {
-      width: 320px;
-      height: 320px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 3px solid #444;
-      background: black;
-    }
-
-    #result {
-      width: 320px;
-      padding: 12px;
-      background: #222;
-      border-radius: 10px;
-      word-break: break-all;
-      box-sizing: border-box;
-    }
-  </style>
-</head>
-<body>
-
-  <h2>Scan Barcode</h2>
-
-  <select id="camera-select"></select>
-
-  <div id="reader"></div>
-
-  <div id="result">
-    Hasil scan akan muncul di sini
-  </div>
-
-  <script>
-    const resultEl = document.getElementById("result");
-    const cameraSelect = document.getElementById("camera-select");
-
-    const STORAGE_KEY = "selected_camera_id";
-
-    let html5QrCode = new Html5Qrcode("reader");
-
-    // barcode berhasil dibaca
-    function onScanSuccess(decodedText) {
-
-      console.log("Barcode:", decodedText);
-
-      resultEl.innerHTML = `
-        <b>Hasil:</b><br>
-        ${decodedText}
-      `;
-    }
-
-    // start scanner
-    async function startScanner(cameraId) {
-
-      try {
-
-        // stop scanner sebelumnya
-        if (html5QrCode.isScanning) {
-          await html5QrCode.stop();
-        }
-
-        // simpan camera terakhir
-        localStorage.setItem(STORAGE_KEY, cameraId);
-
-        await html5QrCode.start(
-          cameraId,
-          {
-            fps: 10,
-            qrbox: {
-              width: 220,
-              height: 220
-            }
-          },
-          onScanSuccess
-        );
-
-      } catch (err) {
-        console.error(err);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
       }
-    }
 
-    // load kamera
-    async function loadCameras() {
+      h2 {
+        margin: 0;
+      }
 
-      try {
+      #camera-select,
+      #tipe-select {
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        width: 320px;
+        font-size: 16px;
+        outline: none;
+      }
 
-        const devices = await Html5Qrcode.getCameras();
+      #reader {
+        width: 320px;
+        height: 320px;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 3px solid #444;
+        background: black;
+      }
 
-        cameraSelect.innerHTML = "";
+      #result {
+        width: 320px;
+        padding: 12px;
+        background: #222;
+        border-radius: 10px;
+        word-break: break-all;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Scan Barcode</h2>
 
-        if (!devices.length) {
+    <select id="camera-select"></select>
+    >
+    <div id="reader"></div>
+    <select id="tipe-select">
+      <option value="Datang">Datang</option>
+      <option value="Istirahat">Istirahat</option>
+      <option value="Pulang">Pulang</option>
+    </select>
+    <div id="result">Hasil scan akan muncul di sini</div>
 
-          cameraSelect.innerHTML =
-            "<option>Tidak ada kamera</option>";
+    <script>
+      const resultEl = document.getElementById('result');
+      const cameraSelect = document.getElementById('camera-select');
+      const tipeSelect = document.getElementById('tipe-select');
 
+      const scriptUrl = 'https://script.google.com/macros/s/AKfycbxQN-lfP4_l0M1qnOP5Kcc_3IgHBVVxJCj613GOGt2AlJsDW5ti53MvdMcPnaWQmeYzlg/exec';
+      // const scriptUrl = 'https://script.google.com/macros/s/AKfycbyB1lvlQ5GCjavlKyYMB51cs4UF7S3vpIBMYIBxPIo5Zbv9wULNOLBfPoHvm-OjYd9yMw/exec';
+
+      const STORAGE_KEY = 'selected_camera_id';
+
+      let html5QrCode = new Html5Qrcode('reader');
+
+      // =========================
+      // SETTING JEDA SCAN
+      // =========================
+      const SCAN_COOLDOWN = 1000; // 1000ms = 1 detik
+
+      let isProcessing = false;
+      let lastScannedText = '';
+
+      // barcode berhasil dibaca
+      async function onScanSuccess(decodedText) {
+        // kalau masih cooldown -> abaikan
+        if (isProcessing) return;
+
+        // optional:
+        // cegah QR yang sama kebaca terus
+        if (decodedText === lastScannedText) {
           return;
         }
 
-        // buat option kamera
-        devices.forEach((device, index) => {
+        isProcessing = true;
+        lastScannedText = decodedText;
 
-          const option = document.createElement("option");
+        console.log('Barcode:', decodedText);
 
-          option.value = device.id;
+        resultEl.innerHTML = `
+      <b>Hasil:</b><br>
+      ${decodedText}
+    `;
 
-          option.text =
-            device.label || `Camera ${index + 1}`;
+        try {
+          const form = new FormData();
 
-          cameraSelect.appendChild(option);
-        });
+          form.append('Nama', decodedText);
+          form.append('Jenis', tipeSelect.value);
+          form.append('Waktu', new Date().toISOString());
 
-        // ambil camera terakhir
-        const savedCameraId =
-          localStorage.getItem(STORAGE_KEY);
+          const response = await fetch(scriptUrl, {
+            method: 'POST',
+            body: form,
+          });
 
-        // cek apakah camera masih tersedia
-        const cameraExists = devices.some(
-          d => d.id === savedCameraId
-        );
+          const data = await response.json();
 
-        // pilih camera
-        const defaultCameraId =
-          cameraExists
-            ? savedCameraId
-            : devices[0].id;
+          console.log('Success!', data);
+        } catch (error) {
+          console.error('Error!', error.message);
+        }
 
-        cameraSelect.value = defaultCameraId;
-
-        // start camera
-        startScanner(defaultCameraId);
-
-      } catch (err) {
-        console.error(err);
+        // reset setelah jeda
+        setTimeout(() => {
+          isProcessing = false;
+          lastScannedText = '';
+        }, SCAN_COOLDOWN);
       }
-    }
 
-    // ketika user ganti kamera
-    cameraSelect.addEventListener("change", (e) => {
+      // start scanner
+      async function startScanner(cameraId) {
+        try {
+          // stop scanner sebelumnya
+          if (html5QrCode.isScanning) {
+            await html5QrCode.stop();
+          }
 
-      const selectedCameraId = e.target.value;
+          // simpan camera terakhir
+          localStorage.setItem(STORAGE_KEY, cameraId);
 
-      startScanner(selectedCameraId);
-    });
+          await html5QrCode.start(
+            cameraId,
+            {
+              fps: 10,
+              qrbox: {
+                width: 220,
+                height: 220,
+              },
+            },
+            onScanSuccess
+          );
+        } catch (err) {
+          console.error(err);
+        }
+      }
 
-    loadCameras();
-  </script>
+      // load kamera
+      async function loadCameras() {
+        try {
+          const devices = await Html5Qrcode.getCameras();
 
-</body>
+          cameraSelect.innerHTML = '';
+
+          if (!devices.length) {
+            cameraSelect.innerHTML = '<option>Tidak ada kamera</option>';
+            return;
+          }
+
+          // buat option kamera
+          devices.forEach((device, index) => {
+            const option = document.createElement('option');
+
+            option.value = device.id;
+            option.text = device.label || `Camera ${index + 1}`;
+
+            cameraSelect.appendChild(option);
+          });
+
+          // ambil camera terakhir
+          const savedCameraId = localStorage.getItem(STORAGE_KEY);
+
+          // cek apakah camera masih tersedia
+          const cameraExists = devices.some((d) => d.id === savedCameraId);
+
+          // pilih camera
+          const defaultCameraId = cameraExists ? savedCameraId : devices[0].id;
+
+          cameraSelect.value = defaultCameraId;
+
+          // start camera
+          startScanner(defaultCameraId);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      // ketika user ganti kamera
+      cameraSelect.addEventListener('change', (e) => {
+        const selectedCameraId = e.target.value;
+        startScanner(selectedCameraId);
+      });
+
+      loadCameras();
+    </script>
+  </body>
 </html>
