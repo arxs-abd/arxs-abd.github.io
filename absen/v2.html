@@ -246,7 +246,11 @@
       const toastMessage = document.getElementById('toast-message');
 
       // --- Konfigurasi ---
-      const scriptUrl = 'https://script.google.com/macros/s/AKfycbxQN-lfP4_l0M1qnOP5Kcc_3IgHBVVxJCj613GOGt2AlJsDW5ti53MvdMcPnaWQmeYzlg/exec';
+      // DEV
+      // const scriptUrl = 'https://script.google.com/macros/s/AKfycbxQN-lfP4_l0M1qnOP5Kcc_3IgHBVVxJCj613GOGt2AlJsDW5ti53MvdMcPnaWQmeYzlg/exec';
+
+      // PROD
+      const scriptUrl = 'https://script.google.com/macros/s/AKfycbxH8_Hn9JjKaKfQ02lS2CslkDb1IUrSZBVzoU9wz7omVVLK8ewppQ7DEffOjMP4_DtN/exec';
       const STORAGE_KEY = 'selected_camera_id';
       const SCAN_COOLDOWN = 2000; // Jeda sebelum bisa scan lagi (2 detik)
 
