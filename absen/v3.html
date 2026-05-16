@@ -331,9 +331,8 @@
       <div class="flex flex-col items-center gap-2 w-full max-w-xs">
         <span class="text-white/30 text-xs mono uppercase tracking-widest">Jenis Absensi</span>
         <div class="flex gap-2 flex-wrap justify-center">
-          <button class="tipe-btn active" data-tipe="Datang">📍 Datang</button>
-          <button class="tipe-btn" data-tipe="Istirahat">☕ Istirahat</button>
-          <button class="tipe-btn" data-tipe="Pulang">🏠 Pulang</button>
+          <button class="tipe-btn active" data-tipe="Datang">📍 Break</button>
+          <button class="tipe-btn" data-tipe="After Break">☕ After Break</button>
         </div>
       </div>
 
@@ -398,7 +397,7 @@
 
       let isProcessing = false;
       let lastScannedText = '';
-      let selectedTipe = 'Datang';
+      let selectedTipe = 'Break';
       let scanCount = 0;
 
       const cameraSelect = document.getElementById('camera-select');
