@@ -1,4 +1,4 @@
-const CACHE_NAME = 'absensi-pwa-v2-1.0';
+const CACHE_NAME = 'absensi-pwa-v2-1.1';
 
 const urlsToCache = ['/ab/', '/ab/index.html', '/ab/manifest.json', '/ab/logo.jpeg', 'https://cdn.tailwindcss.com', 'https://unpkg.com/html5-qrcode'];
 
