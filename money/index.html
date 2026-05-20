@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MONO.TRACK — Pelacak Keuangan Minimalis</title>
+  
+  <!-- SEO & PWA Meta Tags -->
+  <meta name="description" content="Aplikasi pelacak keuangan pribadi minimalis dengan tema monochrome hitam & putih, dukungan offline-first (PWA), kalender interaktif, dan ekspor/impor data.">
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  
+  <!-- CDN Tailwind CSS & Bootstrap Icons & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            mono: {
+              black: '#000000',
+              white: '#ffffff',
+              dark: '#0a0a0a',
+              cardDark: '#121212',
+              cardLight: '#fcfcfc',
+              borderDark: '#27272a',
+              borderLight: '#e4e4e7',
+              gray: '#71717a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Outfit', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    /* Custom premium scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #e4e4e7;
+      border-radius: 2px;
+    }
+    
+    /* Animation classes */
+    .fade-in {
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-mono-lightgray dark:bg-mono-black text-mono-black dark:text-mono-white min-h-screen pb-16">
+
+  <!-- Header Section -->
+  <header class="border-b border-mono-borderLight dark:border-mono-borderDark bg-white dark:bg-mono-dark sticky top-0 z-30 transition-all duration-300">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- SVG Glyph for minimalist logo (Ascending bars inside circles) -->
+        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-mono-black dark:text-mono-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="8"/>
+          <path d="M30 65V50M50 65V35M70 65V20" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <span class="text-base sm:text-xl font-extrabold tracking-widest">MONO<span class="font-light text-mono-gray">.TRACK</span></span>
+      </div>
+      
+      <div class="flex items-center space-x-2">
+        <!-- PWA Install Button -->
+        <button id="pwaInstallBtn" class="hidden flex items-center space-x-1.5 px-3 py-1.5 border border-mono-black dark:border-mono-white rounded-full text-xs font-semibold hover:bg-mono-black hover:text-mono-white dark:hover:bg-mono-white dark:hover:text-mono-black transition-all">
+          <i class="bi bi-download"></i>
+          <span>Pasang</span>
+        </button>
+
+        <!-- Dark/Light Toggle -->
+        <button id="themeToggleBtn" class="p-1.5 sm:p-2 border border-mono-borderLight dark:border-mono-borderDark rounded-full hover:bg-mono-borderLight dark:hover:bg-mono-borderDark transition-all" aria-label="Ganti Tema">
+          <i id="themeIcon" class="bi bi-sun text-sm sm:text-lg dark:hidden"></i>
+          <i id="themeIconDark" class="bi bi-moon-stars text-sm sm:text-lg hidden dark:block"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6">
+    
+    <!-- Hero Balance Display -->
+    <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl p-6 mb-6 shadow-sm">
+      <div class="text-mono-gray text-xs font-medium tracking-widest uppercase mb-1">Saldo Sekarang</div>
+      <h1 id="totalBalance" class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight transition-all duration-300">Rp 0</h1>
+      
+      <!-- Income / Expense Grid Summary -->
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 mt-6 pt-6 border-t border-mono-borderLight dark:border-mono-borderDark">
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-mono-borderLight dark:border-mono-borderDark flex items-center justify-center bg-mono-cardLight dark:bg-mono-cardDark shrink-0">
+            <i class="bi bi-arrow-up text-sm sm:text-lg text-mono-black dark:text-mono-white"></i>
+          </div>
+          <div>
+            <div class="text-[9px] sm:text-[10px] text-mono-gray tracking-wider uppercase">Total Pemasukan</div>
+            <div id="totalIncome" class="font-bold text-xs sm:text-sm md:text-base">Rp 0</div>
+          </div>
+        </div>
+        
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-mono-borderLight dark:border-mono-borderDark flex items-center justify-center bg-mono-black dark:bg-mono-white shrink-0">
+            <i class="bi bi-arrow-down text-sm sm:text-lg text-mono-white dark:text-mono-black"></i>
+          </div>
+          <div>
+            <div class="text-[9px] sm:text-[10px] text-mono-gray tracking-wider uppercase">Total Pengeluaran</div>
+            <div id="totalExpense" class="font-bold text-xs sm:text-sm md:text-base">Rp 0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Tool Action buttons -->
+    <div class="flex justify-between items-center mb-6">
+      <!-- Navigation Tabs -->
+      <div class="flex space-x-0.5 sm:space-x-1 bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark p-1 rounded-xl shadow-sm">
+        <button id="tabDasborBtn" class="px-3 sm:px-4 py-2 text-[10px] sm:text-xs font-bold rounded-lg transition-all bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black">
+          <i class="bi bi-grid-fill mr-1 sm:mr-1.5"></i>Dasbor
+        </button>
+        <button id="tabKalenderBtn" class="px-3 sm:px-4 py-2 text-[10px] sm:text-xs font-bold rounded-lg transition-all text-mono-gray hover:text-mono-black dark:hover:text-mono-white">
+          <i class="bi bi-calendar3 mr-1 sm:mr-1.5"></i>Kalender
+        </button>
+      </div>
+
+      <!-- Action Drawer Buttons -->
+      <div class="flex space-x-1.5 sm:space-x-2">
+        <button id="openBackupBtn" class="p-1.5 sm:p-2 border border-mono-borderLight dark:border-mono-borderDark bg-white dark:bg-mono-dark rounded-xl text-[10px] sm:text-xs font-semibold hover:bg-mono-borderLight dark:hover:bg-mono-borderDark transition-all" title="Ekspor/Impor Data">
+          <i class="bi bi-database-down text-xs sm:text-sm"></i>
+        </button>
+        <button id="openBudgetBtn" class="px-2.5 py-1.5 sm:px-3 sm:py-2 border border-mono-borderLight dark:border-mono-borderDark bg-white dark:bg-mono-dark rounded-xl text-[10px] sm:text-xs font-bold hover:bg-mono-borderLight dark:hover:bg-mono-borderDark transition-all">
+          <i class="bi bi-piggy-bank mr-1 sm:mr-1.5 text-xs sm:text-sm"></i>Atur Anggaran
+        </button>
+      </div>
+    </div>
+
+    <!-- DASBOR VIEW CONTAINER -->
+    <section id="dasborView" class="space-y-6 fade-in">
+      <!-- SVG Monthly Trends Graph -->
+      <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-sm font-bold tracking-tight">Tren Pengeluaran Harian</h2>
+            <p class="text-[10px] text-mono-gray">Visualisasi harian bulan ini</p>
+          </div>
+          <span id="chartMonthLabel" class="text-xs font-mono font-bold tracking-wider px-2 py-1 border border-mono-borderLight dark:border-mono-borderDark rounded-md">MEI 2026</span>
+        </div>
+        
+        <!-- Live SVG Container for line trend -->
+        <div class="w-full h-40 mt-2 relative">
+          <svg id="trendSvg" class="w-full h-full text-mono-black dark:text-mono-white" viewBox="0 0 600 150" preserveAspectRatio="none">
+            <!-- Grid lines will be programmatically rendered -->
+            <g id="svgGrid" class="opacity-10"></g>
+            <!-- Line Path -->
+            <path id="svgLine" d="" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="transition-all duration-500"/>
+            <!-- Points Area Fill -->
+            <path id="svgArea" d="" fill="currentColor" class="opacity-5 transition-all duration-500"/>
+            <!-- Hover Interactive Line/Circle -->
+            <line id="svgHoverLine" x1="0" y1="0" x2="0" y2="150" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4" class="hidden opacity-30"></line>
+            <circle id="svgHoverPoint" cx="0" cy="0" r="5" fill="currentColor" class="hidden"></circle>
+          </svg>
+          <!-- Tooltip overlay -->
+          <div id="chartTooltip" class="absolute hidden bg-mono-black dark:bg-mono-white text-mono-white dark:text-mono-black text-[10px] px-2 py-1 rounded font-mono font-bold border border-mono-borderDark dark:border-mono-borderLight pointer-events-none transform -translate-x-1/2 -translate-y-8 z-10">
+            Rp 0
+          </div>
+        </div>
+        
+        <div class="flex justify-between text-[9px] text-mono-gray font-mono mt-1 px-1">
+          <span>Tgl 1</span>
+          <span id="chartMidDate">Tgl 15</span>
+          <span id="chartEndDate">Tgl 31</span>
+        </div>
+      </div>
+
+      <!-- Category Budget Progress -->
+      <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl p-6 shadow-sm">
+        <h2 class="text-sm font-bold tracking-tight mb-4"><i class="bi bi-circle-half mr-2"></i>Status Anggaran Kategori</h2>
+        <div id="budgetProgressList" class="space-y-4">
+          <!-- Will be rendered programmatically in app.js -->
+        </div>
+      </div>
+
+      <!-- Transaction Ledger Block -->
+      <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl p-6 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-3">
+          <div>
+            <h2 class="text-sm font-bold tracking-tight"><i class="bi bi-journal-text mr-2"></i>Buku Kas Transaksi</h2>
+            <p class="text-[10px] text-mono-gray">Catatan arus kas pribadi</p>
+          </div>
+          
+          <!-- Filter and Search controls -->
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="relative flex-1 md:flex-none">
+              <input id="searchLedger" type="text" placeholder="Cari catatan..." class="w-full md:w-44 pl-8 pr-3 py-1.5 text-xs bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-lg focus:outline-none focus:border-mono-black dark:focus:border-mono-white transition-all font-medium placeholder-mono-gray">
+              <i class="bi bi-search absolute left-2.5 top-2 text-[10px] text-mono-gray"></i>
+            </div>
+            
+            <select id="filterType" class="bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-mono-black dark:focus:border-mono-white transition-all font-bold">
+              <option value="all">Semua Tipe</option>
+              <option value="income">Pemasukan</option>
+              <option value="expense">Pengeluaran</option>
+            </select>
+
+            <select id="filterCategory" class="bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-mono-black dark:focus:border-mono-white transition-all font-bold">
+              <!-- Rendered programmatically -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Ledger items list -->
+        <div id="ledgerItems" class="space-y-3">
+          <!-- Rendered programmatically in app.js -->
+        </div>
+
+        <!-- Pagination or Empty state container -->
+        <div id="ledgerPagination" class="flex justify-between items-center mt-6 pt-4 border-t border-mono-borderLight dark:border-mono-borderDark text-xs font-bold text-mono-gray">
+          <button id="prevPageBtn" class="hover:text-mono-black dark:hover:text-mono-white disabled:opacity-20 flex items-center" disabled><i class="bi bi-chevron-left mr-1"></i> Sebelumnya</button>
+          <span id="pageIndicator" class="font-mono">Halaman 1 dari 1</span>
+          <button id="nextPageBtn" class="hover:text-mono-black dark:hover:text-mono-white disabled:opacity-20 flex items-center" disabled>Selanjutnya <i class="bi bi-chevron-right ml-1"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- KALENDER VIEW CONTAINER -->
+    <section id="kalenderView" class="hidden space-y-6 fade-in">
+      <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl p-6 shadow-sm">
+        
+        <!-- Calendar Month Header Control -->
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-0.5 sm:space-x-1 border border-mono-borderLight dark:border-mono-borderDark rounded-lg bg-mono-cardLight dark:bg-mono-cardDark p-0.5">
+            <button id="calPrevMonthBtn" class="px-2 py-1 sm:px-2.5 sm:py-1.5 hover:bg-mono-borderLight dark:hover:bg-mono-borderDark rounded text-[10px] sm:text-xs transition-all"><i class="bi bi-chevron-left"></i></button>
+            <button id="calTodayBtn" class="px-2.5 py-1 sm:px-3 sm:py-1.5 hover:bg-mono-borderLight dark:hover:bg-mono-borderDark rounded text-[10px] sm:text-xs font-bold transition-all">Hari Ini</button>
+            <button id="calNextMonthBtn" class="px-2 py-1 sm:px-2.5 sm:py-1.5 hover:bg-mono-borderLight dark:hover:bg-mono-borderDark rounded text-[10px] sm:text-xs transition-all"><i class="bi bi-chevron-right"></i></button>
+          </div>
+          
+          <h2 id="calendarTitle" class="text-xs sm:text-base font-extrabold uppercase tracking-widest font-mono">Mei 2026</h2>
+        </div>
+
+        <!-- Week Day Labels -->
+        <div class="grid grid-cols-7 text-center gap-1.5 mb-2">
+          <div class="text-[10px] font-bold text-mono-gray tracking-wider">Sen</div>
+          <div class="text-[10px] font-bold text-mono-gray tracking-wider">Sel</div>
+          <div class="text-[10px] font-bold text-mono-gray tracking-wider">Rab</div>
+          <div class="text-[10px] font-bold text-mono-gray tracking-wider">Kam</div>
+          <div class="text-[10px] font-bold text-mono-gray tracking-wider">Jum</div>
+          <div class="text-[10px] font-bold text-mono-gray text-mono-black dark:text-mono-white font-black tracking-wider">Sab</div>
+          <div class="text-[10px] font-bold text-mono-gray text-mono-black dark:text-mono-white font-black tracking-wider">Min</div>
+        </div>
+
+        <!-- Calendar Dynamic Grid -->
+        <div id="calendarGrid" class="grid grid-cols-7 gap-1.5 md:gap-2">
+          <!-- Dynamically generated calendar cells -->
+        </div>
+        
+        <!-- Quick Legend info -->
+        <div class="mt-4 flex flex-wrap items-center gap-4 text-[9px] text-mono-gray uppercase tracking-widest border-t border-mono-borderLight dark:border-mono-borderDark pt-4">
+          <div class="flex items-center"><span class="w-2 h-2 rounded-full bg-mono-black dark:bg-mono-white mr-1.5"></span> Pengeluaran Hari Ini</div>
+          <div class="flex items-center"><span class="w-2 h-2 rounded-full border border-mono-black dark:border-mono-white mr-1.5 bg-transparent"></span> Pemasukan Hari Ini</div>
+          <div class="flex items-center"><span class="w-2 h-2 rounded-full border border-mono-black dark:border-mono-white bg-mono-black dark:bg-mono-white mr-1.5 outline outline-offset-1 outline-1 outline-mono-black dark:outline-mono-white"></span> Hari Ini (Aktif)</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Floating Add Button for quick transaction addition anywhere -->
+  <button id="floatingAddBtn" class="fixed bottom-6 right-6 w-11 h-11 sm:w-14 sm:h-14 bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all z-20 hover:shadow-xl border border-mono-borderLight dark:border-mono-borderDark" aria-label="Tambah Transaksi Baru">
+    <i class="bi bi-plus-lg text-lg sm:text-2xl"></i>
+  </button>
+
+  <!-- ================= MODALS & DRAWER OVERLAYS ================= -->
+
+  <!-- 1. ADD / EDIT TRANSACTION MODAL -->
+  <div id="transactionModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl w-full max-w-md p-6 mx-4 shadow-2xl transform scale-95 transition-all duration-300">
+      <div class="flex items-center justify-between mb-5">
+        <h3 id="modalTxTitle" class="font-black text-sm sm:text-base uppercase tracking-wider">Tambah Transaksi</h3>
+        <button id="closeTxModalBtn" class="text-mono-gray hover:text-mono-black dark:hover:text-mono-white transition-all text-lg sm:text-xl"><i class="bi bi-x-lg"></i></button>
+      </div>
+
+      <form id="txForm" class="space-y-4">
+        <!-- Hidden input for editing tx ID -->
+        <input type="hidden" id="editTxId" value="">
+
+        <!-- Income/Expense selector -->
+        <div>
+          <label class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1.5">Tipe Transaksi</label>
+          <div class="grid grid-cols-2 gap-2 border border-mono-borderLight dark:border-mono-borderDark p-1 rounded-xl bg-mono-cardLight dark:bg-mono-cardDark">
+            <button type="button" id="txTypeExpense" class="py-2 text-xs font-bold rounded-lg transition-all bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black">
+              Pengeluaran
+            </button>
+            <button type="button" id="txTypeIncome" class="py-2 text-xs font-bold rounded-lg transition-all text-mono-gray hover:text-mono-black dark:hover:text-mono-white">
+              Pemasukan
+            </button>
+          </div>
+        </div>
+
+        <!-- Amount / Nominal Input -->
+        <div>
+          <label for="txAmount" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Nominal (Rupiah)</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-2.5 font-bold text-sm text-mono-gray font-mono">Rp</span>
+            <input type="number" id="txAmount" required placeholder="0" class="w-full pl-10 pr-3 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-sm" min="1" step="1">
+          </div>
+        </div>
+
+        <!-- Category Select -->
+        <div>
+          <label for="txCategory" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Kategori</label>
+          <select id="txCategory" required class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-bold text-xs">
+            <!-- Will be dynamically populated inside app.js -->
+          </select>
+        </div>
+
+        <!-- Date Input -->
+        <div>
+          <label for="txDate" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Tanggal</label>
+          <input type="date" id="txDate" required class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-xs">
+        </div>
+
+        <!-- Description / Note -->
+        <div>
+          <label for="txNote" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Catatan / Deskripsi</label>
+          <input type="text" id="txNote" placeholder="e.g. Beli kopi susu pagi" class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-medium text-xs">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full py-3 bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black font-extrabold text-xs uppercase tracking-widest rounded-xl transition-all border border-mono-borderLight dark:border-mono-borderDark hover:opacity-90 active:scale-98">
+          Simpan Transaksi
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. DAY DETAILS INTERACTIVE MODAL (CALENDAR CLICK) -->
+  <div id="dayDetailsModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl w-full max-w-lg p-6 mx-4 shadow-2xl transform scale-95 transition-all duration-300">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <span class="text-[10px] text-mono-gray tracking-widest font-mono font-bold block uppercase mb-0.5">DETAIL TRANSAKSI HARIAN</span>
+          <h3 id="dayDetailsTitle" class="font-extrabold text-base tracking-tight font-mono">Kamis, 20 Mei 2026</h3>
+        </div>
+        <button id="closeDayDetailsBtn" class="text-mono-gray hover:text-mono-black dark:hover:text-mono-white transition-all text-xl"><i class="bi bi-x-lg"></i></button>
+      </div>
+
+      <!-- Quick summary for the selected day -->
+      <div class="grid grid-cols-2 gap-3 border border-mono-borderLight dark:border-mono-borderDark rounded-xl p-3 bg-mono-cardLight dark:bg-mono-cardDark mb-4 text-xs">
+        <div class="flex flex-col">
+          <span class="text-[8px] text-mono-gray uppercase tracking-widest font-bold">Pemasukan Hari Ini</span>
+          <span id="dayIncomeSum" class="font-black font-mono">Rp 0</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[8px] text-mono-gray uppercase tracking-widest font-bold">Pengeluaran Hari Ini</span>
+          <span id="dayExpenseSum" class="font-black font-mono text-mono-black dark:text-mono-white">Rp 0</span>
+        </div>
+      </div>
+
+      <!-- Day Transaction List -->
+      <div class="max-h-60 overflow-y-auto space-y-3.5 pr-1 no-scrollbar" id="dayDetailsList">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Day Quick Action buttons -->
+      <div class="grid grid-cols-2 gap-3.5 border-t border-mono-borderLight dark:border-mono-borderDark pt-5 mt-5">
+        <button id="dayAddIncomeBtn" class="py-2.5 border border-mono-borderLight dark:border-mono-borderDark bg-mono-cardLight dark:bg-mono-cardDark hover:bg-mono-borderLight dark:hover:bg-mono-borderDark text-xs font-extrabold uppercase tracking-widest rounded-xl transition-all">
+          + Pemasukan
+        </button>
+        <button id="dayAddExpenseBtn" class="py-2.5 bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black text-xs font-extrabold uppercase tracking-widest rounded-xl transition-all">
+          + Pengeluaran
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. EXPORT / IMPORT DATA OVERLAY -->
+  <div id="backupModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl w-full max-w-lg p-6 mx-4 shadow-2xl transform scale-95 transition-all duration-300">
+      <div class="flex items-center justify-between mb-5">
+        <h3 class="font-black text-base uppercase tracking-wider">Ekspor & Impor Data</h3>
+        <button id="closeBackupModalBtn" class="text-mono-gray hover:text-mono-black dark:hover:text-mono-white transition-all text-xl"><i class="bi bi-x-lg"></i></button>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Export Section -->
+        <div class="space-y-3">
+          <h4 class="text-[10px] text-mono-gray font-bold tracking-widest uppercase border-b border-mono-borderLight dark:border-mono-borderDark pb-1.5"><i class="bi bi-download mr-1"></i>Ekspor Data (Backup)</h4>
+          <div class="grid grid-cols-2 gap-3.5">
+            <button id="exportJsonBtn" class="py-2.5 border border-mono-black dark:border-mono-white hover:bg-mono-black hover:text-mono-white dark:hover:bg-mono-white dark:hover:text-mono-black text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5">
+              <i class="bi bi-filetype-json"></i> Unduh JSON
+            </button>
+            <button id="exportCsvBtn" class="py-2.5 bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black text-xs font-bold rounded-xl transition-all border border-mono-borderLight dark:border-mono-borderDark flex items-center justify-center gap-1.5">
+              <i class="bi bi-filetype-csv"></i> Unduh CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- Import Section -->
+        <div class="space-y-3">
+          <h4 class="text-[10px] text-mono-gray font-bold tracking-widest uppercase border-b border-mono-borderLight dark:border-mono-borderDark pb-1.5"><i class="bi bi-upload mr-1"></i>Impor Data (Restore)</h4>
+          <p class="text-[10px] text-mono-gray">Pilih file JSON hasil ekspor untuk memulihkan transaksi keuangan Anda.</p>
+          
+          <label class="flex flex-col items-center justify-center w-full h-24 border border-dashed border-mono-borderLight dark:border-mono-borderDark rounded-xl cursor-pointer bg-mono-cardLight dark:bg-mono-cardDark hover:bg-mono-borderLight/40 dark:hover:bg-mono-borderDark/40 transition-all">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <i class="bi bi-file-earmark-arrow-up text-xl text-mono-gray mb-1"></i>
+              <p class="text-[10px] text-mono-gray font-bold uppercase tracking-wider">Klik untuk Pilih File JSON</p>
+            </div>
+            <input id="importFile" type="file" accept=".json" class="hidden">
+          </label>
+
+          <!-- Direct text copy-paste for maximum offline reliability -->
+          <div class="mt-4">
+            <details class="group border border-mono-borderLight dark:border-mono-borderDark rounded-xl bg-mono-cardLight dark:bg-mono-cardDark text-xs font-bold">
+              <summary class="flex justify-between items-center p-3 cursor-pointer select-none">
+                <span>Impor dengan Copy-Paste Teks JSON</span>
+                <i class="bi bi-chevron-down text-mono-gray transition-transform group-open:rotate-180"></i>
+              </summary>
+              <div class="p-3 pt-0 space-y-3 border-t border-mono-borderLight dark:border-mono-borderDark">
+                <textarea id="importText" rows="4" placeholder='Tempel teks backup JSON di sini...' class="w-full p-2.5 bg-white dark:bg-mono-black border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono text-[9px] font-medium placeholder-mono-gray resize-none"></textarea>
+                <button id="importTextBtn" class="w-full py-2 bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black text-[10px] font-extrabold uppercase tracking-widest rounded-xl transition-all">
+                  Validasi & Impor Teks
+                </button>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Factory Reset Section -->
+        <div class="border-t border-mono-borderLight dark:border-mono-borderDark pt-4">
+          <div class="bg-mono-black/5 dark:bg-mono-white/5 border border-mono-borderLight dark:border-mono-borderDark p-3 rounded-xl flex items-center justify-between">
+            <div>
+              <h5 class="text-[10px] font-black uppercase text-mono-black dark:text-mono-white">Wipe / Reset Data</h5>
+              <p class="text-[8px] text-mono-gray">Menghapus seluruh riwayat transaksi secara permanen.</p>
+            </div>
+            <button id="resetDataBtn" class="px-3.5 py-2 border border-mono-black dark:border-mono-white text-xs font-extrabold uppercase tracking-wider rounded-lg text-red-600 hover:bg-red-600 hover:text-white transition-all">
+              Hapus Semua
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. BUDGET CONFIGURATION MODAL -->
+  <div id="budgetModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl w-full max-w-md p-6 mx-4 shadow-2xl transform scale-95 transition-all duration-300">
+      <div class="flex items-center justify-between mb-5">
+        <h3 class="font-black text-base uppercase tracking-wider">Atur Anggaran Kategori</h3>
+        <button id="closeBudgetModalBtn" class="text-mono-gray hover:text-mono-black dark:hover:text-mono-white transition-all text-xl"><i class="bi bi-x-lg"></i></button>
+      </div>
+
+      <p class="text-[10px] text-mono-gray mb-4">Tentukan batas maksimal pengeluaran bulanan Anda untuk masing-masing kategori belanja.</p>
+
+      <form id="budgetForm" class="space-y-4 max-h-80 overflow-y-auto pr-1 no-scrollbar">
+        <!-- Dynamically rendered input items -->
+        <div id="budgetInputsContainer" class="space-y-3.5">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black font-extrabold text-xs uppercase tracking-widest rounded-xl transition-all border border-mono-borderLight dark:border-mono-borderDark hover:opacity-90 active:scale-98">
+          Simpan Seluruh Anggaran
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. CUSTOM CONFIRMATION & PROMPT DIALOG -->
+  <div id="customConfirmModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-white dark:bg-mono-dark border border-mono-borderLight dark:border-mono-borderDark rounded-2xl w-full max-w-md p-6 mx-4 shadow-2xl transform scale-95 transition-all duration-300">
+      <div class="flex items-center justify-between mb-5">
+        <h3 id="confirmTitle" class="font-black text-sm sm:text-base uppercase tracking-wider">Konfirmasi</h3>
+        <button id="confirmCloseBtn" class="text-mono-gray hover:text-mono-black dark:hover:text-mono-white transition-all text-lg sm:text-xl"><i class="bi bi-x-lg"></i></button>
+      </div>
+      
+      <div class="mb-5 space-y-4">
+        <p id="confirmMessage" class="text-xs text-mono-gray font-medium leading-relaxed">Apakah Anda yakin ingin melanjutkan?</p>
+        
+        <!-- Input container for prompt style -->
+        <div id="confirmInputContainer" class="hidden">
+          <label for="confirmInput" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Kata Kunci Konfirmasi</label>
+          <input type="text" id="confirmInput" class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-xs">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3.5">
+        <button id="confirmCancelBtn" class="w-full py-3 border border-mono-borderLight dark:border-mono-borderDark bg-mono-cardLight dark:bg-mono-cardDark hover:bg-mono-borderLight dark:hover:bg-mono-borderDark text-xs font-extrabold uppercase tracking-widest rounded-xl transition-all">
+          Batal
+        </button>
+        <button id="confirmActionBtn" class="w-full py-3 bg-mono-black text-mono-white dark:bg-mono-white dark:text-mono-black text-xs font-extrabold uppercase tracking-widest rounded-xl transition-all border border-mono-borderLight dark:border-mono-borderDark hover:opacity-90 active:scale-98">
+          Lanjutkan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="fixed bottom-6 left-6 right-6 md:left-auto md:w-80 flex flex-col gap-2 z-50">
+    <!-- Inline toast messages will be rendered dynamically with pure monochrome premium design -->
+  </div>
+
+  <!-- Main JavaScript Logic -->
+  <script src="./app.js"></script>
+</body>
+</html>
