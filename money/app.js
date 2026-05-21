@@ -243,6 +243,7 @@ function showCustomConfirm(title, message, options = {}) {
       cancelBtn.onclick = null;
       actionBtn.onclick = null;
       if (closeBtn) closeBtn.onclick = null;
+      modal.onclick = null;
       resolve(val);
     };
     
@@ -257,6 +258,11 @@ function showCustomConfirm(title, message, options = {}) {
     if (closeBtn) {
       closeBtn.onclick = () => cleanup(null);
     }
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        cleanup(options.isPrompt ? null : false);
+      }
+    };
     
     modal.classList.remove('pointer-events-none', 'opacity-0');
     modal.firstElementChild.classList.remove('scale-95');
@@ -1117,6 +1123,25 @@ function closeBackupModal() {
   backupModal.classList.add('pointer-events-none', 'opacity-0');
   backupModal.firstElementChild.classList.add('scale-95');
 }
+
+// Click outside modal container to close
+const modalsToCloseOutside = [
+  { id: 'transactionModal', closeFn: closeTxModal },
+  { id: 'dayDetailsModal', closeFn: closeDayDetails },
+  { id: 'backupModal', closeFn: closeBackupModal },
+  { id: 'budgetModal', closeFn: closeBudgetModal }
+];
+
+modalsToCloseOutside.forEach(({ id, closeFn }) => {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeFn();
+      }
+    });
+  }
+});
 
 // 1. Export JSON
 document.getElementById('exportJsonBtn').addEventListener('click', () => {

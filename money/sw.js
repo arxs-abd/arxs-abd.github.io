@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mono-track-v1';
+const CACHE_NAME = 'mono-track-v1.1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -52,7 +52,7 @@ self.addEventListener('fetch', (e) => {
               caches.open(CACHE_NAME).then((cache) => cache.put(e.request, networkResponse));
             }
           })
-          .catch(() => {/* Ignore network errors offline */});
+          .catch(() => {/* Ignore network errors offline */ });
         return cachedResponse;
       }
 
