@@ -217,7 +217,7 @@
           <!-- Filter and Search controls -->
           <div class="flex flex-wrap items-center gap-2">
             <div class="relative flex-1 md:flex-none">
-              <input id="searchLedger" type="text" placeholder="Cari catatan..." class="w-full md:w-44 pl-8 pr-3 py-1.5 text-xs bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-lg focus:outline-none focus:border-mono-black dark:focus:border-mono-white transition-all font-medium placeholder-mono-gray">
+              <input id="searchLedger" type="text" placeholder="Cari catatan..." autocomplete="off" class="w-full md:w-44 pl-8 pr-3 py-1.5 text-xs bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-lg focus:outline-none focus:border-mono-black dark:focus:border-mono-white transition-all font-medium placeholder-mono-gray">
               <i class="bi bi-search absolute left-2.5 top-2 text-[10px] text-mono-gray"></i>
             </div>
             
@@ -304,7 +304,7 @@
         <button id="closeTxModalBtn" class="text-mono-gray hover:text-mono-black dark:hover:text-mono-white transition-all text-lg sm:text-xl"><i class="bi bi-x-lg"></i></button>
       </div>
 
-      <form id="txForm" class="space-y-4">
+      <form id="txForm" class="space-y-4" autocomplete="off">
         <!-- Hidden input for editing tx ID -->
         <input type="hidden" id="editTxId" value="">
 
@@ -326,7 +326,7 @@
           <label for="txAmount" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Nominal (Rupiah)</label>
           <div class="relative">
             <span class="absolute left-3.5 top-2.5 font-bold text-sm text-mono-gray font-mono">Rp</span>
-            <input type="number" id="txAmount" required placeholder="0" class="w-full pl-10 pr-3 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-sm" min="1" step="1">
+            <input type="text" inputmode="numeric" id="txAmount" required placeholder="0" autocomplete="off" class="w-full pl-10 pr-3 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-sm">
           </div>
         </div>
 
@@ -341,13 +341,13 @@
         <!-- Date Input -->
         <div>
           <label for="txDate" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Tanggal</label>
-          <input type="date" id="txDate" required class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-xs">
+          <input type="date" id="txDate" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-xs">
         </div>
 
         <!-- Description / Note -->
         <div>
           <label for="txNote" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Catatan / Deskripsi</label>
-          <input type="text" id="txNote" placeholder="e.g. Beli kopi susu pagi" class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-medium text-xs">
+          <input type="text" id="txNote" placeholder="e.g. Beli kopi susu pagi" autocomplete="off" class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-medium text-xs">
         </div>
 
         <!-- Submit Button -->
@@ -476,7 +476,7 @@
 
       <p class="text-[10px] text-mono-gray mb-4">Tentukan batas maksimal pengeluaran bulanan Anda untuk masing-masing kategori belanja.</p>
 
-      <form id="budgetForm" class="space-y-4 max-h-80 overflow-y-auto pr-1 no-scrollbar">
+      <form id="budgetForm" class="space-y-4 max-h-80 overflow-y-auto pr-1 no-scrollbar" autocomplete="off">
         <!-- Dynamically rendered input items -->
         <div id="budgetInputsContainer" class="space-y-3.5">
           <!-- Populated by JavaScript -->
@@ -503,7 +503,7 @@
         <!-- Input container for prompt style -->
         <div id="confirmInputContainer" class="hidden">
           <label for="confirmInput" class="text-[10px] text-mono-gray font-bold tracking-widest uppercase block mb-1">Kata Kunci Konfirmasi</label>
-          <input type="text" id="confirmInput" class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-xs">
+          <input type="text" id="confirmInput" autocomplete="off" class="w-full px-3.5 py-2.5 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono font-bold text-xs">
         </div>
       </div>
 

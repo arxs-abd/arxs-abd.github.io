@@ -166,6 +166,33 @@ function formatRupiah(value, isCompact = false) {
   }
 }
 
+// Function to format standard number with dot thousands separator
+function formatNumberWithDots(val) {
+  if (val === undefined || val === null || val === '') return '';
+  const clean = String(val).replace(/\D/g, '');
+  if (!clean) return '';
+  return new Intl.NumberFormat('id-ID').format(parseInt(clean, 10));
+}
+
+// Input formatting event handler for thousand separators
+function handleAmountInput(e) {
+  const input = e.target;
+  const originalVal = input.value;
+  
+  // Format the input value
+  const formatted = formatNumberWithDots(originalVal);
+  
+  // Track cursor position to prevent jumping
+  const selectionStart = input.selectionStart;
+  const lengthDiff = formatted.length - originalVal.length;
+  
+  input.value = formatted;
+  
+  // Restore cursor position
+  const newSelection = selectionStart + lengthDiff;
+  input.setSelectionRange(newSelection, newSelection);
+}
+
 // Simple Toast Notification
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
@@ -966,6 +993,16 @@ document.getElementById('txTypeIncome').addEventListener('click', () => updateTx
 document.getElementById('floatingAddBtn').addEventListener('click', () => openTxModal('expense'));
 document.getElementById('closeTxModalBtn').addEventListener('click', closeTxModal);
 
+// Format transaction amount input as user types
+document.getElementById('txAmount').addEventListener('input', handleAmountInput);
+
+// Format dynamic budget amount inputs as user types
+document.getElementById('budgetInputsContainer').addEventListener('input', (e) => {
+  if (e.target && e.target.name && e.target.name.startsWith('budget-')) {
+    handleAmountInput(e);
+  }
+});
+
 function closeTxModal() {
   const modal = document.getElementById('transactionModal');
   modal.classList.add('pointer-events-none', 'opacity-0');
@@ -977,7 +1014,8 @@ document.getElementById('txForm').addEventListener('submit', (e) => {
   e.preventDefault();
   
   const editId = document.getElementById('editTxId').value;
-  const amount = parseInt(document.getElementById('txAmount').value, 10);
+  const rawAmount = document.getElementById('txAmount').value;
+  const amount = parseInt(rawAmount.replace(/\D/g, ''), 10);
   const category = document.getElementById('txCategory').value;
   const date = document.getElementById('txDate').value;
   const note = document.getElementById('txNote').value.trim();
@@ -1028,7 +1066,7 @@ window.openEditTx = function(id) {
   openTxModal(t.type, t.date);
   document.getElementById('editTxId').value = t.id;
   document.getElementById('modalTxTitle').textContent = "EDIT TRANSAKSI";
-  document.getElementById('txAmount').value = t.amount;
+  document.getElementById('txAmount').value = formatNumberWithDots(t.amount);
   document.getElementById('txCategory').value = t.category;
   document.getElementById('txNote').value = t.note;
 };
@@ -1066,7 +1104,7 @@ openBudgetBtn.addEventListener('click', () => {
       </label>
       <div class="relative flex-1">
         <span class="absolute left-3 top-2 text-xs font-bold text-mono-gray font-mono">Rp</span>
-        <input type="number" name="budget-${c}" value="${limit}" placeholder="Tanpa Batas" class="w-full pl-9 pr-3 py-2 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono text-xs font-bold" min="0" step="1">
+        <input type="text" inputmode="numeric" name="budget-${c}" value="${formatNumberWithDots(limit)}" placeholder="Tanpa Batas" autocomplete="off" class="w-full pl-9 pr-3 py-2 bg-mono-cardLight dark:bg-mono-cardDark border border-mono-borderLight dark:border-mono-borderDark rounded-xl focus:outline-none focus:border-mono-black dark:focus:border-mono-white font-mono text-xs font-bold">
       </div>
     `;
     container.appendChild(div);
@@ -1091,7 +1129,8 @@ document.getElementById('budgetForm').addEventListener('submit', (e) => {
     if (c === 'Gaji') return;
     const input = document.querySelector(`input[name="budget-${c}"]`);
     if (input) {
-      const val = parseInt(input.value, 10);
+      const cleanVal = input.value.replace(/\D/g, '');
+      const val = parseInt(cleanVal, 10);
       state.budgets[c] = isNaN(val) ? 0 : val;
     }
   });
