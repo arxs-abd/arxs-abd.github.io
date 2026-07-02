@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#050506">
+<title>Waypoint — Navigate</title>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Tailwind (Play CDN — JIT compiles dynamically-added classes too) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          ink: {
+            950: '#050506',
+            900: '#0b0b0d',
+            850: '#101012',
+            800: '#131316',
+            700: '#1c1c20',
+            600: '#2a2a2f',
+            500: '#3d3d43',
+          },
+          ember: {
+            300: '#f7d38f',
+            400: '#f5c46a',
+            500: '#f2b441',
+            600: '#d99a2c',
+            700: '#b87f20',
+          },
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+        boxShadow: {
+          glow: '0 0 40px -8px rgba(242,180,65,0.35)',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html, body { height: 100%; overscroll-behavior: none; }
+  body {
+    background: #050506;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Dark-mode map: hardware-accelerated filter on the tile pane only,
+     so markers / UI chrome stay untouched. */
+  .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.92) saturate(0.85);
+    will-change: filter;
+  }
+  .leaflet-container { background: #0b0b0d; }
+  .leaflet-control-zoom { display: none; } /* zoom controls removed for one-handed minimalism */
+
+  #map { width: 100%; height: 100%; }
+
+  /* Pulsing live-location dot */
+  .live-dot {
+    width: 14px; height: 14px; border-radius: 9999px;
+    background: #f2b441;
+    box-shadow: 0 0 0 0 rgba(242,180,65,0.6);
+    animation: pulse 2.2s ease-out infinite;
+    border: 2px solid #0b0b0d;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(242,180,65,0.55); }
+    70%  { box-shadow: 0 0 0 16px rgba(242,180,65,0); }
+    100% { box-shadow: 0 0 0 0 rgba(242,180,65,0); }
+  }
+
+  /* Destination pin drop */
+  .pin-drop { animation: drop 0.45s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes drop {
+    0%   { transform: translateY(-24px) scale(0.6); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  /* Compass arrow — rotation handled inline via JS transform */
+  #compass-arrow {
+    transition: transform 0.35s cubic-bezier(.22,.61,.36,1);
+    transform-origin: 50% 50%;
+  }
+
+  ::selection { background: rgba(242,180,65,0.35); }
+
+  input:focus-visible, button:focus-visible, a:focus-visible {
+    outline: 2px solid #f2b441;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+</style>
+</head>
+
+<body class="font-sans text-zinc-100 h-screen w-screen overflow-hidden relative select-none">
+
+  <!-- ============ MAP ============ -->
+  <div id="map-container"
+       class="fixed inset-0 z-0 transition-all duration-500 ease-out">
+    <div id="map"></div>
+  </div>
+
+  <!-- ============ MINIMAL TOP BRAND ============ -->
+  <div id="brand" class="fixed top-4 left-4 md:top-6 md:left-6 z-30 flex items-center gap-2 pointer-events-none transition-opacity duration-300">
+    <div class="w-2 h-2 rounded-full bg-ember-500 shadow-glow"></div>
+    <span class="text-xs tracking-[0.25em] uppercase text-zinc-400 font-medium">Waypoint</span>
+  </div>
+
+  <!-- ============ GEO ERROR BANNER ============ -->
+  <div id="geo-error-banner"
+       class="fixed top-4 inset-x-4 md:inset-x-auto md:right-6 md:w-80 z-40 hidden
+              rounded-2xl bg-ink-800/95 backdrop-blur-xl border border-red-500/20 px-4 py-3 shadow-2xl
+              transition-all duration-300">
+    <p class="text-sm text-red-300 font-medium">Location unavailable</p>
+    <p id="geo-error-text" class="text-xs text-zinc-400 mt-0.5"></p>
+  </div>
+
+  <!-- ============ STEP 1: DESTINATION CONFIRM SHEET ============ -->
+  <div id="select-sheet"
+       class="fixed inset-x-0 bottom-0 md:inset-y-0 md:right-0 md:left-auto md:bottom-auto
+              md:w-[380px] z-30
+              translate-y-full md:translate-y-0 md:translate-x-full
+              transition-transform duration-300 ease-out
+              bg-ink-900/95 backdrop-blur-2xl
+              border-t md:border-t-0 md:border-l border-white/[0.06]
+              rounded-t-3xl md:rounded-none
+              px-5 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] md:p-8
+              shadow-[0_-8px_40px_rgba(0,0,0,0.5)] md:shadow-2xl
+              flex flex-col gap-5 md:justify-center">
+
+    <div class="mx-auto md:hidden w-9 h-1 rounded-full bg-zinc-700"></div>
+
+    <div class="flex items-start justify-between">
+      <div>
+        <p class="text-xs uppercase tracking-[0.2em] text-ember-500 font-semibold mb-1">Destination selected</p>
+        <h2 class="text-xl font-semibold text-zinc-50">Confirm this point?</h2>
+        <p id="coord-preview" class="text-xs text-zinc-500 font-mono mt-1">—</p>
+      </div>
+      <button id="dismiss-btn" aria-label="Remove marker"
+              class="shrink-0 w-9 h-9 rounded-full bg-ink-700/80 hover:bg-ink-600 flex items-center justify-center transition-colors">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1L13 13M13 1L1 13" stroke="#a1a1aa" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <button id="confirm-btn"
+            class="w-full py-4 rounded-2xl bg-ember-500 hover:bg-ember-400 active:scale-[0.98]
+                   text-ink-950 font-semibold text-base tracking-wide
+                   transition-all duration-150 shadow-glow">
+      Confirm Destination
+    </button>
+
+    <p class="text-center text-[11px] text-zinc-600">Tap anywhere on the map to move this point</p>
+  </div>
+
+  <!-- ============ STEP 2: NAVIGATION TELEMETRY PANEL ============ -->
+  <div id="nav-panel"
+       class="fixed inset-0 z-20 flex flex-col justify-between
+              opacity-0 scale-[0.98] pointer-events-none
+              transition-all duration-500 ease-out
+              px-6 pt-24 pb-[calc(2rem+env(safe-area-inset-bottom))] md:px-16 md:pt-28">
+
+    <!-- Compass enable prompt (iOS permission) -->
+    <div id="compass-permission" class="hidden self-center mb-2">
+      <button id="compass-enable-btn"
+              class="text-xs px-4 py-2 rounded-full bg-ink-800 border border-white/[0.08] text-zinc-400 hover:text-ember-400 hover:border-ember-500/30 transition-colors">
+        Enable compass for live heading
+      </button>
+    </div>
+
+    <!-- Center: distance + compass -->
+    <div class="flex-1 flex flex-col items-center justify-center gap-10 md:gap-14">
+
+      <!-- Distance telemetry -->
+      <div class="text-center">
+        <p class="text-xs uppercase tracking-[0.3em] text-zinc-500 mb-2">Distance to target</p>
+        <div class="flex items-baseline justify-center gap-2">
+          <span id="distance-value" class="font-mono text-6xl md:text-7xl font-semibold text-zinc-50 tabular-nums">—</span>
+          <span id="distance-unit" class="font-mono text-xl text-ember-500 font-medium">m</span>
+        </div>
+      </div>
+
+      <!-- Compass arrow -->
+      <div class="relative w-56 h-56 md:w-64 md:h-64 flex items-center justify-center">
+        <div class="absolute inset-0 rounded-full border border-white/[0.06]"></div>
+        <div class="absolute inset-4 rounded-full border border-white/[0.04]"></div>
+        <span class="absolute top-1 text-[10px] tracking-[0.2em] text-zinc-600 font-medium">N</span>
+
+        <svg id="compass-arrow" width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="arrowGlow" cx="50%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#f7d38f"/>
+              <stop offset="100%" stop-color="#d99a2c"/>
+            </radialGradient>
+          </defs>
+          <circle cx="45" cy="45" r="43" fill="rgba(242,180,65,0.06)"/>
+          <path d="M45 8 L64 58 L45 47 L26 58 Z" fill="url(#arrowGlow)"/>
+          <circle cx="45" cy="45" r="4" fill="#050506"/>
+        </svg>
+      </div>
+
+      <p id="bearing-readout" class="text-xs font-mono text-zinc-500 tracking-wide">—</p>
+    </div>
+
+    <!-- Bottom: reset control, thumb reachable -->
+    <div class="flex flex-col items-center gap-3">
+      <button id="reset-btn"
+              class="w-full max-w-sm py-4 rounded-2xl bg-ink-800/90 hover:bg-ink-700 active:scale-[0.98]
+                     border border-white/[0.06] text-zinc-200 font-medium tracking-wide
+                     transition-all duration-150 flex items-center justify-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.65 2.35A6.5 6.5 0 1 0 15 8" stroke="#a1a1aa" stroke-width="1.4" stroke-linecap="round"/><path d="M15 2v4h-4" stroke="#a1a1aa" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Change Destination
+      </button>
+    </div>
+  </div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ---------------------------------------------------------------
+  // State
+  // ---------------------------------------------------------------
+  const state = {
+    mode: 'select',          // 'select' | 'nav'
+    destLatLng: null,        // {lat, lng}
+    userLatLng: null,        // {lat, lng}
+    watchId: null,
+    deviceHeading: 0,        // degrees, 0 = phone facing true north
+    hasCompass: false,
+    currentArrowRotation: 0, // continuous (unwrapped) rotation, degrees
+  };
+
+  // ---------------------------------------------------------------
+  // DOM refs
+  // ---------------------------------------------------------------
+  const el = {
+    mapContainer: document.getElementById('map-container'),
+    selectSheet: document.getElementById('select-sheet'),
+    navPanel: document.getElementById('nav-panel'),
+    confirmBtn: document.getElementById('confirm-btn'),
+    dismissBtn: document.getElementById('dismiss-btn'),
+    resetBtn: document.getElementById('reset-btn'),
+    coordPreview: document.getElementById('coord-preview'),
+    distanceValue: document.getElementById('distance-value'),
+    distanceUnit: document.getElementById('distance-unit'),
+    bearingReadout: document.getElementById('bearing-readout'),
+    compassArrow: document.getElementById('compass-arrow'),
+    compassPermission: document.getElementById('compass-permission'),
+    compassEnableBtn: document.getElementById('compass-enable-btn'),
+    errorBanner: document.getElementById('geo-error-banner'),
+    errorText: document.getElementById('geo-error-text'),
+    brand: document.getElementById('brand'),
+  };
+
+  // ---------------------------------------------------------------
+  // Map setup
+  // ---------------------------------------------------------------
+  const map = L.map('map', {
+    zoomControl: false,
+    attributionControl: false,
+    tap: true,
+  }).setView([20, 0], 3);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 20,
+  }).addTo(map);
+
+  const destIcon = L.divIcon({
+    className: '',
+    html: `<div class="pin-drop" style="width:26px;height:26px;transform:translate(-13px,-24px)">
+             <svg viewBox="0 0 26 32" width="26" height="32" fill="none">
+               <path d="M13 0C5.8 0 0 5.8 0 13c0 9.5 13 19 13 19s13-9.5 13-19C26 5.8 20.2 0 13 0z" fill="#f2b441"/>
+               <circle cx="13" cy="13" r="5" fill="#050506"/>
+             </svg>
+           </div>`,
+    iconSize: [26, 32],
+    iconAnchor: [13, 32],
+  });
+
+  const userIcon = L.divIcon({
+    className: '',
+    html: '<div class="live-dot"></div>',
+    iconSize: [14, 14],
+    iconAnchor: [7, 7],
+  });
+
+  let destMarker = null;
+  let userMarker = null;
+
+  // ---------------------------------------------------------------
+  // Geo math
+  // ---------------------------------------------------------------
+  const toRad = (d) => (d * Math.PI) / 180;
+  const toDeg = (r) => (r * 180) / Math.PI;
+
+  function haversineDistance(a, b) {
+    const R = 6371000; // meters
+    const dLat = toRad(b.lat - a.lat);
+    const dLng = toRad(b.lng - a.lng);
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+  }
+
+  function calcBearing(a, b) {
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
+    const dLng = toRad(b.lng - a.lng);
+    const y = Math.sin(dLng) * Math.cos(lat2);
+    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+  }
+
+  function formatDistance(meters) {
+    if (meters < 1000) return { value: Math.round(meters).toString(), unit: 'm' };
+    return { value: (meters / 1000).toFixed(1), unit: 'km' };
+  }
+
+  // Rotate the arrow by the shortest angular path (avoids 359° -> 0° whiplash)
+  function setArrowRotation(targetDeg) {
+    const current = state.currentArrowRotation;
+    let delta = ((targetDeg - current + 540) % 360) - 180;
+    state.currentArrowRotation = current + delta;
+    el.compassArrow.style.transform = `rotate(${state.currentArrowRotation}deg)`;
+  }
+
+  // ---------------------------------------------------------------
+  // Mode transitions
+  // ---------------------------------------------------------------
+  function enterSelectMode() {
+    state.mode = 'select';
+
+    el.mapContainer.className =
+      'fixed inset-0 z-0 transition-all duration-500 ease-out';
+
+    el.navPanel.classList.add('opacity-0', 'scale-[0.98]', 'pointer-events-none');
+    el.navPanel.classList.remove('opacity-100', 'scale-100');
+
+    hideSelectSheet();
+    el.brand.classList.remove('opacity-0');
+
+    setTimeout(() => map.invalidateSize(), 520);
+  }
+
+  function enterConfirmPending() {
+    // Step 1, marker placed, sheet visible
+    showSelectSheet();
+  }
+
+  function enterNavMode() {
+    state.mode = 'nav';
+
+    hideSelectSheet();
+
+    el.mapContainer.className =
+      'fixed top-4 right-4 md:top-6 md:right-6 z-30 w-24 h-24 md:w-36 md:h-36 ' +
+      'rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl ' +
+      'transition-all duration-500 ease-out';
+
+    el.navPanel.classList.remove('opacity-0', 'scale-[0.98]', 'pointer-events-none');
+    el.navPanel.classList.add('opacity-100', 'scale-100');
+
+    map.dragging.disable();
+    map.scrollWheelZoom.disable();
+    map.doubleClickZoom.disable();
+    map.touchZoom.disable();
+
+    setTimeout(() => map.invalidateSize(), 520);
+
+    startWatchingPosition();
+    maybeShowCompassPermission();
+  }
+
+  function showSelectSheet() {
+    el.selectSheet.classList.remove('translate-y-full', 'md:translate-x-full');
+    el.selectSheet.classList.add('translate-y-0', 'md:translate-x-0');
+  }
+
+  function hideSelectSheet() {
+    el.selectSheet.classList.add('translate-y-full', 'md:translate-x-full');
+    el.selectSheet.classList.remove('translate-y-0', 'md:translate-x-0');
+  }
+
+  // ---------------------------------------------------------------
+  // Map interaction — Step 1
+  // ---------------------------------------------------------------
+  map.on('click', (e) => {
+    if (state.mode !== 'select') return;
+    placeDestination(e.latlng);
+  });
+
+  function placeDestination(latlng) {
+    state.destLatLng = { lat: latlng.lat, lng: latlng.lng };
+
+    if (destMarker) {
+      destMarker.setLatLng(latlng);
+    } else {
+      destMarker = L.marker(latlng, { icon: destIcon, interactive: false }).addTo(map);
+    }
+
+    el.coordPreview.textContent = `${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}`;
+    enterConfirmPending();
+  }
+
+  el.dismissBtn.addEventListener('click', () => {
+    if (destMarker) { map.removeLayer(destMarker); destMarker = null; }
+    state.destLatLng = null;
+    hideSelectSheet();
+  });
+
+  el.confirmBtn.addEventListener('click', () => {
+    if (!state.destLatLng) return;
+    enterNavMode();
+  });
+
+  el.resetBtn.addEventListener('click', () => {
+    stopWatchingPosition();
+    if (destMarker) { map.removeLayer(destMarker); destMarker = null; }
+    state.destLatLng = null;
+    map.dragging.enable();
+    map.scrollWheelZoom.enable();
+    map.doubleClickZoom.enable();
+    map.touchZoom.enable();
+    enterSelectMode();
+  });
+
+  // ---------------------------------------------------------------
+  // Geolocation — Step 2
+  // ---------------------------------------------------------------
+  function startWatchingPosition() {
+    if (!('geolocation' in navigator)) {
+      showGeoError('Geolocation is not supported by this browser.');
+      return;
+    }
+    if (state.watchId !== null) return;
+
+    state.watchId = navigator.geolocation.watchPosition(
+      onPosition,
+      onPositionError,
+      { enableHighAccuracy: true, maximumAge: 1000, timeout: 15000 }
+    );
+  }
+
+  function stopWatchingPosition() {
+    if (state.watchId !== null) {
+      navigator.geolocation.clearWatch(state.watchId);
+      state.watchId = null;
+    }
+  }
+
+  function onPosition(pos) {
+    state.userLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    hideGeoError();
+    updateUserMarker();
+    updateTelemetry();
+  }
+
+  function onPositionError(err) {
+    let msg = 'Unable to retrieve your location.';
+    if (err.code === err.PERMISSION_DENIED) msg = 'Location permission was denied. Enable it in your browser settings to navigate.';
+    else if (err.code === err.TIMEOUT) msg = 'Location request timed out. Retrying…';
+    showGeoError(msg);
+  }
+
+  function showGeoError(msg) {
+    el.errorText.textContent = msg;
+    el.errorBanner.classList.remove('hidden');
+  }
+  function hideGeoError() {
+    el.errorBanner.classList.add('hidden');
+  }
+
+  function updateUserMarker() {
+    const ll = [state.userLatLng.lat, state.userLatLng.lng];
+    if (userMarker) {
+      userMarker.setLatLng(ll);
+    } else {
+      userMarker = L.marker(ll, { icon: userIcon, interactive: false }).addTo(map);
+    }
+    // Keep minimap framed on both points while in nav mode
+    if (state.mode === 'nav' && state.destLatLng) {
+      const bounds = L.latLngBounds([ll, [state.destLatLng.lat, state.destLatLng.lng]]);
+      map.fitBounds(bounds, { padding: [20, 20], maxZoom: 16, animate: true });
+    }
+  }
+
+  function updateTelemetry() {
+    if (!state.userLatLng || !state.destLatLng) return;
+
+    const distance = haversineDistance(state.userLatLng, state.destLatLng);
+    const bearing = calcBearing(state.userLatLng, state.destLatLng);
+    const { value, unit } = formatDistance(distance);
+
+    el.distanceValue.textContent = value;
+    el.distanceUnit.textContent = unit;
+    el.bearingReadout.textContent =
+      `Bearing ${Math.round(bearing)}°` + (state.hasCompass ? ' · live heading' : ' · true north up');
+
+    const rotation = state.hasCompass ? (bearing - state.deviceHeading + 360) % 360 : bearing;
+    setArrowRotation(rotation);
+  }
+
+  // ---------------------------------------------------------------
+  // Compass (device orientation)
+  // ---------------------------------------------------------------
+  function maybeShowCompassPermission() {
+    const needsPermission =
+      typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof DeviceOrientationEvent.requestPermission === 'function';
+
+    if (needsPermission) {
+      el.compassPermission.classList.remove('hidden');
+    } else if (typeof DeviceOrientationEvent !== 'undefined') {
+      attachOrientationListeners();
+    }
+  }
+
+  el.compassEnableBtn.addEventListener('click', async () => {
+    try {
+      const result = await DeviceOrientationEvent.requestPermission();
+      if (result === 'granted') {
+        attachOrientationListeners();
+        el.compassPermission.classList.add('hidden');
+      } else {
+        showGeoError('Compass permission was not granted. Showing true-north bearing instead.');
+      }
+    } catch (e) {
+      showGeoError('Compass is unavailable on this device.');
+    }
+  });
+
+  function attachOrientationListeners() {
+    state.hasCompass = true;
+    const handler = (e) => {
+      let heading;
+      if (typeof e.webkitCompassHeading === 'number') {
+        heading = e.webkitCompassHeading;
+      } else if (typeof e.alpha === 'number') {
+        heading = (360 - e.alpha) % 360;
+      } else {
+        return;
+      }
+      state.deviceHeading = heading;
+      updateTelemetry();
+    };
+
+    if ('ondeviceorientationabsolute' in window) {
+      window.addEventListener('deviceorientationabsolute', handler, true);
+    } else {
+      window.addEventListener('deviceorientation', handler, true);
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Initial map centering (best-effort, does not block UI)
+  // ---------------------------------------------------------------
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        map.setView([pos.coords.latitude, pos.coords.longitude], 15);
+      },
+      () => { /* silent — user can still pan/tap the world map */ },
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 60000 }
+    );
+  }
+
+  // Keep Leaflet in sync with viewport / container size changes
+  window.addEventListener('resize', () => map.invalidateSize());
+})();
+</script>
+</body>
+</html>
