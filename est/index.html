@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Navigation Target System</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            overscroll-behavior-y: none; /* Prevents pull-to-refresh on mobile */
+        }
+
+        /* Hardware-accelerated map styling for ultra-clean Dark Mode. 
+           Inverts the CartoDB Voyager tiles and adjusts color balance to deep blacks/grays.
+        */
+        .dark-tiles {
+            filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(110%) grayscale(15%);
+        }
+        
+        /* Map background fallback to blend seamlessly with our app UI */
+        .leaflet-container {
+            background-color: #000000 !important;
+        }
+
+        /* Hide leaflet attribution & controls for a minimal UI */
+        .leaflet-control-attribution { display: none !important; }
+        .leaflet-control-zoom { display: none !important; }
+
+        /* Animation utilities */
+        .cubic-bezier-out { transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1); }
+        
+        /* Custom markers */
+        .ping-layer { animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+    </style>
+</head>
+<body class="text-neutral-100 overflow-hidden w-full h-[100dvh] relative">
+
+    <div id="instruction-toast" class="absolute top-6 left-1/2 transform -translate-x-1/2 bg-neutral-900/90 backdrop-blur-md px-5 py-2.5 rounded-full text-sm font-semibold tracking-wide text-neutral-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] border border-neutral-800 z-[2000] transition-opacity duration-300 pointer-events-none">
+        Tap the map to select destination
+    </div>
+
+    <div id="map-container" class="absolute top-0 left-0 w-full h-full transition-all duration-500 cubic-bezier-out z-10">
+        <div id="map" class="w-full h-full"></div>
+    </div>
+
+    <div id="ui-panel" class="absolute bottom-0 left-0 w-full bg-neutral-950 rounded-t-[32px] shadow-[0_-15px_50px_rgba(0,0,0,0.7)] border-t border-neutral-800 transition-all duration-500 cubic-bezier-out z-[2000] transform translate-y-full flex flex-col will-change-transform">
+        
+        <div class="w-full flex justify-center py-4 shrink-0">
+            <div class="w-12 h-1.5 bg-neutral-800 rounded-full"></div>
+        </div>
+
+        <div id="selection-content" class="px-6 pb-8 pt-2 w-full transition-opacity duration-300">
+            <h2 class="text-2xl font-bold mb-1 text-white">Target Acquired</h2>
+            <p class="text-neutral-400 text-sm mb-6 font-medium">Destination locked. Ready to navigate.</p>
+            
+            <button id="btn-confirm" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl text-lg transition-colors shadow-[0_0_20px_rgba(37,99,235,0.3)] active:scale-[0.98] touch-manipulation">
+                Confirm Destination
+            </button>
+        </div>
+
+        <div id="nav-content" class="hidden flex-col items-center h-full w-full px-6 pb-8 pt-0">
+            
+            <div class="flex-1 flex flex-col items-center justify-center w-full min-h-[300px]">
+                
+                <div class="relative w-44 h-44 rounded-full border border-neutral-800 bg-neutral-900/40 flex items-center justify-center shadow-inner mb-8">
+                    <div class="absolute inset-0 rounded-full border border-neutral-700/30 border-dashed"></div>
+                    <div class="absolute inset-4 rounded-full border-2 border-neutral-800/80 bg-neutral-950/80 backdrop-blur"></div>
+                    
+                    <div id="compass-arrow" class="transition-transform duration-200 ease-out z-10 will-change-transform drop-shadow-[0_0_12px_rgba(59,130,246,0.5)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-[72px] h-[72px]" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 19 21 12 17 5 21 12 2" fill="rgba(59, 130, 246, 0.2)"></polygon>
+                        </svg>
+                    </div>
+                    <div class="absolute w-1.5 h-1.5 bg-blue-400 rounded-full z-20 shadow-[0_0_8px_#60a5fa]"></div>
+                </div>
+
+                <div class="text-center w-full">
+                    <div id="distance-display" class="text-5xl font-extrabold tracking-tight text-white tabular-nums leading-none">--</div>
+                    <div class="text-neutral-500 text-[0.7rem] tracking-[0.25em] uppercase font-bold mt-3">Distance to target</div>
+                </div>
+            </div>
+
+            <div class="w-full shrink-0 mt-auto pt-4">
+                <button id="btn-reset" class="w-full bg-neutral-900 hover:bg-neutral-800 text-red-400 font-bold py-4 rounded-2xl text-base transition-colors border border-red-500/10 shadow-sm active:scale-[0.98] touch-manipulation">
+                    Change Destination
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Core Application State ---
+        let map, userMarker, targetMarker, watchId;
+        let currentPos = null;
+        let targetPos = null;
+        let isNavigating = false;
+        
+        // New variables for Compass tracking
+        let currentBearing = 0; // Angle to destination from North
+        let currentHeading = 0; // Direction phone is pointing from North
+
+        // --- DOM Elements ---
+        const uiPanel = document.getElementById('ui-panel');
+        const selectionContent = document.getElementById('selection-content');
+        const navContent = document.getElementById('nav-content');
+        const mapContainer = document.getElementById('map-container');
+        const compassArrow = document.getElementById('compass-arrow');
+        const distanceDisplay = document.getElementById('distance-display');
+        const toast = document.getElementById('instruction-toast');
+
+        // --- Initialization ---
+        function initApp() {
+            map = L.map('map', { zoomControl: false }).setView([0, 0], 2);
+            
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 19,
+                className: 'dark-tiles'
+            }).addTo(map);
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(handleInitialLocation, handleLocationError, {
+                    enableHighAccuracy: true, timeout: 10000, maximumAge: 0
+                });
+            } else {
+                alert("Geolocation is not supported.");
+            }
+
+            map.on('click', function(e) {
+                if (isNavigating) return; 
+                toast.style.opacity = '0'; 
+                targetPos = { lat: e.latlng.lat, lng: e.latlng.lng };
+                placeTargetMarker(targetPos);
+                showSelectionBottomSheet();
+            });
+
+            document.getElementById('btn-confirm').addEventListener('click', startNavigation);
+            document.getElementById('btn-reset').addEventListener('click', resetApp);
+        }
+
+        // --- Geolocation Handlers ---
+        function handleInitialLocation(position) {
+            currentPos = { lat: position.coords.latitude, lng: position.coords.longitude };
+            map.setView([currentPos.lat, currentPos.lng], 16);
+            
+            const userIcon = L.divIcon({
+                className: 'custom-user-marker',
+                html: `<div class="relative flex items-center justify-center w-6 h-6">
+                         <div class="absolute inset-0 bg-blue-500 rounded-full opacity-40 ping-layer"></div>
+                         <div class="relative w-4 h-4 bg-blue-500 rounded-full border-[2.5px] border-white shadow-[0_0_12px_rgba(59,130,246,0.9)]"></div>
+                       </div>`,
+                iconSize: [24, 24], iconAnchor: [12, 12]
+            });
+            userMarker = L.marker([currentPos.lat, currentPos.lng], { icon: userIcon }).addTo(map);
+        }
+
+        function handleLocationError(error) {
+            console.warn(`Geolocation error (${error.code}): ${error.message}`);
+            toast.innerText = "Please enable GPS to use this app.";
+        }
+
+        function placeTargetMarker(pos) {
+            if (targetMarker) {
+                targetMarker.setLatLng([pos.lat, pos.lng]);
+            } else {
+                const targetIcon = L.divIcon({
+                    className: 'custom-target-marker',
+                    html: `<div class="relative flex items-center justify-center w-8 h-8 -mt-8 -ml-4">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                           </div>`,
+                    iconSize: [32, 32], iconAnchor: [16, 32]
+                });
+                targetMarker = L.marker([pos.lat, pos.lng], { icon: targetIcon }).addTo(map);
+            }
+        }
+
+        // --- UI State Transitions ---
+        function showSelectionBottomSheet() {
+            uiPanel.classList.remove('translate-y-full');
+            uiPanel.style.height = 'auto';
+        }
+
+        function startNavigation() {
+            // Request device orientation permissions (Required for iOS 13+)
+            requestDeviceOrientation();
+
+            isNavigating = true;
+            selectionContent.classList.add('hidden');
+            navContent.classList.remove('hidden');
+            navContent.classList.add('flex');
+
+            mapContainer.classList.remove('h-full');
+            mapContainer.classList.add('h-[35vh]');
+            uiPanel.style.height = '65vh';
+
+            setTimeout(() => {
+                map.invalidateSize();
+                if (currentPos && targetPos) {
+                    map.fitBounds(L.latLngBounds([currentPos, targetPos]), { padding: [40, 40] });
+                }
+            }, 500);
+
+            startTracking();
+        }
+
+        function resetApp() {
+            isNavigating = false;
+            
+            if (watchId) navigator.geolocation.clearWatch(watchId);
+            window.removeEventListener('deviceorientation', handleOrientation);
+            window.removeEventListener('deviceorientationabsolute', handleOrientation);
+            
+            navContent.classList.remove('flex');
+            navContent.classList.add('hidden');
+            selectionContent.classList.remove('hidden');
+            
+            uiPanel.classList.add('translate-y-full');
+            mapContainer.classList.remove('h-[35vh]');
+            mapContainer.classList.add('h-full');
+
+            if (targetMarker) {
+                map.removeLayer(targetMarker);
+                targetMarker = null;
+            }
+            targetPos = null;
+            toast.style.opacity = '1'; 
+            
+            setTimeout(() => {
+                map.invalidateSize();
+                if (currentPos) map.setView([currentPos.lat, currentPos.lng], 16);
+            }, 500);
+        }
+
+        // --- Device Orientation (The Magic Sauce) ---
+        function requestDeviceOrientation() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                // iOS 13+ requires permission
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        } else {
+                            alert("Compass access denied. Arrow will only point relative to North.");
+                        }
+                    }).catch(console.error);
+            } else {
+                // Non-iOS devices
+                window.addEventListener('deviceorientationabsolute', handleOrientation);
+                window.addEventListener('deviceorientation', handleOrientation);
+            }
+        }
+
+        function handleOrientation(event) {
+            // webkitCompassHeading is for iOS, alpha is for Android
+            let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
+            if (compass !== null && !isNaN(compass)) {
+                currentHeading = compass;
+                updateCompassArrow(); // Rotate arrow immediately based on wrist movement
+            }
+        }
+
+        // --- Telemetry & Geomathematics ---
+        function startTracking() {
+            watchId = navigator.geolocation.watchPosition((position) => {
+                currentPos = { lat: position.coords.latitude, lng: position.coords.longitude };
+                if (userMarker) userMarker.setLatLng([currentPos.lat, currentPos.lng]);
+
+                if (targetPos) {
+                    const metrics = calculateMetrics(currentPos.lat, currentPos.lng, targetPos.lat, targetPos.lng);
+                    currentBearing = metrics.bearing;
+                    updateDistanceUI(metrics.distance);
+                    updateCompassArrow(); // Update in case bearing changed significantly
+                }
+            }, handleLocationError, { enableHighAccuracy: true, maximumAge: 0 });
+            
+            const initialMetrics = calculateMetrics(currentPos.lat, currentPos.lng, targetPos.lat, targetPos.lng);
+            currentBearing = initialMetrics.bearing;
+            updateDistanceUI(initialMetrics.distance);
+            updateCompassArrow();
+        }
+
+        function updateDistanceUI(distMeters) {
+            if (distMeters < 1000) {
+                distanceDisplay.innerText = Math.round(distMeters) + " m";
+            } else {
+                distanceDisplay.innerText = (distMeters / 1000).toFixed(2) + " km";
+            }
+        }
+
+        function updateCompassArrow() {
+            // Target bearing MINUS phone's physical heading
+            let finalRotation = currentBearing - currentHeading;
+            compassArrow.style.transform = `rotate(${Math.round(finalRotation)}deg)`;
+        }
+
+        function calculateMetrics(lat1, lon1, lat2, lon2) {
+            const toRad = (deg) => (deg * Math.PI) / 180;
+            const toDeg = (rad) => (rad * 180) / Math.PI;
+            
+            const R = 6371e3; 
+            const φ1 = toRad(lat1), φ2 = toRad(lat2);
+            const Δλ = toRad(lon2 - lon1), Δφ = toRad(lat2 - lat1);
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const distance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
+
+            const y = Math.sin(Δλ) * Math.cos(φ2);
+            const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+            let bearing = toDeg(Math.atan2(y, x));
+            bearing = (bearing + 360) % 360; 
+
+            return { distance, bearing };
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
