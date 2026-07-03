@@ -7,7 +7,17 @@ body {
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   background-color: #f8fafc;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
 }
+
+#app-viewport {
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+}
+
 
 /* Glassmorphism Classes */
 .glass-panel {
