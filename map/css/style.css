@@ -1,0 +1,274 @@
+/* css/style.css */
+
+/* Custom Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom Animations */
+@keyframes compass-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(79, 70, 229, 0.6));
+  }
+}
+
+.glow-compass {
+  animation: compass-glow 3s infinite ease-in-out;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.33);
+    opacity: 1;
+  }
+  80%, 100% {
+    opacity: 0;
+  }
+}
+
+.pulse-ring-element {
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.610, 0.355, 1) infinite;
+}
+
+/* Leaflet Overrides */
+.leaflet-container {
+  background: #f8fafc !important;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Leaflet Zoom control premium style */
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.leaflet-bar a {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #1e293b !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  transition: all 0.2s;
+}
+
+.leaflet-bar a:hover {
+  background-color: #ffffff !important;
+  color: #4f46e5 !important;
+}
+
+/* Custom Marker Styling */
+.user-marker-icon {
+  background: none;
+  border: none;
+}
+
+.destination-marker-icon {
+  background: none;
+  border: none;
+}
+
+/* Hide leaflet default markers shadow */
+.leaflet-marker-shadow {
+  display: none !important;
+}
+
+/* Layout transition configuration */
+.layout-transition {
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Arrow rotation rendering optimization */
+.arrow-render {
+  will-change: transform;
+  transition: transform 100ms cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+/* ==========================================================================
+   LAYOUT DYNAMIC VIEWS (MODE 1 & 2 CONFIGURATIONS)
+   ========================================================================== */
+
+/* ==================== MODE 1 (Arrow Fullscreen Focus) ==================== */
+[data-mode="1"] #nav-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+[data-mode="1"] #nav-panel * {
+  pointer-events: auto; /* Re-enable pointer events for buttons/badges */
+}
+
+/* Responsive Compass Dial width/height */
+[data-mode="1"] #arrow-wrapper {
+  width: 11rem; /* 176px default mobile */
+  height: 11rem;
+  margin-bottom: 1.5rem;
+}
+
+[data-mode="1"] #arrow-icon {
+  width: 5rem; /* 80px default mobile */
+  height: 5rem;
+}
+
+@media (min-width: 640px) {
+  [data-mode="1"] #arrow-wrapper {
+    width: 16rem; /* 256px larger viewports */
+    height: 16rem;
+    margin-bottom: 2.5rem;
+  }
+  [data-mode="1"] #arrow-icon {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+}
+
+[data-mode="1"] #nav-text-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+[data-mode="1"] #distance-val {
+  font-size: 3rem; /* Huge distance value */
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.03em;
+}
+
+@media (min-width: 640px) {
+  [data-mode="1"] #distance-val {
+    font-size: 4rem;
+  }
+}
+
+[data-mode="1"] #cardinal-val {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4f46e5; /* Indigo color for cardinal accent */
+  letter-spacing: 0.05em;
+}
+
+[data-mode="1"] #map-container {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 100px;
+  height: 100px;
+  border-radius: 1rem;
+  border: 3px solid #ffffff;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 30;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  [data-mode="1"] #map-container {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 140px;
+    height: 140px;
+    border-radius: 1.25rem;
+    border: 4px solid #ffffff;
+  }
+}
+
+/* ==================== MODE 2 (Map Fullscreen Focus) ==================== */
+[data-mode="2"] #nav-panel {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 280px;
+  height: auto;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  z-index: 30;
+  cursor: pointer;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  pointer-events: auto;
+}
+
+[data-mode="2"] #arrow-wrapper {
+  width: 3.5rem; /* 56px compact representation */
+  height: 3.5rem;
+  margin-bottom: 0;
+  box-shadow: none;
+  border: 1px solid #f1f5f9;
+  flex-shrink: 0;
+}
+
+/* Hide compass dial lettering N/S/E/W and markers in small floating card Mode 2 */
+[data-mode="2"] #arrow-wrapper div {
+  display: none !important;
+}
+
+[data-mode="2"] #arrow-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+[data-mode="2"] #nav-text-container {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-mode="2"] #distance-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+[data-mode="2"] #cardinal-val {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 0px;
+}
+
+[data-mode="2"] #map-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+  border: 0px;
+  z-index: 10;
+  cursor: default;
+}

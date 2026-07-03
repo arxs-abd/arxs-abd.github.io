@@ -123,7 +123,7 @@
         <div class="absolute left-2.5 text-[11px] font-extrabold text-indigo-300 pointer-events-none">W</div>
 
         <!-- Premium SVG Compass Arrow -->
-        <svg id="arrow-icon" class="arrow-render w-full h-full text-indigo-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg id="arrow-icon" class="arrow-render text-indigo-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Compass Red/Blue needle -->
           <path d="M50 15L68 78L50 64L32 78L50 15Z" fill="url(#indigoGrad)" filter="drop-shadow(0px 4px 6px rgba(67, 56, 202, 0.2))" />
           <defs>
@@ -154,22 +154,22 @@
 
     <!-- ==================== FLOATING REAL-TIME DEBUG STATISTICS ==================== -->
     <!-- Positioned relative to page bounds, always visible but styled unobtrusively -->
-    <div class="fixed bottom-6 left-6 z-40 max-w-[280px] w-full">
+    <div class="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 max-w-[180px] sm:max-w-[280px] w-full">
       
       <!-- Collapsible button -->
       <details class="group bg-white/80 backdrop-blur-md border border-slate-100 rounded-2xl shadow-lg transition-all duration-300">
-        <summary class="flex items-center justify-between p-3.5 cursor-pointer list-none select-none font-semibold text-xs text-slate-700">
-          <span class="flex items-center gap-2">
-            <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i>
+        <summary class="flex items-center justify-between p-2.5 sm:p-3.5 cursor-pointer list-none select-none font-semibold text-[10px] sm:text-xs text-slate-700">
+          <span class="flex items-center gap-1.5">
+            <i data-lucide="info" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600"></i>
             Informasi Tambahan
           </span>
           <span class="text-slate-400 group-open:rotate-180 transition-transform duration-200">
-            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
           </span>
         </summary>
         
         <!-- Expandable Details Contents -->
-        <div class="p-4 pt-0 border-t border-slate-100/50 space-y-3.5 text-xs text-slate-600">
+        <div class="p-3 sm:p-4 pt-0 border-t border-slate-100/50 space-y-2.5 sm:space-y-3.5 text-[10px] sm:text-xs text-slate-600 font-medium">
           <!-- GPS Status badge -->
           <div id="gps-status-indicator" class="flex items-center font-medium text-slate-500 pb-1 border-b border-slate-100">
             <span class="inline-block w-2.5 h-2.5 bg-slate-300 rounded-full mr-1.5"></span> GPS Menghubungkan...
