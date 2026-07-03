@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <title>GPS Navigator — Realtime Navigation</title>
+  <meta name="description" content="Realtime GPS navigator menuju koordinat tujuan." />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS (CDN, tanpa build step) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"] },
+        },
+      },
+    };
+  </script>
+
+  <!-- Leaflet.js + OpenStreetMap -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="bg-white font-sans text-slate-900 overflow-hidden antialiased">
+
+  <!-- ======================================================
+       LAYAR AKSES DITOLAK
+       Tampil HANYA jika query parameter koordinat tidak valid.
+       Tidak ada peta / navigasi apa pun dirender di sini.
+  ======================================================= -->
+  <div id="denied-screen" class="hidden fixed inset-0 z-50 bg-white flex items-center justify-center p-6">
+    <div class="max-w-md w-full text-center">
+      <div class="mx-auto mb-6 w-20 h-20 rounded-2xl bg-indigo-50 flex items-center justify-center ring-1 ring-indigo-100">
+        <i data-lucide="triangle-alert" class="w-10 h-10 text-indigo-600"></i>
+      </div>
+      <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Akses Ditolak</h1>
+      <p class="text-slate-500 mb-8">Koordinat tujuan tidak ditemukan atau tidak valid.</p>
+
+      <div class="rounded-2xl bg-indigo-50/70 border border-indigo-100 p-5 text-left">
+        <p class="text-sm text-slate-500 mb-3">Pastikan URL mengandung parameter:</p>
+        <code class="block text-sm font-medium text-indigo-700 bg-white rounded-lg px-3 py-2 mb-2 border border-indigo-100">
+          ?lat=...&amp;lng=...
+        </code>
+        <p class="text-xs text-slate-400 text-center my-2">atau</p>
+        <code class="block text-sm font-medium text-indigo-700 bg-white rounded-lg px-3 py-2 border border-indigo-100">
+          ?latitude=...&amp;longitude=...
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       APLIKASI UTAMA
+       Hanya dirender jika koordinat valid.
+  ======================================================= -->
+  <div id="app" class="hidden fixed inset-0 bg-white">
+
+    <!-- Badge: orientasi tidak didukung -->
+    <div id="orientation-badge" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-40 glass rounded-full px-3 py-1.5 flex items-center gap-1.5 shadow-sm">
+      <i data-lucide="triangle-alert" class="w-3.5 h-3.5 text-rose-500"></i>
+      <span class="text-xs font-medium text-slate-600">Orientation tidak didukung</span>
+    </div>
+
+    <!-- Tombol buka info card (pojok kanan atas) -->
+    <button id="info-toggle-btn" aria-label="Info lokasi" class="fixed top-4 right-4 z-40 w-10 h-10 rounded-full glass shadow-sm flex items-center justify-center active:scale-95 transition-transform">
+      <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i>
+    </button>
+
+    <!-- Floating Info Card -->
+    <div id="info-card" class="fixed top-16 right-4 z-40 w-72 max-w-[85vw] glass rounded-2xl shadow-xl p-5 origin-top-right">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-sm font-bold text-slate-800">Informasi Navigasi</h2>
+        <span class="inline-flex items-center gap-1.5 text-xs font-medium">
+          <span id="gps-status-dot" class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+          <span id="gps-status-text" class="text-slate-500">Mencari sinyal GPS...</span>
+        </span>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <p class="uppercase tracking-wide text-slate-400 font-semibold mb-1">Lokasi Saya</p>
+          <div class="grid grid-cols-2 gap-y-1 text-slate-600">
+            <span>Latitude</span><span id="info-user-lat" class="font-mono text-slate-800 text-right">-</span>
+            <span>Longitude</span><span id="info-user-lng" class="font-mono text-slate-800 text-right">-</span>
+            <span>Accuracy</span><span id="info-user-acc" class="font-mono text-slate-800 text-right">-</span>
+          </div>
+        </div>
+
+        <div class="h-px bg-slate-100"></div>
+
+        <div>
+          <p class="uppercase tracking-wide text-slate-400 font-semibold mb-1">Lokasi Tujuan</p>
+          <div class="grid grid-cols-2 gap-y-1 text-slate-600">
+            <span>Latitude</span><span id="info-dest-lat" class="font-mono text-slate-800 text-right">-</span>
+            <span>Longitude</span><span id="info-dest-lng" class="font-mono text-slate-800 text-right">-</span>
+          </div>
+        </div>
+
+        <div class="h-px bg-slate-100"></div>
+
+        <div class="grid grid-cols-2 gap-y-1 text-slate-600">
+          <span>Bearing</span><span id="info-bearing" class="font-mono text-slate-800 text-right">-</span>
+          <span>Heading</span><span id="info-heading" class="font-mono text-slate-800 text-right">-</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================= PANEL NAVIGASI ======================= -->
+    <!-- Mode 1: fullscreen di tengah layar. Mode 2: floating card kecil kiri atas (klik untuk kembali). -->
+    <div id="nav-panel" class="nav-mode-full">
+      <div class="nav-arrow-wrap">
+        <div class="compass-ring" aria-hidden="true"></div>
+        <svg id="nav-arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="relative drop-shadow-lg">
+          <defs>
+            <linearGradient id="navGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6366F1" />
+              <stop offset="100%" stop-color="#4338CA" />
+            </linearGradient>
+          </defs>
+          <polygon points="12 2 19 21 12 17 5 21 12 2" fill="url(#navGradient)" stroke="#ffffff" stroke-width="0.6" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <div class="nav-text-block">
+        <div id="distance-text" class="nav-distance text-slate-900">- meter</div>
+        <div id="direction-text" class="nav-direction font-medium text-indigo-600">-</div>
+        <p class="nav-hint-compact text-slate-400">
+          <i data-lucide="corner-up-left" class="w-3 h-3"></i>
+          Ketuk untuk kembali
+        </p>
+      </div>
+
+      <p class="nav-hint text-xs text-slate-400 flex items-center gap-1.5">
+        <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+        Ketuk minimap untuk memperbesar peta
+      </p>
+    </div>
+
+    <!-- ======================= MAP / MINIMAP CONTAINER ======================= -->
+    <div id="map-container" class="map-mini">
+      <div id="leaflet-map"></div>
+    </div>
+
+    <!-- ======================= PERMISSION OVERLAY ======================= -->
+    <div id="permission-overlay" class="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm flex items-center justify-center p-6">
+      <div class="max-w-sm w-full text-center glass rounded-3xl shadow-2xl p-8">
+        <div id="permission-icon-wrap" class="mx-auto mb-5 w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200">
+          <i data-lucide="locate-fixed" id="permission-icon" class="w-8 h-8 text-white"></i>
+          <div id="permission-spinner" class="hidden w-7 h-7 border-[3px] border-white/30 border-t-white rounded-full animate-spin"></div>
+        </div>
+        <h2 id="permission-title" class="text-xl font-bold text-slate-900 mb-2">Izinkan Akses Lokasi</h2>
+        <p id="permission-message" class="text-sm text-slate-500 mb-6">
+          Izinkan akses lokasi untuk memulai navigasi.
+        </p>
+        <button id="btn-allow-location"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition-all text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-indigo-200">
+          Izinkan Lokasi
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- ======================================================
+       SCRIPTS (ES Modules) — jalankan di server HTTP/HTTPS,
+       bukan dibuka langsung sebagai file:// karena keterbatasan
+       CORS pada ES modules & requirement secure context GPS/kompas.
+  ======================================================= -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
