@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Realtime GPS Navigator</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            indigo: {
+              50: '#e0e7ff',
+              100: '#c7d2fe',
+              200: '#a5b4fc',
+              300: '#818cf8',
+              400: '#6366f1',
+              500: '#4f46e5',
+              600: '#4338ca',
+              700: '#3730a3',
+              800: '#1e1b4b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased select-none">
+
+  <!-- ==================== ACCESS DENIED / VALIDATION ERROR SCREEN ==================== -->
+  <div id="access-denied-screen" class="hidden min-h-screen flex flex-col items-center justify-center p-6 bg-white relative overflow-hidden">
+    <!-- Indigo background grid glow -->
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-50 rounded-full filter blur-3xl opacity-60"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-100 rounded-full filter blur-3xl opacity-40"></div>
+    
+    <div class="relative max-w-md w-full text-center space-y-6 z-10">
+      <!-- Warning Icon inside a soft-glow Indigo circular frame -->
+      <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-50 border border-indigo-100 rounded-2xl text-indigo-600 shadow-sm animate-bounce">
+        <i data-lucide="alert-triangle" class="w-10 h-10"></i>
+      </div>
+      
+      <!-- Warning Headings -->
+      <div class="space-y-2">
+        <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">Akses Ditolak</h1>
+        <p class="text-slate-500 font-medium text-base">
+          Koordinat tujuan tidak ditemukan atau tidak valid.
+        </p>
+      </div>
+      
+      <!-- Informational Details Card -->
+      <div class="bg-indigo-50/50 border border-indigo-100/60 rounded-2xl p-6 text-left space-y-4">
+        <p class="text-sm font-semibold text-indigo-900">Pastikan URL mengandung parameter:</p>
+        
+        <div class="space-y-3 font-mono text-xs text-indigo-700 bg-white p-4 rounded-xl border border-indigo-100 shadow-inner overflow-x-auto">
+          <div>?lat=-6.175392&lng=106.827153</div>
+          <div class="border-t border-indigo-50 pt-2 mt-2">atau</div>
+          <div class="pt-1">?latitude=-6.175392&longitude=106.827153</div>
+        </div>
+      </div>
+      
+      <p class="text-xs text-slate-400">
+        Periksa kembali tautan Anda dan pastikan format penulisan benar.
+      </p>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN APPLICATION VIEWPORT ==================== -->
+  <div id="app-viewport" data-mode="1" class="relative w-screen h-screen overflow-hidden">
+    
+    <!-- ==================== ONBOARDING / PERMISSION OVERLAY ==================== -->
+    <div id="permission-overlay" class="absolute inset-0 bg-white/95 backdrop-blur-md z-50 flex flex-col items-center justify-center p-6 text-center">
+      <div class="max-w-xs space-y-6">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl border border-indigo-100 shadow-sm">
+          <i data-lucide="navigation" class="w-8 h-8 animate-pulse"></i>
+        </div>
+        
+        <div class="space-y-2">
+          <h2 class="text-2xl font-bold text-slate-900">Izin Akses</h2>
+          <p id="permission-prompt-text" class="text-slate-500 text-sm leading-relaxed">
+            Izinkan akses lokasi untuk memulai navigasi.
+          </p>
+        </div>
+        
+        <button id="permission-btn" class="w-full py-3.5 px-5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/25 transition duration-200">
+          Izinkan Lokasi & Kompas
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== NAVIGATION ARROW PANEL (MODE 1 & 2 DYNAMIC) ==================== -->
+    <div id="nav-panel" class="layout-transition select-none">
+      
+      <!-- Responsive Badge for compass orientation unsupported state -->
+      <div id="compass-badge" class="hidden absolute top-4 px-3 py-1.5 bg-rose-50 border border-rose-100 text-rose-600 text-xs font-semibold rounded-full shadow-sm z-30 pointer-events-none flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span>
+        Orientation tidak didukung
+      </div>
+
+      <!-- Arrow Container / Rotate Target -->
+      <div id="arrow-wrapper" class="relative flex items-center justify-center rounded-full bg-white border border-slate-100 shadow-xl glow-compass layout-transition p-4 select-none">
+        
+        <!-- Dial Outer Markings for Compasses (Visible in Mode 1) -->
+        <div class="absolute inset-2 border border-dashed border-indigo-100/80 rounded-full pointer-events-none layout-transition"></div>
+        <div class="absolute top-2.5 text-[11px] font-extrabold text-indigo-600 pointer-events-none">N</div>
+        <div class="absolute bottom-2.5 text-[11px] font-extrabold text-indigo-300 pointer-events-none">S</div>
+        <div class="absolute right-2.5 text-[11px] font-extrabold text-indigo-300 pointer-events-none">E</div>
+        <div class="absolute left-2.5 text-[11px] font-extrabold text-indigo-300 pointer-events-none">W</div>
+
+        <!-- Premium SVG Compass Arrow -->
+        <svg id="arrow-icon" class="arrow-render w-full h-full text-indigo-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Compass Red/Blue needle -->
+          <path d="M50 15L68 78L50 64L32 78L50 15Z" fill="url(#indigoGrad)" filter="drop-shadow(0px 4px 6px rgba(67, 56, 202, 0.2))" />
+          <defs>
+            <linearGradient id="indigoGrad" x1="50" y1="15" x2="50" y2="78" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#4f46e5" />
+              <stop offset="1" stop-color="#4338ca" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Textual Readouts (Distance & Heading direction) -->
+      <div id="nav-text-container" class="layout-transition">
+        <div id="distance-val" class="font-extrabold text-slate-800 tracking-tight leading-none">---</div>
+        <div id="cardinal-val" class="font-medium text-slate-400 tracking-wide mt-1 uppercase text-xs">---</div>
+      </div>
+      
+      <!-- Collapse Toggle Arrow (Only visible when floating in Mode 2) -->
+      <div class="hidden [data-mode='2']&amp;:block ml-auto text-indigo-600">
+        <i data-lucide="maximize-2" class="w-5 h-5"></i>
+      </div>
+    </div>
+
+    <!-- ==================== INTERACTIVE MAP LAYER (MODE 1 & 2 DYNAMIC) ==================== -->
+    <div id="map-container" class="layout-transition shadow-xl overflow-hidden bg-white">
+      <div id="map" class="w-full h-full"></div>
+    </div>
+
+    <!-- ==================== FLOATING REAL-TIME DEBUG STATISTICS ==================== -->
+    <!-- Positioned relative to page bounds, always visible but styled unobtrusively -->
+    <div class="fixed bottom-6 left-6 z-40 max-w-[280px] w-full">
+      
+      <!-- Collapsible button -->
+      <details class="group bg-white/80 backdrop-blur-md border border-slate-100 rounded-2xl shadow-lg transition-all duration-300">
+        <summary class="flex items-center justify-between p-3.5 cursor-pointer list-none select-none font-semibold text-xs text-slate-700">
+          <span class="flex items-center gap-2">
+            <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i>
+            Informasi Tambahan
+          </span>
+          <span class="text-slate-400 group-open:rotate-180 transition-transform duration-200">
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </span>
+        </summary>
+        
+        <!-- Expandable Details Contents -->
+        <div class="p-4 pt-0 border-t border-slate-100/50 space-y-3.5 text-xs text-slate-600">
+          <!-- GPS Status badge -->
+          <div id="gps-status-indicator" class="flex items-center font-medium text-slate-500 pb-1 border-b border-slate-100">
+            <span class="inline-block w-2.5 h-2.5 bg-slate-300 rounded-full mr-1.5"></span> GPS Menghubungkan...
+          </div>
+          
+          <div class="space-y-2">
+            <div class="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Lokasi Saya</div>
+            <div class="grid grid-cols-2 gap-1.5 font-mono text-[11px]">
+              <span class="text-slate-400">Latitude:</span>
+              <span id="my-lat" class="text-right text-slate-700">---</span>
+              <span class="text-slate-400">Longitude:</span>
+              <span id="my-lng" class="text-right text-slate-700">---</span>
+              <span class="text-slate-400">Akurasi:</span>
+              <span id="my-acc" class="text-right text-slate-700">---</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Lokasi Tujuan</div>
+            <div class="grid grid-cols-2 gap-1.5 font-mono text-[11px]">
+              <span class="text-slate-400">Latitude:</span>
+              <span id="target-lat" class="text-right text-slate-700">---</span>
+              <span class="text-slate-400">Longitude:</span>
+              <span id="target-lng" class="text-right text-slate-700">---</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 border-t border-slate-100/50 pt-2.5">
+            <div>
+              <div class="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Bearing</div>
+              <div id="stat-bearing" class="font-mono text-base font-bold text-indigo-600 mt-0.5">---</div>
+            </div>
+            <div>
+              <div class="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Heading</div>
+              <div id="stat-heading" class="font-mono text-base font-bold text-indigo-600 mt-0.5">---</div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+  </div>
+
+  <!-- Leaflet Javascript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Application Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
