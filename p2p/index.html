@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2P Minimalist Transfer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PeerJS -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Animasi kustom untuk notifikasi */
+        @keyframes slideUpFade {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-enter {
+            animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white antialiased flex items-center justify-center min-h-screen m-0 p-4 sm:p-8">
+
+    <!-- Card Container dengan efek Glow tipis -->
+    <div
+        class="w-full max-w-md p-8 sm:p-10 bg-[#050505] border border-zinc-800 rounded-[2rem] shadow-[0_0_50px_-15px_rgba(255,255,255,0.05)] relative overflow-hidden">
+
+        <!-- Header & Status -->
+        <div class="mb-10 flex justify-between items-start">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight mb-1">Transfer.</h1>
+                <p class="text-zinc-400 text-sm font-medium">Berbagi file P2P jaringan lokal.</p>
+            </div>
+            <!-- Indikator Status -->
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 border border-zinc-700 rounded-full text-[11px] font-bold tracking-wider uppercase bg-black">
+                <span id="status-dot"
+                    class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] transition-colors duration-300"></span>
+                <span id="status-text" class="text-zinc-300">Offline</span>
+            </div>
+        </div>
+
+        <!-- Bagian ID Sendiri -->
+        <div class="mb-8">
+            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                </svg>
+                ID Perangkat Anda
+            </label>
+            <div id="display-id" title="Klik untuk menyalin"
+                class="group relative w-full bg-black border-2 border-dashed border-zinc-600 hover:border-zinc-400 text-white text-4xl tracking-[0.3em] font-mono text-center py-6 rounded-2xl cursor-pointer transition-all duration-300 active:scale-[0.98]">
+                <span id="id-text">------</span>
+                <!-- Tooltip salin -->
+                <div
+                    class="absolute inset-0 flex items-center justify-center bg-zinc-900/90 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <span class="text-sm font-semibold flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        Salin ID
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bagian Koneksi ke Teman -->
+        <div class="mb-10">
+            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
+                    </path>
+                </svg>
+                Hubungkan ke Teman
+            </label>
+            <div class="flex gap-3">
+                <input type="text" id="target-id" placeholder="Masukkan 6 Digit..." maxlength="6"
+                    class="flex-1 bg-black border-2 border-zinc-700 text-white px-4 py-3.5 rounded-xl focus:outline-none focus:border-blue-500 focus:bg-[#0a0a0a] transition-all duration-300 placeholder-zinc-600 font-mono text-lg text-center tracking-[0.2em]">
+                <button id="btn-connect"
+                    class="bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-500 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none active:scale-95 flex items-center gap-2 shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                    Connect
+                </button>
+            </div>
+        </div>
+
+        <hr class="border-zinc-800 mb-8">
+
+        <!-- Bagian Kirim File (Disamarkan jika belum terhubung) -->
+        <div id="transfer-section" class="opacity-40 grayscale pointer-events-none transition-all duration-500">
+            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                Kirim Dokumen
+            </label>
+
+            <div class="relative w-full mb-3 group">
+                <!-- UI Tombol File -->
+                <div id="file-ui-btn"
+                    class="w-full bg-black border-2 border-zinc-700 text-zinc-300 px-4 py-4 rounded-xl font-semibold flex items-center justify-center gap-3 transition-all duration-300 group-hover:border-zinc-500 group-hover:bg-zinc-900">
+                    <svg class="w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                        </path>
+                    </svg>
+                    <span id="file-ui-text">Pilih file yang akan dikirim</span>
+                </div>
+                <!-- Input file asli -->
+                <input type="file" id="file-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+            </div>
+
+            <button id="btn-send"
+                class="w-full bg-white text-black px-4 py-4 rounded-xl font-bold hover:bg-zinc-200 transition-all duration-200 focus:ring-4 focus:ring-zinc-600 focus:outline-none active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                disabled>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                </svg>
+                Kirim Sekarang
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification (Floating) -->
+    <div id="toast"
+        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-zinc-900 border border-zinc-700 text-white px-6 py-3.5 rounded-2xl font-semibold text-sm shadow-2xl flex items-center gap-3 opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+        <span id="toast-icon" class="text-lg"></span>
+        <span id="toast-msg">Notifikasi</span>
+    </div>
+
+    <script>
+        // Generate 6 digit ID
+        const myRandomId = Math.floor(100000 + Math.random() * 900000).toString();
+
+        const peer = new Peer(myRandomId);
+        let conn = null;
+
+        // DOM Elements
+        const idText = document.getElementById('id-text');
+        const displayId = document.getElementById('display-id');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        const transferSection = document.getElementById('transfer-section');
+        const fileInput = document.getElementById('file-input');
+        const fileUiBtn = document.getElementById('file-ui-btn');
+        const fileUiText = document.getElementById('file-ui-text');
+        const btnSend = document.getElementById('btn-send');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+        const toastIcon = document.getElementById('toast-icon');
+        let toastTimeout;
+
+        // Fungsi Toast
+        function showToast(msg, type = 'info') {
+            toastMsg.innerText = msg;
+            toastIcon.innerHTML = type === 'success' ? '✅' : (type === 'error' ? '❌' : 'ℹ️');
+
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('toast-enter');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+                toast.classList.remove('toast-enter');
+            }, 3000);
+        }
+
+        // PeerJS Logic
+        peer.on('open', (id) => {
+            idText.innerText = id;
+            showToast("Sistem P2P Siap!", "success");
+        });
+
+        peer.on('connection', (connection) => {
+            handleConnection(connection);
+        });
+
+        // Salin ID
+        displayId.addEventListener('click', () => {
+            navigator.clipboard.writeText(idText.innerText);
+            showToast("ID berhasil disalin ke clipboard", "success");
+        });
+
+        // Connect
+        document.getElementById('btn-connect').addEventListener('click', () => {
+            const targetId = document.getElementById('target-id').value.trim();
+            if (!targetId || targetId.length !== 6) {
+                return showToast("Masukkan 6 digit ID tujuan", "error");
+            }
+            showToast("Mencari perangkat...", "info");
+            const connection = peer.connect(targetId);
+            handleConnection(connection);
+        });
+
+        function handleConnection(connection) {
+            conn = connection;
+
+            conn.on('open', () => {
+                // Update UI Connected
+                statusText.innerText = 'Connected';
+                statusDot.classList.replace('bg-red-500', 'bg-green-500');
+                statusDot.classList.replace('shadow-[0_0_8px_rgba(239,68,68,0.8)]', 'shadow-[0_0_8px_rgba(34,197,94,0.8)]');
+
+                // Buka Kunci Bagian Transfer
+                transferSection.classList.remove('opacity-40', 'grayscale', 'pointer-events-none');
+                showToast("Berhasil terhubung!", "success");
+            });
+
+            conn.on('data', (data) => {
+                if (data.file) {
+                    const blob = new Blob([data.file], { type: data.filetype });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = data.filename;
+                    a.click();
+                    showToast("Menerima: " + data.filename, "success");
+                }
+            });
+
+            conn.on('close', () => {
+                resetUI();
+                showToast("Koneksi ke teman terputus", "error");
+            });
+        }
+
+        // UX Pemilihan File
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                // Modifikasi tampilan tombol file jika file terpilih
+                fileUiText.innerText = file.name;
+                fileUiBtn.classList.replace('border-zinc-700', 'border-blue-500');
+                fileUiBtn.classList.replace('text-zinc-300', 'text-white');
+                fileUiBtn.classList.add('bg-zinc-900');
+                btnSend.disabled = false; // Aktifkan tombol kirim
+            } else {
+                resetFileInputUI();
+            }
+        });
+
+        // Kirim File
+        btnSend.addEventListener('click', () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            if (conn && conn.open) {
+                btnSend.innerHTML = `<svg class="animate-spin h-5 w-5 mr-2 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mengirim...`;
+
+                // Jeda buatan kecil agar animasi kirim terlihat natural
+                setTimeout(() => {
+                    conn.send({
+                        file: file,
+                        filename: file.name,
+                        filetype: file.type
+                    });
+
+                    showToast("File terkirim!", "success");
+
+                    // Reset UI form
+                    fileInput.value = '';
+                    resetFileInputUI();
+
+                    // Kembalikan tombol kirim
+                    btnSend.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> Kirim Sekarang`;
+                }, 600);
+            }
+        });
+
+        function resetFileInputUI() {
+            fileUiText.innerText = "Pilih file yang akan dikirim";
+            fileUiBtn.classList.replace('border-blue-500', 'border-zinc-700');
+            fileUiBtn.classList.replace('text-white', 'text-zinc-300');
+            fileUiBtn.classList.remove('bg-zinc-900');
+            btnSend.disabled = true;
+        }
+
+        function resetUI() {
+            statusText.innerText = 'Offline';
+            statusDot.classList.replace('bg-green-500', 'bg-red-500');
+            statusDot.classList.replace('shadow-[0_0_8px_rgba(34,197,94,0.8)]', 'shadow-[0_0_8px_rgba(239,68,68,0.8)]');
+            transferSection.classList.add('opacity-40', 'grayscale', 'pointer-events-none');
+            conn = null;
+            resetFileInputUI();
+        }
+    </script>
+</body>
+
+</html>

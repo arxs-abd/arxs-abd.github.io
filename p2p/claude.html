@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShareLAN - Berbagi File P2P</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        .pin-display {
+            letter-spacing: 0.35em;
+        }
+
+        .pin-input {
+            letter-spacing: 0.3em;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        @keyframes toast-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toast-anim {
+            animation: toast-in .25s ease-out;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .3;
+            }
+        }
+
+        .pulse-dot {
+            animation: pulse-dot 1.4s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-800">
+
+    <div class="max-w-md mx-auto px-4 py-6 pb-24">
+
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <div
+                class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-600 text-white mb-3 shadow-lg shadow-blue-600/30">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+                    <path d="M16 6l-4-4-4 4" />
+                    <path d="M12 2v14" />
+                </svg>
+            </div>
+            <h1 class="text-xl font-bold text-slate-900">ShareLAN</h1>
+            <p class="text-sm text-slate-500">Kirim file antar perangkat langsung P2P, tanpa upload ke server</p>
+        </div>
+
+        <!-- Kartu PIN Saya -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 mb-4">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold uppercase tracking-wide text-slate-400">PIN Perangkat Anda</span>
+                <button id="regenBtn" title="Buat PIN baru" class="text-slate-400 hover:text-blue-600 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 4v6h-6" />
+                        <path d="M1 20v-6h6" />
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10" />
+                        <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex items-center gap-3">
+                <div id="myPin"
+                    class="pin-display flex-1 text-center text-3xl font-bold text-blue-600 bg-blue-50 rounded-xl py-3 tracking-widest">
+                    ......</div>
+                <button id="copyBtn"
+                    class="shrink-0 bg-slate-900 hover:bg-slate-700 text-white rounded-xl px-4 py-3 text-sm font-medium transition">
+                    Salin
+                </button>
+            </div>
+            <p class="text-xs text-slate-400 mt-2 text-center">Bagikan PIN ini ke perangkat lain di jaringan yang sama
+            </p>
+        </div>
+
+        <!-- Status koneksi -->
+        <div id="statusBar"
+            class="flex items-center gap-2 rounded-2xl px-4 py-3 mb-4 text-sm font-medium bg-slate-100 text-slate-500">
+            <span id="statusDot" class="w-2 h-2 rounded-full bg-slate-400"></span>
+            <span id="statusText">Menyiapkan koneksi...</span>
+            <button id="disconnectBtn"
+                class="ml-auto hidden text-xs bg-red-500 hover:bg-red-600 text-white rounded-lg px-3 py-1">Putuskan</button>
+        </div>
+
+        <!-- Kartu Connect -->
+        <div id="connectCard" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 mb-4">
+            <span class="text-xs font-semibold uppercase tracking-wide text-slate-400">Hubungkan ke Perangkat</span>
+            <div class="flex gap-2 mt-3">
+                <input id="remotePin" type="text" inputmode="numeric" maxlength="6" placeholder="000000"
+                    class="pin-input flex-1 text-center text-lg font-semibold border border-slate-300 rounded-xl py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button id="connectBtn"
+                    class="bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-5 font-medium transition">Connect</button>
+            </div>
+        </div>
+
+        <!-- Kartu Kirim File -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 mb-4">
+            <span class="text-xs font-semibold uppercase tracking-wide text-slate-400">Kirim File</span>
+
+            <div id="dropZone"
+                class="mt-3 border-2 border-dashed border-slate-300 rounded-xl py-6 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mx-auto text-slate-400 mb-1" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <path d="M17 8l-5-5-5 5" />
+                    <path d="M12 3v12" />
+                </svg>
+                <p class="text-sm text-slate-500">Tarik file ke sini, atau <span class="text-blue-600 font-medium">klik
+                        untuk pilih</span></p>
+                <input type="file" id="fileInput" class="hidden" multiple>
+            </div>
+
+            <div id="queueList" class="mt-3 space-y-2"></div>
+
+            <button id="sendAllBtn" disabled
+                class="w-full mt-3 bg-blue-600 disabled:bg-slate-300 hover:bg-blue-700 text-white rounded-xl py-2.5 font-medium transition">
+                Kirim Semua File
+            </button>
+        </div>
+
+        <!-- Riwayat Diterima -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+            <span class="text-xs font-semibold uppercase tracking-wide text-slate-400">Riwayat File Diterima</span>
+            <div id="receivedList" class="mt-3 space-y-2">
+                <p id="receivedEmpty" class="text-sm text-slate-400 text-center py-3">Belum ada file diterima</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="fixed bottom-4 right-4 flex flex-col gap-2 z-50 max-w-xs w-full px-4 sm:px-0"></div>
+
+    <!-- Modal konfirmasi koneksi masuk -->
+    <div id="connModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-5 max-w-sm w-full shadow-xl">
+            <h3 class="font-bold text-slate-900 mb-1">Permintaan Koneksi</h3>
+            <p class="text-sm text-slate-500 mb-4">Perangkat dengan PIN <span id="connModalPin"
+                    class="font-semibold text-slate-800"></span> ingin terhubung dengan Anda.</p>
+            <div class="flex gap-2">
+                <button id="connRejectBtn"
+                    class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl py-2.5 font-medium">Tolak</button>
+                <button id="connAcceptBtn"
+                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2.5 font-medium">Terima</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal konfirmasi file masuk -->
+    <div id="fileModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-5 max-w-sm w-full shadow-xl">
+            <h3 class="font-bold text-slate-900 mb-1">File Masuk</h3>
+            <p class="text-sm text-slate-500 mb-1">Nama: <span id="fileModalName"
+                    class="font-medium text-slate-800"></span></p>
+            <p class="text-sm text-slate-500 mb-4">Ukuran: <span id="fileModalSize"
+                    class="font-medium text-slate-800"></span></p>
+            <div class="flex gap-2">
+                <button id="fileRejectBtn"
+                    class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl py-2.5 font-medium">Tolak</button>
+                <button id="fileAcceptBtn"
+                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2.5 font-medium">Terima</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ============ Util ============ */
+        function formatBytes(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+        function formatTime(sec) {
+            if (!isFinite(sec) || sec < 0) return '...';
+            if (sec < 60) return Math.ceil(sec) + ' dtk';
+            return Math.floor(sec / 60) + ' mnt ' + Math.ceil(sec % 60) + ' dtk';
+        }
+        function genPin() {
+            return String(Math.floor(100000 + Math.random() * 900000));
+        }
+        function toast(msg, type) {
+            type = type || 'info';
+            const colors = {
+                info: 'bg-slate-800',
+                success: 'bg-green-600',
+                error: 'bg-red-600',
+                warn: 'bg-amber-500'
+            };
+            const el = document.createElement('div');
+            el.className = 'toast-anim ' + colors[type] + ' text-white text-sm rounded-xl px-4 py-3 shadow-lg';
+            el.textContent = msg;
+            document.getElementById('toastContainer').appendChild(el);
+            setTimeout(() => {
+                el.style.transition = 'opacity .3s';
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 300);
+            }, 3500);
+        }
+
+        /* ============ State ============ */
+        let peer = null;
+        let myPin = null;
+        let conn = null;               // koneksi aktif (hanya 1 pada satu waktu)
+        let pendingIncomingConn = null;
+        let sendQueue = [];            // {id, file, status, progressEl...}
+        let isSending = false;
+        let incomingBuffers = {};      // id -> {meta, chunks, receivedSize, startTime}
+        let pendingFileRequest = null; // request file masuk yang sedang menunggu konfirmasi
+        const CHUNK_SIZE = 16 * 1024;
+
+        /* ============ Elemen ============ */
+        const myPinEl = document.getElementById('myPin');
+        const copyBtn = document.getElementById('copyBtn');
+        const regenBtn = document.getElementById('regenBtn');
+        const statusBar = document.getElementById('statusBar');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const remotePinEl = document.getElementById('remotePin');
+        const connectBtn = document.getElementById('connectBtn');
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const queueList = document.getElementById('queueList');
+        const sendAllBtn = document.getElementById('sendAllBtn');
+        const receivedList = document.getElementById('receivedList');
+        const receivedEmpty = document.getElementById('receivedEmpty');
+
+        const connModal = document.getElementById('connModal');
+        const connModalPin = document.getElementById('connModalPin');
+        const connAcceptBtn = document.getElementById('connAcceptBtn');
+        const connRejectBtn = document.getElementById('connRejectBtn');
+
+        const fileModal = document.getElementById('fileModal');
+        const fileModalName = document.getElementById('fileModalName');
+        const fileModalSize = document.getElementById('fileModalSize');
+        const fileAcceptBtn = document.getElementById('fileAcceptBtn');
+        const fileRejectBtn = document.getElementById('fileRejectBtn');
+
+        /* ============ Status UI ============ */
+        function setStatus(text, mode) {
+            statusText.textContent = text;
+            const map = {
+                off: { bar: 'bg-slate-100 text-slate-500', dot: 'bg-slate-400' },
+                wait: { bar: 'bg-amber-50 text-amber-600', dot: 'bg-amber-500 pulse-dot' },
+                on: { bar: 'bg-green-50 text-green-600', dot: 'bg-green-500' },
+                error: { bar: 'bg-red-50 text-red-600', dot: 'bg-red-500' }
+            };
+            const m = map[mode] || map.off;
+            statusBar.className = 'flex items-center gap-2 rounded-2xl px-4 py-3 mb-4 text-sm font-medium ' + m.bar;
+            statusDot.className = 'w-2 h-2 rounded-full ' + m.dot;
+            disconnectBtn.classList.toggle('hidden', mode !== 'on');
+            sendAllBtn.disabled = mode !== 'on' || sendQueue.filter(f => f.status === 'pending').length === 0;
+        }
+
+        /* ============ Inisialisasi Peer dengan PIN ============ */
+        function initPeer(attempt) {
+            attempt = attempt || 0;
+            if (attempt > 5) {
+                toast('Gagal membuat PIN unik, coba muat ulang halaman', 'error');
+                return;
+            }
+            myPin = genPin();
+            if (peer) { peer.destroy(); }
+            peer = new Peer(myPin);
+
+            peer.on('open', (id) => {
+                myPinEl.textContent = id;
+                setStatus('Belum terhubung ke perangkat lain', 'off');
+                toast('PIN Anda siap: ' + id, 'success');
+            });
+
+            peer.on('error', (err) => {
+                if (err.type === 'unavailable-id') {
+                    initPeer(attempt + 1);
+                } else {
+                    console.error(err);
+                    toast('Error: ' + err.type, 'error');
+                }
+            });
+
+            peer.on('connection', (c) => {
+                if (conn) {
+                    // sudah ada koneksi aktif, tolak otomatis
+                    c.on('open', () => { c.send({ type: 'reject' }); setTimeout(() => c.close(), 200); });
+                    return;
+                }
+                pendingIncomingConn = c;
+                c.on('open', () => {
+                    connModalPin.textContent = c.metadata && c.metadata.pin ? c.metadata.pin : c.peer;
+                    connModal.classList.remove('hidden');
+                });
+                c.on('error', () => { });
+            });
+        }
+        initPeer();
+
+        /* ============ Salin & Regenerasi PIN ============ */
+        copyBtn.onclick = async () => {
+            try {
+                await navigator.clipboard.writeText(myPin);
+            } catch (e) {
+                const t = document.createElement('textarea');
+                t.value = myPin; document.body.appendChild(t); t.select();
+                document.execCommand('copy'); t.remove();
+            }
+            copyBtn.textContent = 'Tersalin!';
+            setTimeout(() => copyBtn.textContent = 'Salin', 1200);
+        };
+
+        regenBtn.onclick = () => {
+            if (conn) {
+                toast('Putuskan koneksi terlebih dahulu sebelum ganti PIN', 'warn');
+                return;
+            }
+            myPinEl.textContent = '......';
+            initPeer();
+        };
+
+        /* ============ Koneksi Keluar (Connect) ============ */
+        remotePinEl.addEventListener('input', () => {
+            remotePinEl.value = remotePinEl.value.replace(/\D/g, '').slice(0, 6);
+        });
+
+        connectBtn.onclick = () => {
+            const target = remotePinEl.value.trim();
+            if (target.length !== 6) { toast('Masukkan PIN 6 digit yang valid', 'warn'); return; }
+            if (target === myPin) { toast('Tidak bisa terhubung ke PIN sendiri', 'warn'); return; }
+            if (conn) { toast('Sudah ada koneksi aktif', 'warn'); return; }
+
+            setStatus('Menghubungkan ke ' + target + ' ...', 'wait');
+            const c = peer.connect(target, { reliable: true, metadata: { pin: myPin } });
+            let awaitingApproval = true;
+
+            c.on('open', () => {
+                setStatus('Menunggu konfirmasi dari perangkat tujuan...', 'wait');
+            });
+
+            c.on('data', (data) => {
+                if (data.type === 'accept' && awaitingApproval) {
+                    awaitingApproval = false;
+                    finalizeConnection(c);
+                } else if (data.type === 'reject' && awaitingApproval) {
+                    awaitingApproval = false;
+                    toast('Permintaan koneksi ditolak', 'error');
+                    setStatus('Belum terhubung ke perangkat lain', 'off');
+                    c.close();
+                } else {
+                    handleData(data);
+                }
+            });
+
+            c.on('close', () => {
+                if (awaitingApproval) {
+                    setStatus('Belum terhubung ke perangkat lain', 'off');
+                }
+                if (conn === c) onConnectionClosed();
+            });
+
+            c.on('error', () => {
+                toast('Gagal terhubung, periksa PIN tujuan', 'error');
+                setStatus('Belum terhubung ke perangkat lain', 'off');
+            });
+        };
+
+        /* ============ Modal Koneksi Masuk ============ */
+        connAcceptBtn.onclick = () => {
+            connModal.classList.add('hidden');
+            const c = pendingIncomingConn;
+            pendingIncomingConn = null;
+            if (!c) return;
+            c.send({ type: 'accept' });
+            finalizeConnection(c);
+        };
+        connRejectBtn.onclick = () => {
+            connModal.classList.add('hidden');
+            const c = pendingIncomingConn;
+            pendingIncomingConn = null;
+            if (!c) return;
+            c.send({ type: 'reject' });
+            setTimeout(() => c.close(), 200);
+        };
+
+        function finalizeConnection(c) {
+            conn = c;
+            setStatus('Terhubung dengan PIN: ' + conn.peer, 'on');
+            toast('Terhubung dengan ' + conn.peer, 'success');
+            conn.removeAllListeners && conn.removeAllListeners('data');
+            conn.on('data', handleData);
+            conn.on('close', onConnectionClosed);
+            conn.on('error', () => { });
+        }
+
+        function onConnectionClosed() {
+            if (conn) toast('Koneksi terputus', 'warn');
+            conn = null;
+            setStatus('Belum terhubung ke perangkat lain', 'off');
+        }
+
+        disconnectBtn.onclick = () => {
+            if (conn) conn.close();
+            onConnectionClosed();
+        };
+
+        /* ============ Antrian Kirim File ============ */
+        dropZone.onclick = () => fileInput.click();
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-blue-400', 'bg-blue-50/50'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-blue-400', 'bg-blue-50/50'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-blue-400', 'bg-blue-50/50');
+            addFilesToQueue(e.dataTransfer.files);
+        });
+        fileInput.onchange = () => { addFilesToQueue(fileInput.files); fileInput.value = ''; };
+
+        function addFilesToQueue(fileList) {
+            Array.from(fileList).forEach(file => {
+                sendQueue.push({
+                    id: 'f' + Date.now() + Math.random().toString(36).slice(2, 7),
+                    file, status: 'pending'
+                });
+            });
+            renderQueue();
+        }
+
+        function renderQueue() {
+            queueList.innerHTML = '';
+            sendQueue.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'border border-slate-200 rounded-xl p-3';
+                const statusLabel = {
+                    pending: '<span class="text-slate-400">Menunggu</span>',
+                    requesting: '<span class="text-amber-500">Menunggu persetujuan...</span>',
+                    sending: '<span class="text-blue-500">Mengirim...</span>',
+                    sent: '<span class="text-green-600">Terkirim ✓</span>',
+                    rejected: '<span class="text-red-500">Ditolak</span>'
+                }[item.status];
+
+                row.innerHTML = `
+      <div class="flex items-center justify-between gap-2">
+        <div class="min-w-0">
+          <p class="text-sm font-medium text-slate-800 truncate">${item.file.name}</p>
+          <p class="text-xs text-slate-400">${formatBytes(item.file.size)} &middot; ${statusLabel}</p>
+        </div>
+        <button data-id="${item.id}" class="removeBtn text-slate-300 hover:text-red-500 shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2 overflow-hidden">
+        <div class="progressBar bg-blue-500 h-1.5 rounded-full transition-all" style="width:${item.progress || 0}%"></div>
+      </div>
+      <p class="progressInfo text-[11px] text-slate-400 mt-1"></p>
+    `;
+                item.el = row;
+                item.progressBarEl = row.querySelector('.progressBar');
+                item.progressInfoEl = row.querySelector('.progressInfo');
+                queueList.appendChild(row);
+            });
+
+            queueList.querySelectorAll('.removeBtn').forEach(btn => {
+                btn.onclick = () => {
+                    sendQueue = sendQueue.filter(f => f.id !== btn.dataset.id);
+                    renderQueue();
+                };
+            });
+
+            sendAllBtn.disabled = !conn || sendQueue.filter(f => f.status === 'pending').length === 0;
+        }
+
+        sendAllBtn.onclick = () => {
+            if (!isSending) processQueue();
+        };
+
+        function processQueue() {
+            const next = sendQueue.find(f => f.status === 'pending');
+            if (!next) { isSending = false; return; }
+            isSending = true;
+            sendFile(next);
+        }
+
+        function sendFile(item) {
+            if (!conn) { toast('Koneksi terputus, pengiriman dibatalkan', 'error'); item.status = 'rejected'; renderQueue(); isSending = false; return; }
+
+            item.status = 'requesting';
+            renderQueue();
+            conn.send({ type: 'file-request', id: item.id, name: item.file.name, size: item.file.size, fileType: item.file.type });
+
+            item.onResponse = (accepted) => {
+                if (!accepted) {
+                    item.status = 'rejected';
+                    renderQueue();
+                    toast('"' + item.file.name + '" ditolak penerima', 'warn');
+                    processQueue();
+                    return;
+                }
+                item.status = 'sending';
+                renderQueue();
+                actuallySendChunks(item);
+            };
+        }
+
+        function actuallySendChunks(item) {
+            const file = item.file;
+            const reader = new FileReader();
+            let offset = 0;
+            const startTime = Date.now();
+
+            function readSlice(o) { reader.readAsArrayBuffer(file.slice(o, o + CHUNK_SIZE)); }
+
+            reader.onload = (e) => {
+                if (!conn) { item.status = 'rejected'; renderQueue(); isSending = false; return; }
+                conn.send({ type: 'file-chunk', id: item.id, chunk: e.target.result });
+                offset += e.target.result.byteLength;
+                const percent = Math.round((offset / file.size) * 100);
+                const elapsed = (Date.now() - startTime) / 1000;
+                const speed = offset / (elapsed || 1);
+                const eta = (file.size - offset) / (speed || 1);
+                item.progress = percent;
+                if (item.progressBarEl) item.progressBarEl.style.width = percent + '%';
+                if (item.progressInfoEl) item.progressInfoEl.textContent = percent + '% · ' + formatBytes(speed) + '/s · sisa ' + formatTime(eta);
+
+                if (offset < file.size) {
+                    readSlice(offset);
+                } else {
+                    conn.send({ type: 'file-end', id: item.id });
+                    item.status = 'sent';
+                    if (item.progressInfoEl) item.progressInfoEl.textContent = 'Selesai · ' + formatBytes(file.size);
+                    renderQueue();
+                    toast('"' + file.name + '" berhasil dikirim', 'success');
+                    processQueue();
+                }
+            };
+            readSlice(0);
+        }
+
+        /* ============ Terima Data ============ */
+        function handleData(data) {
+            switch (data.type) {
+                case 'file-request': {
+                    pendingFileRequest = data;
+                    fileModalName.textContent = data.name;
+                    fileModalSize.textContent = formatBytes(data.size);
+                    fileModal.classList.remove('hidden');
+                    break;
+                }
+                case 'file-chunk': {
+                    const buf = incomingBuffers[data.id];
+                    if (!buf) return;
+                    buf.chunks.push(data.chunk);
+                    buf.receivedSize += data.chunk.byteLength;
+                    const percent = Math.round((buf.receivedSize / buf.meta.size) * 100);
+                    const elapsed = (Date.now() - buf.startTime) / 1000;
+                    const speed = buf.receivedSize / (elapsed || 1);
+                    toastProgress(buf.meta.name, percent, speed);
+                    break;
+                }
+                case 'file-end': {
+                    const buf = incomingBuffers[data.id];
+                    if (!buf) return;
+                    const blob = new Blob(buf.chunks, { type: buf.meta.fileType || 'application/octet-stream' });
+                    const url = URL.createObjectURL(blob);
+                    addReceivedFile(buf.meta.name, buf.meta.size, url);
+                    autoDownload(url, buf.meta.name);
+                    toast('"' + buf.meta.name + '" diterima', 'success');
+                    delete incomingBuffers[data.id];
+                    removeProgressToast();
+                    break;
+                }
+                default: break;
+            }
+        }
+
+        fileAcceptBtn.onclick = () => {
+            fileModal.classList.add('hidden');
+            if (!pendingFileRequest || !conn) return;
+            const req = pendingFileRequest;
+            pendingFileRequest = null;
+            incomingBuffers[req.id] = { meta: req, chunks: [], receivedSize: 0, startTime: Date.now() };
+            conn.send({ type: 'file-response', id: req.id, accepted: true });
+        };
+        fileRejectBtn.onclick = () => {
+            fileModal.classList.add('hidden');
+            if (!pendingFileRequest || !conn) return;
+            const req = pendingFileRequest;
+            pendingFileRequest = null;
+            conn.send({ type: 'file-response', id: req.id, accepted: false });
+        };
+
+        // Tambahkan penanganan 'file-response' pada handleData tanpa mengubah struktur switch di atas
+        const originalHandleData = handleData;
+        handleData = function (data) {
+            if (data.type === 'file-response') {
+                const item = sendQueue.find(f => f.id === data.id);
+                if (item && item.onResponse) item.onResponse(data.accepted);
+                return;
+            }
+            originalHandleData(data);
+        };
+
+        function autoDownload(url, filename) {
+            const a = document.createElement('a');
+            a.href = url; a.download = filename;
+            document.body.appendChild(a); a.click(); a.remove();
+        }
+
+        function addReceivedFile(name, size, url) {
+            receivedEmpty.classList.add('hidden');
+            const row = document.createElement('div');
+            row.className = 'flex items-center justify-between gap-2 border border-slate-200 rounded-xl p-3';
+            row.innerHTML = `
+    <div class="min-w-0 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      <div class="min-w-0">
+        <p class="text-sm font-medium text-slate-800 truncate">${name}</p>
+        <p class="text-xs text-slate-400">${formatBytes(size)} · ${new Date().toLocaleTimeString()}</p>
+      </div>
+    </div>
+    <a href="${url}" download="${name}" class="shrink-0 text-blue-600 hover:text-blue-800">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+    </a>
+  `;
+            receivedList.prepend(row);
+        }
+
+        /* Toast progres penerimaan (satu toast yang di-update, bukan spam) */
+        let progressToastEl = null;
+        function toastProgress(name, percent, speed) {
+            if (!progressToastEl) {
+                progressToastEl = document.createElement('div');
+                progressToastEl.className = 'toast-anim bg-slate-800 text-white text-sm rounded-xl px-4 py-3 shadow-lg';
+                document.getElementById('toastContainer').appendChild(progressToastEl);
+            }
+            progressToastEl.innerHTML = `Menerima <b>${name}</b><br><span class="text-xs text-slate-300">${percent}% · ${formatBytes(speed)}/s</span>`;
+        }
+        function removeProgressToast() {
+            if (progressToastEl) { progressToastEl.remove(); progressToastEl = null; }
+        }
+    </script>
+</body>
+
+</html>
