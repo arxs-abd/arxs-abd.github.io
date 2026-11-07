@@ -36,6 +36,12 @@ const projectsData = [
         demoLink: "https://app.noparkeemart.my.id/donex",
     },
     {
+        title: "Abank",
+        description: "An app that simulates bank like transfers, loan interest and many others",
+        tags: ["Node.js", "Express", "PostgreSQL", "React Native"],
+        demoLink: "https://drive.google.com/drive/folders/1snwj3BlAoLJZMpG-69dww0qcLnMk_REL"
+    },
+    {
         title: "Minesweeper",
         description: "A website for playing Minesweeper game",
         category: "game",
